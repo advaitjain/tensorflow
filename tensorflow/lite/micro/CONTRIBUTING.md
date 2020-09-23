@@ -310,14 +310,6 @@ to determine if the requested feature aligns with the TFLM roadmap.
 
 ## Python notes
 
-Most PRs for TensorFlow Lite Micro will be C++ only. Adding some notes on Python
-that can be expanded and improved as necessary.
+[This page](docs/python_development.md) has some notes on Python development for
+TensorFlow Lite Micro.
 
-*   [TensorFlow guide](https://www.tensorflow.org/community/contribute/code_style#python_style)
-    for Python development
-
-*   [yapf](https://github.com/google/yapf/) should be used for formatting.
-
-    ```
-    yapf log_parser.py -i --style='{based_on_style: pep8, indent_width: 2}'
-    ```
