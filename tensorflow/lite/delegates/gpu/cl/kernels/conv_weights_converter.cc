@@ -18,7 +18,7 @@ limitations under the License.
 #include <string>
 
 #include "tensorflow/lite/delegates/gpu/cl/kernels/util.h"
-#include "tensorflow/lite/delegates/gpu/cl/kernels/work_group_picking.h"
+#include "tensorflow/lite/delegates/gpu/common/task/work_group_picking.h"
 
 namespace tflite {
 namespace gpu {
@@ -53,7 +53,7 @@ std::string ConverterToConvWeights::GetConverterToConvWeightsCode(
   args_.AddFloat("mask_z");
   args_.AddFloat("mask_w");
 
-  std::string c = GetCommonDefines(op_def.precision);
+  std::string c;
   c += "__kernel void main_function(\n";
   c += "$0) {\n";
   c += "  int GROUP_SIZE = " +
