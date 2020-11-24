@@ -631,12 +631,12 @@ def tf_repositories(path_prefix = "", tf_repo_name = ""):
     tf_http_archive(
         name = "pcre",
         build_file = clean_dep("//third_party:pcre.BUILD"),
-        sha256 = "69acbc2fbdefb955d42a4c606dfde800c2885711d2979e356c0636efde9ec3b5",
-        strip_prefix = "pcre-8.42",
+        sha256 = "aecafd4af3bd0f3935721af77b889d9024b2e01d96b58471bd91a3063fb47728",
+        strip_prefix = "pcre-8.44",
         system_build_file = clean_dep("//third_party/systemlibs:pcre.BUILD"),
         urls = [
-            "https://storage.googleapis.com/mirror.tensorflow.org/ftp.exim.org/pub/pcre/pcre-8.42.tar.gz",
-            "https://ftp.exim.org/pub/pcre/pcre-8.42.tar.gz",
+            "https://storage.googleapis.com/mirror.tensorflow.org/ftp.exim.org/pub/pcre/pcre-8.44.tar.gz",
+            "https://ftp.exim.org/pub/pcre/pcre-8.44.tar.gz",
         ],
     )
 
@@ -686,8 +686,8 @@ def tf_repositories(path_prefix = "", tf_repo_name = ""):
     )
 
     # Check out LLVM and MLIR from llvm-project.
-    LLVM_COMMIT = "76bd4444e36197465f1c72f4b6f1d59721012a59"
-    LLVM_SHA256 = "805b737a8ff996ea7216818b0969e7f60c3c9d7a9be82198902f53e2a36c44eb"
+    LLVM_COMMIT = "5ce85e66358a69e786093756c77fae2e140947c1"
+    LLVM_SHA256 = "4813c092765c64de5f310389a2104bcf3f7334048aa9a184cb8a8bf7ba79faa9"
     LLVM_URLS = [
         "https://storage.googleapis.com/mirror.tensorflow.org/github.com/llvm/llvm-project/archive/{commit}.tar.gz".format(commit = LLVM_COMMIT),
         "https://github.com/llvm/llvm-project/archive/{commit}.tar.gz".format(commit = LLVM_COMMIT),

@@ -12,17 +12,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
-#ifndef TENSORFLOW_LITE_CORE_SHIMS_CC_KERNELS_REGISTER_H_
-#define TENSORFLOW_LITE_CORE_SHIMS_CC_KERNELS_REGISTER_H_
 
-#include "tensorflow/lite/kernels/register.h"
+#include "tensorflow/compiler/xla/service/global_device_id.h"
 
-namespace tflite_shims {
-namespace ops {
-namespace builtin {
-using BuiltinOpResolver = ::tflite::ops::builtin::BuiltinOpResolver;
-}  // namespace builtin
-}  // namespace ops
-}  // namespace tflite_shims
+#include "absl/strings/str_join.h"
 
-#endif  // TENSORFLOW_LITE_CORE_SHIMS_CC_KERNELS_REGISTER_H_
+namespace xla {
+
+std::string GlobalDeviceIdsToString(absl::Span<GlobalDeviceId const> ids) {
+  std::vector<int64> values;
+  values.reserve(ids.size());
+  for (GlobalDeviceId id : ids) {
+    values.push_back(id.value());
+  }
+  return absl::StrJoin(values, ",");
+}
+
+}  // namespace xla
