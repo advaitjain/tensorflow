@@ -93,3 +93,8 @@ Fri Nov 27 12:01:05 PST 2020
 tensorflow version: 785e19660c734a9d44848db17961e9c5fff9bcdb
    text	   data	    bss	    dec	    hex	filename
   54992	  48040	  25032	 128064	  1f440	tensorflow/lite/micro/tools/make/gen/xtensa_hifimini/bin/keyword_benchmark
+
+Fri Nov 27 19:01:03 PST 2020
+tensorflow version: fe989a5d4b2be0853ab6bf4724a140b535dd3adf
+   text	   data	    bss	    dec	    hex	filename
+  54992	  48040	  25032	 128064	  1f440	tensorflow/lite/micro/tools/make/gen/xtensa_hifimini/bin/keyword_benchmark
