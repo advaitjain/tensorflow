@@ -1,5 +1,4 @@
-/* Copyright 2019 The TensorFlow Authors. All Rights Reserved.
-
+/* Copyright 2020 The TensorFlow Authors. All Rights Reserved.
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -13,14 +12,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#include "tensorflow/lite/micro/examples/person_detection_experimental/image_provider.h"
+#ifndef TENSORFLOW_LITE_MICRO_KERNELS_FLEXBUFFERS_GENERATED_DATA_H
+#define TENSORFLOW_LITE_MICRO_KERNELS_FLEXBUFFERS_GENERATED_DATA_H
 
-#include "tensorflow/lite/micro/examples/person_detection_experimental/model_settings.h"
+extern const int g_gen_data_size_none_regular_nms;
+extern const unsigned char g_gen_data_none_regular_nms[];
 
-TfLiteStatus GetImage(tflite::ErrorReporter* error_reporter, int image_width,
-                      int image_height, int channels, int8_t* image_data) {
-  for (int i = 0; i < image_width * image_height * channels; ++i) {
-    image_data[i] = 0;
-  }
-  return kTfLiteOk;
-}
+extern const int g_gen_data_size_regular_nms;
+extern const unsigned char g_gen_data_regular_nms[];
+
+#endif

@@ -465,7 +465,6 @@ static std::vector<uint8_t> GetUniformBufferDepthWiseConv3x3Stride2(
 }  // namespace
 
 ComputeTaskDescriptor DepthWiseConvolution(
-    ValueId input_id, ValueId output_id,
     const DepthwiseConvolution2DAttributes& attr,
     const RuntimeOptions& options) {
   int channels_multiplier = attr.weights.shape.o;
@@ -553,12 +552,8 @@ ComputeTaskDescriptor DepthWiseConvolution(
     }
   )";
   desc.shader_source = shader_source;
-
-  desc.input_buffers = {
-      {input_id, "device FLT4* const src_buffer"},
-  };
-
-  desc.output_buffer = {output_id, "device FLT4* dst_buffer"};
+  desc.AddSrcTensor("src_buffer");
+  desc.AddDstTensor("dst_buffer");
 
   const int output_channels_count = attr.weights.shape.i * attr.weights.shape.o;
   desc.immutable_buffers = {
@@ -613,17 +608,12 @@ ComputeTaskDescriptor DepthWiseConvolution(
 }
 
 ComputeTaskDescriptor DepthWiseConv3x3Stride1x1(
-    ValueId input_id, ValueId output_id,
     const DepthwiseConvolution2DAttributes& attr,
     const RuntimeOptions& options) {
   ComputeTaskDescriptor desc;
   desc.shader_source = GetKernelDepthWiseConv3x3Stride1x1();
-
-  desc.input_buffers = {
-      {input_id, "device FLT4* const src_buffer"},
-  };
-
-  desc.output_buffer = {output_id, "device FLT4* dst_buffer"};
+  desc.AddSrcTensor("src_buffer");
+  desc.AddDstTensor("dst_buffer");
 
   // For this operation we keep weights and biases in one buffer
   auto weights_reordered = ReorderWeightsDepthWiseConv3x3Stride1x1(attr);
@@ -668,17 +658,13 @@ bool CheckDepthWiseConv3x3Stride1x1Support(
 }
 
 ComputeTaskDescriptor DepthWiseConv3x3Stride2(
-    ValueId input_id, ValueId output_id,
     const DepthwiseConvolution2DAttributes& attr,
     const RuntimeOptions& options) {
   ComputeTaskDescriptor desc;
   desc.shader_source = GetKernelDepthWiseConv3x3Stride2();
 
-  desc.input_buffers = {
-      {input_id, "device FLT4* const src_buffer"},
-  };
-
-  desc.output_buffer = {output_id, "device FLT4* dst_buffer"};
+  desc.AddSrcTensor("src_buffer");
+  desc.AddDstTensor("dst_buffer");
 
   // For this operation we keep weights and biases in one buffer
   auto weights_reordered = ReorderWeightsDepthWiseConv3x3Stride2(attr);

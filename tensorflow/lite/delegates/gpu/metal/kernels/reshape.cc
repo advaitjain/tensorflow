@@ -116,16 +116,12 @@ kernel void ComputeFunction(
 
 }  // namespace
 
-ComputeTaskDescriptor Reshape(ValueId input_id, ValueId output_id,
-                              const ReshapeAttributes& attr) {
+ComputeTaskDescriptor Reshape(const ReshapeAttributes& attr) {
   ComputeTaskDescriptor desc;
   desc.shader_source = GetReshapeCode();
 
-  desc.input_buffers = {
-      {input_id, "device FLT4* const src_buffer"},
-  };
-
-  desc.output_buffer = {output_id, "device FLT4* dst_buffer"};
+  desc.AddSrcTensor("src_buffer");
+  desc.AddDstTensor("dst_buffer");
 
   desc.uniform_buffers = {
       {"constant uniforms& params",
@@ -161,16 +157,12 @@ ComputeTaskDescriptor Reshape(ValueId input_id, ValueId output_id,
   return desc;
 }
 
-ComputeTaskDescriptor Reshapex4(ValueId input_id, ValueId output_id,
-                                const ReshapeAttributes& attr) {
+ComputeTaskDescriptor Reshapex4(const ReshapeAttributes& attr) {
   ComputeTaskDescriptor desc;
   desc.shader_source = GetReshapex4Code();
 
-  desc.input_buffers = {
-      {input_id, "device FLT4* const src_buffer"},
-  };
-
-  desc.output_buffer = {output_id, "device FLT4* dst_buffer"};
+  desc.AddSrcTensor("src_buffer");
+  desc.AddDstTensor("dst_buffer");
 
   desc.uniform_buffers = {
       {"constant uniforms& params",

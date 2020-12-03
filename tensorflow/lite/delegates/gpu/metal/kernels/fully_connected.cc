@@ -115,8 +115,7 @@ std::string GetFullyConnectedCode(const GpuInfo& gpu_info, int src_channels,
 }
 }  // namespace
 
-ComputeTaskDescriptor FullyConnected(ValueId input_id, ValueId output_id,
-                                     const FullyConnectedAttributes& attr,
+ComputeTaskDescriptor FullyConnected(const FullyConnectedAttributes& attr,
                                      const GpuInfo& gpu_info,
                                      const RuntimeOptions& options) {
   ComputeTaskDescriptor desc;
@@ -127,11 +126,8 @@ ComputeTaskDescriptor FullyConnected(ValueId input_id, ValueId output_id,
   desc.args.AddInt("src_slices", DivideRoundUp(attr.weights.shape.i, 4));
   desc.args.AddInt("dst_channels_alignedx8", AlignByN(attr.weights.shape.o, 8));
 
-  desc.input_buffers = {
-      {input_id, "device FLT4* const vector"},
-  };
-
-  desc.output_buffer = {output_id, "device FLT4* result"};
+  desc.AddSrcTensor("vector");
+  desc.AddDstTensor("result");
 
   bool shared_memory = gpu_info.IsApple() &&
                        gpu_info.apple_info.IsLocalMemoryPreferredOverGlobal();

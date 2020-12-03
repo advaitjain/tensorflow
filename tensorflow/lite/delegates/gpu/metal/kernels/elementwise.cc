@@ -83,9 +83,7 @@ std::string TwoInputFunctor(OperationType op_type, const std::string& value0,
 
 }  // namespace
 
-ComputeTaskDescriptor ElementwiseWithTwoInputs(std::vector<ValueId> input_ids,
-                                               ValueId output_id,
-                                               const BHWC& second_shape,
+ComputeTaskDescriptor ElementwiseWithTwoInputs(const BHWC& second_shape,
                                                OperationType op_type) {
   ComputeTaskDescriptor desc;
   desc.is_linkable = true;
@@ -108,11 +106,9 @@ ComputeTaskDescriptor ElementwiseWithTwoInputs(std::vector<ValueId> input_ids,
 
   desc.shader_source = code;
 
-  desc.input_buffers = {
-      {input_ids[0], "device FLT4* const"},
-      {input_ids[1], "device FLT4* const"},
-  };
-  desc.output_buffer = {output_id};
+  desc.AddSrcTensor("");
+  desc.AddSrcTensor("");
+  desc.AddDstTensor("");
 
   desc.uniform_buffers = {
       {"constant int2&",
@@ -128,9 +124,7 @@ ComputeTaskDescriptor ElementwiseWithTwoInputs(std::vector<ValueId> input_ids,
   return desc;
 }
 
-ComputeTaskDescriptor ElementwiseWithOneInput(ValueId input_id,
-                                              ValueId output_id,
-                                              OperationType op_type) {
+ComputeTaskDescriptor ElementwiseWithOneInput(OperationType op_type) {
   ComputeTaskDescriptor desc;
   desc.is_linkable = true;
   desc.shader_source =
@@ -139,14 +133,14 @@ ComputeTaskDescriptor ElementwiseWithOneInput(ValueId input_id,
       "    return " + OneInputFunctor(op_type, "value") + ";\n";
   desc.shader_source += "  }";
 
-  desc.input_buffers = {{input_id}};
-  desc.output_buffer = {output_id};
+  desc.AddSrcTensor("");
+  desc.AddDstTensor("");
   return desc;
 }
 
 ComputeTaskDescriptor ElementwiseWithOneInputAndConstantArguent(
-    ValueId input_id, ValueId output_id, const RuntimeOptions& options,
-    OperationType op_type, const TensorOrScalar& attr) {
+    const RuntimeOptions& options, OperationType op_type,
+    const TensorOrScalar& attr) {
   ComputeTaskDescriptor desc;
   desc.is_linkable = true;
   auto scalar = absl::get_if<float>(&attr);
@@ -186,8 +180,8 @@ ComputeTaskDescriptor ElementwiseWithOneInputAndConstantArguent(
       "    return " + TwoInputFunctor(op_type, "value", "second_arg") + ";\n";
   desc.shader_source += "  }";
 
-  desc.input_buffers = {{input_id}};
-  desc.output_buffer = {output_id};
+  desc.AddSrcTensor("");
+  desc.AddDstTensor("");
   if (scalar) {
     std::vector<uint8_t> scalar_bits =
         GetByteBuffer(std::vector<float>{*scalar});

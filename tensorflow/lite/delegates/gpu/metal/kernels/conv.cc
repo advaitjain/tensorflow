@@ -1045,8 +1045,7 @@ std::pair<uint3, uint3> GetDispatchSizes(const ConvParams& params,
 
 }  // namespace
 
-ComputeTaskDescriptor ConvolutionGeneric(ValueId input_id, ValueId output_id,
-                                         const BHWC& dst_shape,
+ComputeTaskDescriptor ConvolutionGeneric(const BHWC& dst_shape,
                                          const Convolution2DAttributes& attr,
                                          const GpuInfo& gpu_info,
                                          const metal::RuntimeOptions& options) {
@@ -1054,12 +1053,8 @@ ComputeTaskDescriptor ConvolutionGeneric(ValueId input_id, ValueId output_id,
 
   ComputeTaskDescriptor desc;
   desc.shader_source = GenerateConvolution(params);
-
-  desc.input_buffers = {
-      {input_id, "device FLT4* const src_buffer"},
-  };
-
-  desc.output_buffer = {output_id, "device FLT4* dst_buffer"};
+  desc.AddSrcTensor("src_buffer");
+  desc.AddDstTensor("dst_buffer");
 
   auto weights_reordered = ReorderWeightsForConv(attr.weights, params);
   std::string addr_space =
@@ -1092,9 +1087,8 @@ ComputeTaskDescriptor ConvolutionGeneric(ValueId input_id, ValueId output_id,
 }
 
 ComputeTaskDescriptor ConvolutionWino4x4To6x6(
-    ValueId input_id, ValueId output_id, const BHWC& dst_shape,
-    const Convolution2DAttributes& attr, const GpuInfo& gpu_info,
-    const RuntimeOptions& options) {
+    const BHWC& dst_shape, const Convolution2DAttributes& attr,
+    const GpuInfo& gpu_info, const RuntimeOptions& options) {
   const int dst_slices = DivideRoundUp(attr.weights.shape.o, 4);
   ConvParams params;
   params.work_group_launch_order = int3(2, 0, 1);
@@ -1136,12 +1130,8 @@ ComputeTaskDescriptor ConvolutionWino4x4To6x6(
 
   ComputeTaskDescriptor desc;
   desc.shader_source = GenerateConvolution(params);
-
-  desc.input_buffers = {
-      {input_id, "device FLT4* const src_buffer"},
-  };
-
-  desc.output_buffer = {output_id, "device FLT4* dst_buffer"};
+  desc.AddSrcTensor("src_buffer");
+  desc.AddDstTensor("dst_buffer");
 
   ::tflite::gpu::Tensor<OHWI, DataType::FLOAT32> wino_weights;
   RearrangeWeightsToWinograd4x4To6x6Weights(attr.weights, &wino_weights);

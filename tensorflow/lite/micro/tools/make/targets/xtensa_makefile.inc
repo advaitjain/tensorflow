@@ -31,6 +31,10 @@ PLATFORM_FLAGS = \
   -DMAX_RFFT_PWR=9 \
   -DMIN_RFFT_PWR=MAX_RFFT_PWR
 
+ifeq ($(BUILD_TYPE), release)
+  PLATFORM_FLAGS += -Wno-unused-private-field
+endif
+
 
 export PATH := $(XTENSA_BASE)/tools/$(XTENSA_TOOLS_VERSION)/XtensaTools/bin:$(PATH)
 TARGET_TOOLCHAIN_PREFIX := xt-
@@ -52,7 +56,6 @@ EXCLUDED_EXAMPLE_TESTS := \
   tensorflow/lite/micro/examples/magic_wand/Makefile.inc \
   tensorflow/lite/micro/examples/micro_speech/Makefile.inc \
   tensorflow/lite/micro/examples/network_tester/Makefile.inc \
-  tensorflow/lite/micro/examples/person_detection/Makefile.inc \
-  tensorflow/lite/micro/examples/person_detection_experimental/Makefile.inc
+  tensorflow/lite/micro/examples/person_detection/Makefile.inc
 MICRO_LITE_EXAMPLE_TESTS := $(filter-out $(EXCLUDED_EXAMPLE_TESTS), $(MICRO_LITE_EXAMPLE_TESTS))
 

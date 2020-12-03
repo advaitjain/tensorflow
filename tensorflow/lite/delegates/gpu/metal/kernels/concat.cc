@@ -129,8 +129,7 @@ std::string GetConcatZCode(const std::vector<int> channels) {
 }
 }  // namespace
 
-ComputeTaskDescriptor ConcatZ(std::vector<ValueId> input_ids, ValueId output_id,
-                              const ConcatAttributes& attr,
+ComputeTaskDescriptor ConcatZ(const ConcatAttributes& attr,
                               const std::vector<BHWC>& input_shapes) {
   std::vector<int> channels;
   channels.reserve(input_shapes.size());
@@ -140,13 +139,10 @@ ComputeTaskDescriptor ConcatZ(std::vector<ValueId> input_ids, ValueId output_id,
   ComputeTaskDescriptor desc;
   desc.shader_source = GetConcatZCode(channels);
 
-  for (int i = 0; i < input_ids.size(); ++i) {
-    const std::string buffer_name =
-        "device FLT4* const src_buffer" + std::to_string(i);
-    desc.input_buffers.push_back({input_ids[i], buffer_name});
+  for (int i = 0; i < input_shapes.size(); ++i) {
+    desc.AddSrcTensor("src_buffer" + std::to_string(i));
   }
-
-  desc.output_buffer = {output_id, "device FLT4* dst_buffer"};
+  desc.AddDstTensor("dst_buffer");
 
   desc.uniform_buffers = {
       {"constant uniforms& U",
@@ -180,8 +176,7 @@ ComputeTaskDescriptor ConcatZ(std::vector<ValueId> input_ids, ValueId output_id,
   return desc;
 }
 
-ComputeTaskDescriptor ConcatX(std::vector<ValueId> input_ids, ValueId output_id,
-                              const ConcatAttributes& attr,
+ComputeTaskDescriptor ConcatX(const ConcatAttributes& attr,
                               const std::vector<BHWC>& input_shapes) {
   ComputeTaskDescriptor desc;
   std::string code = R"(
@@ -226,13 +221,10 @@ ComputeTaskDescriptor ConcatX(std::vector<ValueId> input_ids, ValueId output_id,
   )";
   desc.shader_source = code;
 
-  for (int i = 0; i < input_ids.size(); ++i) {
-    const std::string buffer_name =
-        "device FLT4* const src_buffer" + std::to_string(i);
-    desc.input_buffers.push_back({input_ids[i], buffer_name});
+  for (int i = 0; i < input_shapes.size(); ++i) {
+    desc.AddSrcTensor("src_buffer" + std::to_string(i));
   }
-
-  desc.output_buffer = {output_id, "device FLT4* dst_buffer"};
+  desc.AddDstTensor("dst_buffer");
 
   desc.uniform_buffers = {
       {"constant int3& size",
@@ -257,8 +249,7 @@ ComputeTaskDescriptor ConcatX(std::vector<ValueId> input_ids, ValueId output_id,
   return desc;
 }
 
-ComputeTaskDescriptor ConcatY(std::vector<ValueId> input_ids, ValueId output_id,
-                              const ConcatAttributes& attr,
+ComputeTaskDescriptor ConcatY(const ConcatAttributes& attr,
                               const std::vector<BHWC>& input_shapes) {
   ComputeTaskDescriptor desc;
   std::string code = R"(
@@ -304,13 +295,10 @@ ComputeTaskDescriptor ConcatY(std::vector<ValueId> input_ids, ValueId output_id,
   )";
   desc.shader_source = code;
 
-  for (int i = 0; i < input_ids.size(); ++i) {
-    const std::string buffer_name =
-        "device FLT4* const src_buffer" + std::to_string(i);
-    desc.input_buffers.push_back({input_ids[i], buffer_name});
+  for (int i = 0; i < input_shapes.size(); ++i) {
+    desc.AddSrcTensor("src_buffer" + std::to_string(i));
   }
-
-  desc.output_buffer = {output_id, "device FLT4* dst_buffer"};
+  desc.AddDstTensor("dst_buffer");
 
   desc.uniform_buffers = {
       {"constant int3& size",
@@ -335,15 +323,14 @@ ComputeTaskDescriptor ConcatY(std::vector<ValueId> input_ids, ValueId output_id,
   return desc;
 }
 
-ComputeTaskDescriptor Concat(std::vector<ValueId> input_ids, ValueId output_id,
-                             const ConcatAttributes& attr,
+ComputeTaskDescriptor Concat(const ConcatAttributes& attr,
                              const std::vector<BHWC>& input_shapes) {
   if (attr.axis == Axis::CHANNELS) {
-    return ConcatZ(input_ids, output_id, attr, input_shapes);
+    return ConcatZ(attr, input_shapes);
   } else if (attr.axis == Axis::WIDTH) {
-    return ConcatX(input_ids, output_id, attr, input_shapes);
+    return ConcatX(attr, input_shapes);
   } else {
-    return ConcatY(input_ids, output_id, attr, input_shapes);
+    return ConcatY(attr, input_shapes);
   }
 }
 

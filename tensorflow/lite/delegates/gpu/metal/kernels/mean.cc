@@ -102,8 +102,7 @@ std::string GetMeanCode(const int3& work_group_size) {
   return c;
 }
 
-ComputeTaskDescriptor Mean(ValueId input_id, ValueId output_id,
-                           const MeanAttributes& attr) {
+ComputeTaskDescriptor Mean(const MeanAttributes& attr) {
   if (attr.dims != std::set<Axis>({Axis::HEIGHT, Axis::WIDTH})) {
     // Mean calculation is supported only for height and width
     return {};
@@ -115,11 +114,9 @@ ComputeTaskDescriptor Mean(ValueId input_id, ValueId output_id,
   std::string code = GetMeanCode(work_group_size);
   desc.shader_source = code;
 
-  desc.input_buffers = {
-      {input_id, "device FLT4* const src_buffer"},
-  };
+  desc.AddSrcTensor("src_buffer");
+  desc.AddDstTensor("dst_buffer");
 
-  desc.output_buffer = {output_id, "device FLT4* dst_buffer"};
   desc.uniform_buffers = {
       {"constant uniforms& params",
        [work_group_size](const std::vector<BHWC>& src_shapes,

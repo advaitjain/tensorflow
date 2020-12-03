@@ -453,7 +453,6 @@ std::string GetDeconvolution4x4(const int2& block_size,
 }  // namespace
 
 ComputeTaskDescriptor ConvolutionTransposed(
-    ValueId input_id, ValueId output_id,
     const ConvolutionTransposedAttributes& params, const GpuInfo& gpu_info,
     const RuntimeOptions& options) {
   ComputeTaskDescriptor desc;
@@ -473,11 +472,8 @@ ComputeTaskDescriptor ConvolutionTransposed(
     desc.shader_source = GetDeconvolution(params);
   }
 
-  desc.input_buffers = {
-      {input_id, "device FLT4* const src_buffer"},
-  };
-
-  desc.output_buffer = {output_id, "device FLT4* dst_buffer"};
+  desc.AddSrcTensor("src_buffer");
+  desc.AddDstTensor("dst_buffer");
 
   const int src_ch_aligned = AlignByN(params.weights.shape.i, 4);
   const int dst_ch_aligned = AlignByN(params.weights.shape.o, 4);
@@ -544,7 +540,6 @@ ComputeTaskDescriptor ConvolutionTransposed(
 }
 
 ComputeTaskDescriptor ConvolutionTransposed4x4(
-    ValueId input_id, ValueId output_id,
     const ConvolutionTransposedAttributes& params, const GpuInfo& gpu_info,
     const RuntimeOptions& options) {
   const int src_depth = DivideRoundUp(params.weights.shape.i, 4);
@@ -612,11 +607,8 @@ ComputeTaskDescriptor ConvolutionTransposed4x4(
   const int2 block_size(recommended_2x ? 2 : 1, 1);
   desc.shader_source = GetDeconvolution4x4(block_size, gpu_info);
 
-  desc.input_buffers = {
-      {input_id, "device FLT4* const src_buffer"},
-  };
-
-  desc.output_buffer = {output_id, "device FLT4* dst_buffer"};
+  desc.AddSrcTensor("src_buffer");
+  desc.AddDstTensor("dst_buffer");
 
   desc.immutable_buffers = {
       {"device FLT4* const filters", filters},

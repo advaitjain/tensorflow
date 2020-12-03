@@ -129,16 +129,12 @@ std::string GetSliceCode(const SliceAttributes& attr) {
 }
 }  // namespace
 
-ComputeTaskDescriptor Slice(ValueId input_id, ValueId output_id,
-                            const SliceAttributes& attr) {
+ComputeTaskDescriptor Slice(const SliceAttributes& attr) {
   ComputeTaskDescriptor desc;
   desc.shader_source = GetSliceCode(attr);
 
-  desc.input_buffers = {
-      {input_id, "device FLT4* const src_buffer"},
-  };
-
-  desc.output_buffer = {output_id, "device FLT4* dst_buffer"};
+  desc.AddSrcTensor("src_buffer");
+  desc.AddDstTensor("dst_buffer");
 
   desc.uniform_buffers = {
       {"constant uniforms& params",

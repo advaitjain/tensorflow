@@ -13,10 +13,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#include "tensorflow/lite/micro/examples/person_detection_experimental/image_provider.h"
+#if defined(ARDUINO)
+#define ARDUINO_EXCLUDE_CODE
+#endif  // defined(ARDUINO)
 
-#include "hx_drv_tflm.h"
-#include "tensorflow/lite/micro/examples/person_detection_experimental/model_settings.h"
+#ifndef ARDUINO_EXCLUDE_CODE
+
+#include "tensorflow/lite/micro/examples/person_detection/image_provider.h"
+
+#include "hx_drv_tflm.h"  // NOLINT
+#include "tensorflow/lite/micro/examples/person_detection/model_settings.h"
 
 hx_drv_sensor_image_config_t g_pimg_config;
 
@@ -39,3 +45,5 @@ TfLiteStatus GetImage(tflite::ErrorReporter* error_reporter, int image_width,
 
   return kTfLiteOk;
 }
+
+#endif  // ARDUINO_EXCLUDE_CODE

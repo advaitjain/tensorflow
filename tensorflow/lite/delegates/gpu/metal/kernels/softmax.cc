@@ -104,8 +104,7 @@ kernel void ComputeFunction($1
 }
 }  // namespace
 
-ComputeTaskDescriptor Softmax(ValueId input_id, ValueId output_id,
-                              int channels_count) {
+ComputeTaskDescriptor Softmax(int channels_count) {
   ComputeTaskDescriptor desc;
   desc.shader_source = R"(
     #include <metal_stdlib>
@@ -145,11 +144,8 @@ ComputeTaskDescriptor Softmax(ValueId input_id, ValueId output_id,
     }
   )";
 
-  desc.input_buffers = {
-      {input_id, "device FLT4* const input_buffer"},
-  };
-
-  desc.output_buffer = {output_id, "device FLT4* output_buffer"};
+  desc.AddSrcTensor("input_buffer");
+  desc.AddDstTensor("output_buffer");
 
   desc.uniform_buffers = {
       {"constant int2& size",
@@ -171,16 +167,12 @@ ComputeTaskDescriptor Softmax(ValueId input_id, ValueId output_id,
   return desc;
 }
 
-ComputeTaskDescriptor Softmax1x1(ValueId input_id, ValueId output_id,
-                                 const GpuInfo& gpu_info, int channels_count) {
+ComputeTaskDescriptor Softmax1x1(const GpuInfo& gpu_info, int channels_count) {
   ComputeTaskDescriptor desc;
   desc.shader_source = GetSoftmax1x1Code(gpu_info);
 
-  desc.input_buffers = {
-      {input_id, "device FLT4* const src_buffer"},
-  };
-
-  desc.output_buffer = {output_id, "device FLT4* dst_buffer"};
+  desc.AddSrcTensor("src_buffer");
+  desc.AddDstTensor("dst_buffer");
 
   desc.uniform_buffers = {
       {"constant uniforms& params",
