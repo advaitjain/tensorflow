@@ -188,6 +188,7 @@ cc_library(
         "//tensorflow/core/platform:logging",
         "//tensorflow/core/platform:mutex",
         "//tensorflow/core/platform/default/build_config:stream_executor_cuda",
+        "//tensorflow/stream_executor:stream_header",
         "@com_google_absl//absl/container:flat_hash_map",
         "@local_config_cuda//cuda:cuda_headers",
     ],
@@ -204,6 +205,7 @@ cc_library(
         "//tensorflow/core/platform:logging",
         "//tensorflow/core/platform:mutex",
         "//tensorflow/core/platform/default/build_config:stream_executor_rocm",
+        "//tensorflow/stream_executor:stream_header",
         "@local_config_rocm//rocm:rocm_headers",
     ]),
 )
