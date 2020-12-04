@@ -10,7 +10,7 @@ git fetch upstream
 git merge upstream/master
 HEAD_SHA=`git rev-parse upstream/master`
 
-INVOCATION_LOG=/tmp/hifimini_build_log
+INVOCATION_LOG=/tmp/hifimini_invocation_log
 
 rm -f ${INVOCATION_LOG}
 echo "Building at ${HEAD_SHA}" >> ${INVOCATION_LOG}
@@ -36,7 +36,7 @@ BUILD_RESULT=$?
 BUILD_STATUS_LOG=${SCRIPT_DIR}/hifimini_build_status
 echo `date` ${HEAD_SHA} ${BUILD_RESULT} >> ${BUILD_STATUS_LOG}
 
-KEYWORD_BUILD_BADGE=${SCRIPT_DIR}/xtensa-keyword-build-status.svg
+KEYWORD_BUILD_BADGE=${SCRIPT_DIR}/xtensa-hifimini-keyword-build-status.svg
 if [[ ${BUILD_RESULT} == 0 ]]
 then
   # Document successful build of keyword benchmark.
@@ -76,7 +76,7 @@ TEST_RESULT=$?
 TEST_STATUS_LOG=${SCRIPT_DIR}/hifimini_test_status
 echo `date` ${HEAD_SHA} ${TEST_RESULT} >> ${TEST_STATUS_LOG}
 
-UNITTEST_BUILD_BADGE=${SCRIPT_DIR}/xtensa-unittests-status.svg
+UNITTEST_BUILD_BADGE=${SCRIPT_DIR}/xtensa-hifimini-unittests-status.svg
 if [[ ${TEST_RESULT} == 0 ]]
 then
   /bin/cp ${SCRIPT_DIR}/TFLM-Xtensa-passing.svg ${UNITTEST_BUILD_BADGE}
