@@ -1,0 +1,11 @@
+
+https://shields.io/#your-badge
+
+crontab -e
+
+# Run keyword benchmark test twice a day (noon and 7pm)
+0 12 * * * ~/github/local-continuous-build/run_test.cron.sh &> ~/github/local-continuous-build/log.cronjob.noon
+0 19 * * * ~/github/local-continuous-build/run_test.cron.sh &> ~/github/local-continuous-build/log.cronjob.7pm
+
+
+
