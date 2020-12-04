@@ -30,10 +30,12 @@ def parse_log(log_name):
     return text_size_list, data_size_list, bss_size_list, last_date
 
 
-def plot_size_history(text_size_list, data_size_list, bss_size_list, last_date):
+def plot_size_history(text_size_list, data_size_list, bss_size_list,
+                      last_date):
   fig, axs = plt.subplots(2, 3)
   fig.suptitle(
-      'Keyword benchmark binary size (last update: %s)\ntext: %d data: %d bss: %d' % (last_date, text_size_list[-1], data_size_list[-1], bss_size_list[-1]))
+      'Keyword benchmark binary size (last update: %s)\ntext: %d data: %d bss: %d'
+      % (last_date, text_size_list[-1], data_size_list[-1], bss_size_list[-1]))
   fig.set_size_inches(12, 6)
   axs[0, 0].set_title('Text')
 
@@ -50,22 +52,25 @@ def plot_size_history(text_size_list, data_size_list, bss_size_list, last_date):
   axs[0, 2].set_title('BSS')
   axs[0, 2].plot(bss_size_list, 'o-')
   axs[1, 2].plot(np.concatenate(([0], np.diff(bss_size_list))), 'o-')
-  plt.subplots_adjust(
-      left=0.08, bottom=0.05, right=0.98, top=0.88, wspace=0.22, hspace=0.1)
+  plt.subplots_adjust(left=0.08,
+                      bottom=0.05,
+                      right=0.98,
+                      top=0.88,
+                      wspace=0.22,
+                      hspace=0.1)
 
 
 if __name__ == '__main__':
 
   parser = argparse.ArgumentParser()
-  parser.add_argument(
-      'input_log', help='Path to the size log file (e.g. ~/size_log')
+  parser.add_argument('input_log',
+                      help='Path to the size log file (e.g. ~/size_log')
   parser.add_argument(
       '--output_plot',
       help='Path to optionally save plot to (e.g. /tmp/size.png)')
-  parser.add_argument(
-      '--hide',
-      action='store_true',
-      help='Do NOT show the plot in a matplotlib window.')
+  parser.add_argument('--hide',
+                      action='store_true',
+                      help='Do NOT show the plot in a matplotlib window.')
 
   args = parser.parse_args()
 
