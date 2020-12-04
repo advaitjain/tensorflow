@@ -1,0 +1,24 @@
+
+Fri 04 Dec 2020 10:45:43 AM PST
+tensorflow version: 48924afd7f277f0d3cbdf83a9dff1fede1f6021e
+InitializeKeywordRunner() took 1392788 ticks (1392 ms)
+KeywordRunNIerations(1) took 89195 ticks (89 ms)
+KeywordRunNIerations(10) took 891509 ticks (891 ms)
+
+Fri 04 Dec 2020 10:45:43 AM PST
+tensorflow version: 48924afd7f277f0d3cbdf83a9dff1fede1f6021e
+InitializeKeywordRunner() took 1392788 ticks (1392 ms)
+KeywordRunNIerations(1) took 89195 ticks (89 ms)
+KeywordRunNIerations(10) took 891509 ticks (891 ms)
+
+Fri 04 Dec 2020 01:33:44 PM PST
+tensorflow version: 48924afd7f277f0d3cbdf83a9dff1fede1f6021e
+InitializeKeywordRunner() took 1392788 ticks (1392 ms)
+KeywordRunNIerations(1) took 89195 ticks (89 ms)
+KeywordRunNIerations(10) took 891509 ticks (891 ms)
+
+Fri 04 Dec 2020 01:38:04 PM PST
+tensorflow version: 48924afd7f277f0d3cbdf83a9dff1fede1f6021e
+InitializeKeywordRunner() took 1392788 ticks (1392 ms)
+KeywordRunNIerations(1) took 89195 ticks (89 ms)
+KeywordRunNIerations(10) took 891509 ticks (891 ms)
