@@ -3,3 +3,8 @@ Wed 09 Dec 2020 03:38:20 PM PST
 tensorflow version: 750c7731f20a88dac46709c4a6f8da37ef764803
    text	   data	    bss	    dec	    hex	filename
   48256	  40132	  24952	 113340	  1babc	tensorflow/lite/micro/tools/make/gen/xtensa_fusion_f1/bin/keyword_benchmark
+
+Wed Dec  9 16:14:46 PST 2020
+tensorflow version: c184eb3ddc685d5317c255b104af40a0b87eab38
+   text	   data	    bss	    dec	    hex	filename
+  48256	  40132	  24952	 113340	  1babc	tensorflow/lite/micro/tools/make/gen/xtensa_fusion_f1/bin/keyword_benchmark

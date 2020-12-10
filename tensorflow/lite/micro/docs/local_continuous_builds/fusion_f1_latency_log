@@ -5,3 +5,9 @@ tensorflow version: 750c7731f20a88dac46709c4a6f8da37ef764803
 ( ISS memory allocation ) *ERROR* Target memory limit of 268435456 bytes would be exceeded by this allocation of 32768 bytes. Use the --memlimit command line option to increase the maximum target memory footprint.  With XTMP, use XTMP_setMemoryLimit to increase the footprint.  With XTSC, use xtsc_initialize_parms "target_memory_limit".
 ( exit       ) exit requested from context 'ISS memory allocation' ( rc = -1 )
 ( main       ) *WARNING* fatal error(s) caught ( rc = -1 )
+
+Wed Dec  9 16:15:04 PST 2020
+tensorflow version: c184eb3ddc685d5317c255b104af40a0b87eab38
+InitializeKeywordRunner() took 239061 ticks (239 ms)
+KeywordRunNIerations(1) took 168564 ticks (168 ms)
+KeywordRunNIerations(10) took 1685111 ticks (1685 ms)

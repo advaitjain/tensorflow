@@ -16063,3 +16063,39 @@ Testing UnpackQuantized32ThreeOutputs
 ~~~ALL TESTS PASSED~~~
 
 tensorflow/lite/micro/tools/make/gen/xtensa_hifimini/bin/kernel_unpack_test: PASS
+
+make -f tensorflow/lite/micro/tools/make/Makefile clean
+
+tensorflow/lite/micro/tools/make/downloads/flatbuffers already exists, skipping the download.
+tensorflow/lite/micro/tools/make/Makefile:581: warning: overriding recipe for target 'tensorflow/lite/micro/tools/make/downloads/person_model_int8'
+tensorflow/lite/micro/tools/make/Makefile:581: warning: ignoring old recipe for target 'tensorflow/lite/micro/tools/make/downloads/person_model_int8'
+rm -rf tensorflow/lite/micro/tools/make/gen
+
+make -f tensorflow/lite/micro/tools/make/Makefile TARGET=xtensa OPTIMIZED_KERNEL_DIR=xtensa TARGET_ARCH=hifimini XTENSA_CORE=hifimini test
+
+tensorflow/lite/micro/tools/make/downloads/flatbuffers already exists, skipping the download.
+xt-clang++ -std=c++11 -fno-exceptions -fno-threadsafe-statics -fno-unwind-tables -ffunction-sections -fdata-sections -fmessage-length=0 -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -O3 -Werror -Wsign-compare -Wdouble-promotion -Wshadow -Wunused-variable -Wmissing-field-initializers -Wunused-function -Wswitch -Wvla -Wall -Wextra -Wstrict-aliasing -Wno-unused-parameter -DXTENSA -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME --xtensa-core=hifimini -mcoproc -DMAX_RFFT_PWR=9 -DMIN_RFFT_PWR=MAX_RFFT_PWR -DHIFIMINI -I. -Itensorflow/lite/micro/tools/make/downloads/gemmlowp -Itensorflow/lite/micro/tools/make/downloads/flatbuffers/include -Itensorflow/lite/micro/tools/make/downloads/ruy -c tensorflow/lite/micro/memory_helpers_test.cc -o tensorflow/lite/micro/tools/make/gen/xtensa_hifimini/obj/tensorflow/lite/micro/memory_helpers_test.o
+Error: the "hifimini" core is not in the current Xtensa core registry.
+
+You need to either specify the name of a registered Xtensa core (with
+the --xtensa-core option or the XTENSA_CORE environment variable) or
+specify a different registry of Xtensa cores (with the --xtensa-system
+option or the XTENSA_SYSTEM environment variable).
+
+The following Xtensa cores are available:
+	hifi3_ss_spfpu_7
+	hifi4_ss_spfpu_7
+	tie_dev1
+	tie_dev2
+	mini1m1m_RG
+	hifi3z_ss_spfpu_7
+	sample_flix
+	XRC_FusionF1_All_cache
+	default
+	sample_controller
+	sample_config
+	Google_F1
+
+...in the Xtensa registry directories:
+	/usr/local/google/home/advaitjain/xtensa/XtDevTools/install//tools/RI-2019.2-linux/XtensaTools/bin/../config
+make: *** [tensorflow/lite/micro/tools/make/Makefile:593: tensorflow/lite/micro/tools/make/gen/xtensa_hifimini/obj/tensorflow/lite/micro/memory_helpers_test.o] Error 1
