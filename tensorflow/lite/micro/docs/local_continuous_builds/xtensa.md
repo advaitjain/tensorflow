@@ -33,8 +33,8 @@ gh-md-toc --insert --no-backup xtensa.md
 
 | Architecture |  Keyword benchmark (build) | Unit tests |
 | ---------- |       -------              |  --------  |
-| Hifimini  | ![Status](xtensa-hifimini-keyword-build-status.svg) | ![Status](xtensa-hifimini-unittests-status.svg) |
-| Fusion F1  | ![Status](xtensa-fusion_f1-keyword-build-status.svg) | ![Status](xtensa-fusion_f1-unittests-status.svg) |
+| Hifimini  | [![Status](xtensa-hifimini-keyword-build-status.svg)](hifimini_build_log) | [![Status](xtensa-hifimini-unittests-status.svg)](hifimini_unittest_log) |
+| Fusion F1  | [![Status](xtensa-fusion_f1-keyword-build-status.svg)](fusion_f1_build_log) | [![Status](xtensa-fusion_f1-unittests-status.svg)](fusion_f1_unittest_log) |
 | Hifi4  | | |
 
 

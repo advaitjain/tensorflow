@@ -96,7 +96,10 @@ function run_xtensa_build() {
 function run_xtensa_unittests() {
   TARGET_ARCH=${1}
   XTENSA_CORE=${1}
+
   LOG=${SCRIPT_DIR}/${TARGET_ARCH}_unittest_log
+  rm -f ${LOG}
+  echo "Building at ${HEAD_SHA}" >> ${LOG}
 
   execute_command_and_log "make -f tensorflow/lite/micro/tools/make/Makefile clean" ${LOG}
 
