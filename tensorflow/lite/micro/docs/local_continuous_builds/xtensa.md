@@ -15,13 +15,13 @@ gh-md-toc --insert --no-backup xtensa.md
          * [Keyword Benchmark](#keyword-benchmark)
             * [Binary size graph](#binary-size-graph)
             * [Latency graph](#latency-graph)
-      * [Hifi4](#hifi4)
+      * [Fusion F1](#fusion-f1)
          * [Unit tests](#unit-tests-1)
          * [Keyword Benchmark](#keyword-benchmark-1)
             * [Binary size graph](#binary-size-graph-1)
             * [Latency graph](#latency-graph-1)
 
-<!-- Added by: advaitjain, at: Fri 04 Dec 2020 01:32:43 PM PST -->
+<!-- Added by: advaitjain, at: Wed 09 Dec 2020 04:09:52 PM PST -->
 
 <!--te-->
 
@@ -34,7 +34,8 @@ gh-md-toc --insert --no-backup xtensa.md
 | Architecture |  Keyword benchmark (build) | Unit tests |
 | ---------- |       -------              |  --------  |
 | Hifimini  | ![Status](xtensa-hifimini-keyword-build-status.svg) | ![Status](xtensa-hifimini-unittests-status.svg) |
-| Hifi4  | |  |
+| Fusion F1  | ![Status](xtensa-fusion_f1-keyword-build-status.svg) | ![Status](xtensa-fusion_f1-unittests-status.svg) |
+| Hifi4  | | |
 
 
 # Detailed Results
@@ -50,7 +51,7 @@ gh-md-toc --insert --no-backup xtensa.md
 * [Keyword benchmark build log](hifimini_build_log) from the most recent run.
 * [Keyword benchmark build status history](hifimini_build_status)
 * [Keyword Benchmark size history](hifimini_size_log)
-* [Keyword Benchmark latency history](hifimini_size_log)
+* [Keyword Benchmark latency history](hifimini_latency_log)
 
 #### Binary size graph
 ![Size graph](hifimini_size_history.png)
@@ -58,14 +59,24 @@ gh-md-toc --insert --no-backup xtensa.md
 #### Latency graph
 ![Latency graph](hifimini_latency_history.png)
 
-## Hifi4
+## Fusion F1
 
 ### Unit tests
 
+* [Unit test build log](fusion_f1_unittest_log) from the most recent run.
+* [Unittest status history](fusion_f1_unittest_status)
+
 ### Keyword Benchmark
 
+* [Keyword benchmark build log](fusion_f1_build_log) from the most recent run.
+* [Keyword benchmark build status history](fusion_f1_build_status)
+* [Keyword Benchmark size history](fusion_f1_size_log)
+* [Keyword Benchmark latency history](fusion_f1_latency_log)
+
 #### Binary size graph
+![Size graph](fusion_f1_size_history.png)
 
 #### Latency graph
+![Latency graph](fusion_f1_latency_history.png)
 
 

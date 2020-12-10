@@ -80,7 +80,7 @@ function run_xtensa_build() {
   echo "" >> ${LATENCY_LOG}
   date >> ${LATENCY_LOG}
   echo "tensorflow version: "${HEAD_SHA} >> ${LATENCY_LOG}
-  xt-run tensorflow/lite/micro/tools/make/gen/xtensa_${TARGET_ARCH}/bin/keyword_benchmark &>> ${LATENCY_LOG}
+  xt-run tensorflow/lite/micro/tools/make/gen/xtensa_${TARGET_ARCH}/bin/keyword_benchmark --xtensa-core=${XTENSA_CORE} &>> ${LATENCY_LOG}
 
   # Save a plot showing the evolution of the latency.
   python3 ${SCRIPT_DIR}/plot_latency.py ${LATENCY_LOG} --output_plot ${SCRIPT_DIR}/${TARGET_ARCH}_latency_history.png --hide
@@ -100,7 +100,7 @@ function run_xtensa_unittests() {
 
   execute_command_and_log "make -f tensorflow/lite/micro/tools/make/Makefile clean" ${LOG}
 
-  TEST_COMMAND="make -f tensorflow/lite/micro/tools/make/Makefile TARGET=xtensa OPTIMIZED_KERNEL_DIR=xtensa TARGET_ARCH=hifimini XTENSA_CORE=mini1m1m_RG test"
+  TEST_COMMAND="make -f tensorflow/lite/micro/tools/make/Makefile TARGET=xtensa OPTIMIZED_KERNEL_DIR=xtensa TARGET_ARCH=${TARGET_ARCH} XTENSA_CORE=${XTENSA_CORE} test"
   execute_command_and_log "${TEST_COMMAND}" ${LOG}
   RESULT=$?
 
@@ -118,6 +118,23 @@ function run_xtensa_unittests() {
   return ${RESULT}
 }
 
+# Parameters:
+# ${1} - target architechture
+# ${2} - xtensa core
+function test_arch() {
+  run_xtensa_build ${1} ${2}
+  BUILD_RESULT=$?
+
+  run_xtensa_unittests ${1} ${2}
+  UNITTEST_RESULT=$?
+
+  if [[ ${BUILD_RESULT} == 0 && ${UNITTEST_RESULT} == 0 ]]
+  then
+    return 0
+  fi
+
+  return 1
+}
 
 ###############################################################3
 ###############################################################3
@@ -139,13 +156,13 @@ make -f tensorflow/lite/micro/tools/make/Makefile clean clean_downloads
 
 HEAD_SHA=`git rev-parse upstream/master`
 
-run_xtensa_build hifimini mini1m1m_RG
-BUILD_RESULT=$?
+test_arch hifimini mini1m1m_RG
+HIFIMINI_RESULT=$?
 
-run_xtensa_unittests hifimini mini1m1m_RG
-UNITTEST_RESULT=$?
+test_arch fusion_f1 Google_F1
+FUSION_F1_RESULT=$?
 
-if [[ ${BUILD_RESULT} == 0 && ${UNITTEST_RESULT} == 0 ]]
+if [[ ${HIFIMINI_RESULT} == 0 && ${FUSION_F1_RESULT} == 0 ]]
 then
   # All is well, we can update overall badge to indicate passing.
   /bin/cp ${SCRIPT_DIR}/TFLM-Xtensa-passing.svg ${OVERALL_BUILD_STATUS_BADGE}
