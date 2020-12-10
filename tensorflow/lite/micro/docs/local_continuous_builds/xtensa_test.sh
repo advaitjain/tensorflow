@@ -95,7 +95,7 @@ function run_xtensa_build() {
 #  ${2} - xtensa_core
 function run_xtensa_unittests() {
   TARGET_ARCH=${1}
-  XTENSA_CORE=${1}
+  XTENSA_CORE=${2}
 
   LOG=${SCRIPT_DIR}/${TARGET_ARCH}_unittest_log
   rm -f ${LOG}
