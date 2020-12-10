@@ -13,24 +13,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#ifndef TENSORFLOW_COMPILER_XLA_PJRT_INTERPRETER_DEVICE_H_
-#define TENSORFLOW_COMPILER_XLA_PJRT_INTERPRETER_DEVICE_H_
+#ifndef TENSORFLOW_LITE_KERNELS_PERCEPTION_PERCEPTION_OPS_H_
+#define TENSORFLOW_LITE_KERNELS_PERCEPTION_PERCEPTION_OPS_H_
 
-#include <memory>
+#include "tensorflow/lite/mutable_op_resolver.h"
 
-#include "tensorflow/compiler/xla/pjrt/pjrt_stream_executor_client.h"
-#include "tensorflow/compiler/xla/statusor.h"
+namespace tflite {
+namespace ops {
+namespace custom {
 
-namespace xla {
+TfLiteRegistration* RegisterMaxUnpooling2D();
 
-class InterpreterDevice : public PjRtStreamExecutorDevice {
- public:
-  InterpreterDevice(int id,
-                    std::unique_ptr<LocalDeviceState> local_device_state);
-};
+extern "C" void AddPerceptionOps(::tflite::MutableOpResolver* resolver);
 
-StatusOr<std::unique_ptr<PjRtClient>> GetInterpreterClient();
+}  // namespace custom
+}  // namespace ops
+}  // namespace tflite
 
-}  // namespace xla
-
-#endif  // TENSORFLOW_COMPILER_XLA_PJRT_INTERPRETER_DEVICE_H_
+#endif  // TENSORFLOW_LITE_KERNELS_PERCEPTION_PERCEPTION_OPS_H_
