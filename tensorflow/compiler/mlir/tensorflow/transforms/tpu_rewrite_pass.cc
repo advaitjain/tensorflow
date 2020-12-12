@@ -28,8 +28,8 @@ limitations under the License.
 #include "mlir/IR/Attributes.h"  // from @llvm-project
 #include "mlir/IR/Builders.h"  // from @llvm-project
 #include "mlir/IR/BuiltinOps.h"  // from @llvm-project
+#include "mlir/IR/BuiltinTypes.h"  // from @llvm-project
 #include "mlir/IR/Operation.h"  // from @llvm-project
-#include "mlir/IR/StandardTypes.h"  // from @llvm-project
 #include "mlir/IR/Types.h"  // from @llvm-project
 #include "mlir/Pass/Pass.h"  // from @llvm-project
 #include "mlir/Pass/PassRegistry.h"  // from @llvm-project
@@ -114,7 +114,7 @@ LogicalResult EncapsulateFuncAndSerialize(FuncOp entry_func,
   OwningModuleRef module_for_func =
       ModuleOp::create(mlir::UnknownLoc::get(entry_func.getContext()));
   auto parent_module = entry_func->getParentOfType<ModuleOp>();
-  auto versions_attr = parent_module.getAttr(kVersionsAttr);
+  auto versions_attr = parent_module->getAttr(kVersionsAttr);
   if (!versions_attr)
     return parent_module.emitError(CreateMissingAttributeMsg(kVersionsAttr));
 
@@ -457,7 +457,7 @@ void AssignDevicesToReplicate(
         tensorflow::kTPUReplicatedHost, builder->getStrArrayAttr(hosts)));
   }
 
-  replicate.setAttr(kDevicesAttr, builder->getDictionaryAttr(device_attrs));
+  replicate->setAttr(kDevicesAttr, builder->getDictionaryAttr(device_attrs));
 }
 
 // Creates a `tf.TPUExecute` op that executes TPU program.

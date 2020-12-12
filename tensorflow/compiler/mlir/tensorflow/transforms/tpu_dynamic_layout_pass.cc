@@ -21,11 +21,11 @@ limitations under the License.
 #include "mlir/IR/Attributes.h"  // from @llvm-project
 #include "mlir/IR/Builders.h"  // from @llvm-project
 #include "mlir/IR/BuiltinOps.h"  // from @llvm-project
+#include "mlir/IR/BuiltinTypes.h"  // from @llvm-project
 #include "mlir/IR/Location.h"  // from @llvm-project
 #include "mlir/IR/MLIRContext.h"  // from @llvm-project
 #include "mlir/IR/Operation.h"  // from @llvm-project
 #include "mlir/IR/OperationSupport.h"  // from @llvm-project
-#include "mlir/IR/StandardTypes.h"  // from @llvm-project
 #include "mlir/IR/TypeUtilities.h"  // from @llvm-project
 #include "mlir/IR/Types.h"  // from @llvm-project
 #include "mlir/IR/Value.h"  // from @llvm-project
@@ -172,7 +172,7 @@ void HandleInput(Value input, const int64_t execute_arg_index,
   builder.setInsertionPoint(execute_launch);
   auto copy_with_layout = BuildCopyWithLayout(execute_launch, compile_launch,
                                               get_layout, input, &builder);
-  copy_with_layout.setAttr(kDeviceAttr, execute_launch.deviceAttr());
+  copy_with_layout->setAttr(kDeviceAttr, execute_launch.deviceAttr());
   execute.setOperand(execute_arg_index, copy_with_layout);
 }
 
@@ -206,8 +206,8 @@ bool HandleReplicatedInputs(
                            .getValue()
                            .get(execute_launch.getDevice())
                            .cast<ArrayAttr>();
-    copy_with_layout.setAttr(kDeviceAttr,
-                             device_list.getValue()[entry.index()]);
+    copy_with_layout->setAttr(kDeviceAttr,
+                              device_list.getValue()[entry.index()]);
 
     replicate.setOperand(num_replicas * replicate_arg_index + entry.index(),
                          copy_with_layout);
@@ -274,8 +274,8 @@ void HandleCompileAndExecutes(
   }
 
   if (metadata_updated)
-    compile.setAttr("metadata", StringAttr::get(metadata.SerializeAsString(),
-                                                compile.getContext()));
+    compile->setAttr("metadata", StringAttr::get(metadata.SerializeAsString(),
+                                                 compile.getContext()));
 }
 
 void TPUDynamicLayoutPass::runOnFunction(
