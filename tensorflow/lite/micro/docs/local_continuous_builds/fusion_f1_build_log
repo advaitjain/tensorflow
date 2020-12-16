@@ -1,11 +1,9 @@
-Building at 59fd69f2d5bb289d99296b279170eb53e7d56fc2
+Building at c1e94620550ccadc2a01d1a061bef95fd2ae556b
 
 make -f tensorflow/lite/micro/tools/make/Makefile clean
 
 tensorflow/lite/micro/tools/make/downloads/flatbuffers already exists, skipping the download.
 tensorflow/lite/micro/tools/make/downloads/pigweed already exists, skipping the download.
-tensorflow/lite/micro/tools/make/Makefile:588: warning: overriding recipe for target 'tensorflow/lite/micro/tools/make/downloads/person_model_int8'
-tensorflow/lite/micro/tools/make/Makefile:588: warning: ignoring old recipe for target 'tensorflow/lite/micro/tools/make/downloads/person_model_int8'
 rm -rf tensorflow/lite/micro/tools/make/gen
 
 make -f tensorflow/lite/micro/tools/make/Makefile TARGET=xtensa OPTIMIZED_KERNEL_DIR=xtensa TARGET_ARCH=fusion_f1 XTENSA_CORE=Google_F1 keyword_benchmark BUILD_TYPE=release -j8
@@ -92,8 +90,6 @@ make -f tensorflow/lite/micro/tools/make/Makefile clean
 
 tensorflow/lite/micro/tools/make/downloads/flatbuffers already exists, skipping the download.
 tensorflow/lite/micro/tools/make/downloads/pigweed already exists, skipping the download.
-tensorflow/lite/micro/tools/make/Makefile:588: warning: overriding recipe for target 'tensorflow/lite/micro/tools/make/downloads/person_model_int8'
-tensorflow/lite/micro/tools/make/Makefile:588: warning: ignoring old recipe for target 'tensorflow/lite/micro/tools/make/downloads/person_model_int8'
 rm -rf tensorflow/lite/micro/tools/make/gen
 
 make -f tensorflow/lite/micro/tools/make/Makefile TARGET=xtensa OPTIMIZED_KERNEL_DIR=xtensa TARGET_ARCH=fusion_f1 XTENSA_CORE=Google_F1 keyword_benchmark -j8
