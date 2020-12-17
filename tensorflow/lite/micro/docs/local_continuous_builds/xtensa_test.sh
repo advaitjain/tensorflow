@@ -1,5 +1,7 @@
 #!/bin/bash -x
 
+source ${HOME}/.bashrc
+
 function update_from_upstream() {
   git checkout local-continuous-builds
   git fetch upstream
@@ -159,13 +161,24 @@ make -f tensorflow/lite/micro/tools/make/Makefile clean clean_downloads
 
 HEAD_SHA=`git rev-parse upstream/master`
 
+export XTENSA_TOOLS_VERSION=RI-2019.2-linux
+export XTENSA_BASE=~/xtensa/XtDevTools/install/
+export PATH=${XTENSA_BASE}/tools/${XTENSA_TOOLS_VERSION}/XtensaTools/bin/:${PATH}
+
 test_arch hifimini mini1m1m_RG
 HIFIMINI_RESULT=$?
 
-test_arch fusion_f1 Google_F1
+export XTENSA_TOOLS_VERSION=RI-2020.4-linux
+export XTENSA_BASE=~/xtensa/XtDevTools/install/
+export PATH=${XTENSA_BASE}/tools/${XTENSA_TOOLS_VERSION}/XtensaTools/bin/:${PATH}
+
+test_arch fusion_f1 F1_190305_swupgrade
 FUSION_F1_RESULT=$?
 
-if [[ ${HIFIMINI_RESULT} == 0 && ${FUSION_F1_RESULT} == 0 ]]
+test_arch vision_p6 P6_200528
+VISION_P6_RESULT=$?
+
+if [[ ${HIFIMINI_RESULT} == 0 && ${FUSION_F1_RESULT} == 0 && ${VISION_P6_RESULT} == 0 ]]
 then
   # All is well, we can update overall badge to indicate passing.
   /bin/cp ${SCRIPT_DIR}/TFLM-Xtensa-passing.svg ${OVERALL_BUILD_STATUS_BADGE}

@@ -107,3 +107,9 @@ tensorflow version: 53ce4ac9b47432afb934ad558a8259d4d04a26e3
 InitializeKeywordRunner() took 239589 ticks (239 ms)
 KeywordRunNIerations(1) took 171203 ticks (171 ms)
 KeywordRunNIerations(10) took 1711501 ticks (1711 ms)
+
+Wed 16 Dec 2020 04:19:38 PM PST
+tensorflow version: d7f7f61c761db10bc63c94e9d93ca60ff8235768
+InitializeKeywordRunner() took 280862 ticks (280 ms)
+KeywordRunNIerations(1) took 170431 ticks (170 ms)
+KeywordRunNIerations(10) took 1703817 ticks (1703 ms)

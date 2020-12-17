@@ -1,0 +1,6 @@
+
+Wed 16 Dec 2020 04:24:05 PM PST
+tensorflow version: d7f7f61c761db10bc63c94e9d93ca60ff8235768
+InitializeKeywordRunner() took 228981 ticks (228 ms)
+KeywordRunNIerations(1) took 126926 ticks (126 ms)
+KeywordRunNIerations(10) took 1268786 ticks (1268 ms)
