@@ -20,8 +20,13 @@ gh-md-toc --insert --no-backup xtensa.md
          * [Keyword Benchmark](#keyword-benchmark-1)
             * [Binary size graph](#binary-size-graph-1)
             * [Latency graph](#latency-graph-1)
+      * [Vision P6](#vision-p6)
+         * [Unit tests](#unit-tests-2)
+         * [Keyword Benchmark](#keyword-benchmark-2)
+            * [Binary size graph](#binary-size-graph-2)
+            * [Latency graph](#latency-graph-2)
 
-<!-- Added by: advaitjain, at: Wed 09 Dec 2020 04:09:52 PM PST -->
+<!-- Added by: advaitjain, at: Wed 16 Dec 2020 04:38:35 PM PST -->
 
 <!--te-->
 

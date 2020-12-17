@@ -1,7 +1,5 @@
 #!/bin/bash -x
 
-source ${HOME}/.bashrc
-
 function update_from_upstream() {
   git checkout local-continuous-builds
   git fetch upstream
