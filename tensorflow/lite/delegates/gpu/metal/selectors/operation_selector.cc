@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#include "tensorflow/lite/delegates/gpu/metal/api.h"
+#include "tensorflow/lite/delegates/gpu/metal/selectors/operation_selector.h"
 
 #include <vector>
 
@@ -26,12 +26,10 @@ limitations under the License.
 #include "tensorflow/lite/delegates/gpu/common/task/tensor_desc.h"
 #include "tensorflow/lite/delegates/gpu/common/util.h"
 #include "tensorflow/lite/delegates/gpu/common/winograd_util.h"
-#include "tensorflow/lite/delegates/gpu/metal/compiled_model.h"
 #include "tensorflow/lite/delegates/gpu/metal/compute_task_descriptor.h"
 #include "tensorflow/lite/delegates/gpu/metal/kernels/add.h"
 #include "tensorflow/lite/delegates/gpu/metal/kernels/concat.h"
 #include "tensorflow/lite/delegates/gpu/metal/kernels/conv.h"
-#include "tensorflow/lite/delegates/gpu/metal/kernels/custom_registry.h"
 #include "tensorflow/lite/delegates/gpu/metal/kernels/depthwise_conv.h"
 #include "tensorflow/lite/delegates/gpu/metal/kernels/elementwise.h"
 #include "tensorflow/lite/delegates/gpu/metal/kernels/fully_connected.h"
@@ -49,6 +47,7 @@ limitations under the License.
 #include "tensorflow/lite/delegates/gpu/metal/kernels/space_to_depth.h"
 #include "tensorflow/lite/delegates/gpu/metal/kernels/transpose_conv.h"
 #include "tensorflow/lite/delegates/gpu/metal/kernels/winograd.h"
+#include "tensorflow/lite/delegates/gpu/metal/selectors/default_selector.h"
 #include "tensorflow/lite/delegates/gpu/metal/selectors/subgraph.h"
 
 namespace tflite {
@@ -124,10 +123,10 @@ std::unique_ptr<ComputeTaskDescriptor> SelectSoftmax(const OperationDef& op_def,
                                                      const BHWC& src_shape,
                                                      const GpuInfo& gpu_info) {
   if (src_shape.w == 1 && src_shape.h == 1) {
-    auto gpu_op = Softmax1x1(op_def, gpu_info, src_shape.c);
+    auto gpu_op = Softmax1x1(op_def, gpu_info);
     return absl::make_unique<ComputeTaskDescriptor>(std::move(gpu_op));
   } else {
-    auto gpu_op = Softmax(op_def, src_shape.c);
+    auto gpu_op = Softmax(op_def);
     return absl::make_unique<ComputeTaskDescriptor>(std::move(gpu_op));
   }
 }
@@ -243,6 +242,8 @@ absl::Status WinogradFromNode(const GpuInfo& gpu_info,
       SelectWinograd36To4x4(winograd_down_def, wino_down_attr, gpu_info);
   return absl::OkStatus();
 }
+
+}  // namespace
 
 absl::Status GPUOperationFromNode(const GpuInfo& gpu_info,
                                   const OperationDef& op_def,
@@ -515,104 +516,10 @@ absl::Status GPUOperationFromNode(const GpuInfo& gpu_info,
     case OperationType::GREATER_EQUAL:
     case OperationType::SPACE_TO_BATCH:
     case OperationType::TRANSPOSE:
-    case OperationType::UNKNOWN:
       return absl::UnimplementedError("Unsupported op: " + node.operation.type);
-  }
-  return absl::OkStatus();
-}
-
-}  // namespace
-
-absl::Status Compile(const GraphFloat32& graph, const GpuInfo& gpu_info,
-                     CalculationsPrecision precision,
-                     CompiledModel* compiled_model) {
-  if (!IsBatchMatchesForAllValues(graph)) {
-    return absl::InvalidArgumentError(
-        "Only identical batch dimension is supported");
-  }
-  int last_value_id = 0;
-  for (const auto& value : graph.values()) {
-    compiled_model->tensor_shapes[value->id] = value->tensor.shape;
-    last_value_id = std::max(last_value_id, static_cast<int>(value->id));
-  }
-  int node_linear_id = 0;
-  for (const auto& node : graph.nodes()) {
-    std::vector<ValueId> inputs;
-    for (auto& input : graph.FindInputs(node->id)) {
-      inputs.push_back(static_cast<ValueId>(input->id));
-    }
-    std::vector<ValueId> outputs;
-    for (auto& output : graph.FindOutputs(node->id)) {
-      outputs.push_back(static_cast<ValueId>(output->id));
-    }
-    std::vector<NodeDescriptor> node_descs;
-    std::vector<ComputeTaskDescriptorPtr> custom_tasks;
-    auto custom_status = RegisterCustomOps(graph, node, inputs, outputs,
-                                           precision, &custom_tasks);
-    if (!custom_status.ok()) {
-      auto inputs = graph.FindInputs(node->id);
-      auto outputs = graph.FindOutputs(node->id);
-      DataType data_type = DeduceDataTypeFromPrecision(precision);
-      TensorDescriptor tensor_descriptor =
-          TensorDescriptor{data_type, TensorStorageType::BUFFER, Layout::HWC};
-      OperationDef op_def;
-      op_def.precision = precision;
-      for (int j = 0; j < inputs.size(); ++j) {
-        op_def.src_tensors.push_back(tensor_descriptor);
-      }
-      for (int j = 0; j < outputs.size(); ++j) {
-        op_def.dst_tensors.push_back(tensor_descriptor);
-      }
-      GPUOperationsSubgraph gpu_subgraph;
-      RETURN_IF_ERROR(GPUOperationFromNode(gpu_info, op_def, inputs, outputs,
-                                           *node, &gpu_subgraph));
-      std::map<int, ValueId> mapping_to_global_ids;
-      for (int j = 0; j < gpu_subgraph.new_tensors.size(); ++j) {
-        const auto& t = gpu_subgraph.new_tensors[j];
-        last_value_id++;
-        compiled_model->tensor_shapes[last_value_id] = t.first;
-        mapping_to_global_ids[j] = last_value_id;
-      }
-      for (auto& gpu_op : gpu_subgraph.operations) {
-        NodeDescriptor metal_node;
-        metal_node.task = std::move(gpu_op.operation);
-        metal_node.src_tensors_ids.resize(gpu_op.input_ids.size());
-        for (int j = 0; j < gpu_op.input_ids.size(); ++j) {
-          int id = gpu_op.input_ids[j];
-          if (id >= 0) {
-            metal_node.src_tensors_ids[j] = id;
-          } else {
-            metal_node.src_tensors_ids[j] = mapping_to_global_ids[-(id + 1)];
-          }
-        }
-        metal_node.dst_tensors_ids.resize(gpu_op.output_ids.size());
-        for (int j = 0; j < gpu_op.output_ids.size(); ++j) {
-          int id = gpu_op.output_ids[j];
-          if (id >= 0) {
-            metal_node.dst_tensors_ids[j] = id;
-          } else {
-            metal_node.dst_tensors_ids[j] = mapping_to_global_ids[-(id + 1)];
-          }
-        }
-        metal_node.description =
-            node->operation.type + " " + std::to_string(node->id);
-        node_descs.push_back(std::move(metal_node));
-      }
-    } else {
-      for (auto& custom_task : custom_tasks) {
-        NodeDescriptor node_desc;
-        node_desc.task = custom_task;
-        node_desc.description =
-            node->operation.type + "_" + std::to_string(node->id);
-        node_desc.src_tensors_ids = inputs;
-        node_desc.dst_tensors_ids = outputs;
-        node_descs.push_back(node_desc);
-      }
-    }
-    for (auto& node_desc : node_descs) {
-      node_desc.id = node_linear_id++;
-      compiled_model->nodes.push_back(node_desc);
-    }
+    default:
+      return SelectDefault(gpu_info, op_def, inputs, outputs, node,
+                           gpu_subgraph);
   }
   return absl::OkStatus();
 }
