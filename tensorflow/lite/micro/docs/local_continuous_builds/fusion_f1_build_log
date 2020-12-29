@@ -1,4 +1,4 @@
-Building at 88c6148ad2c364ad9f0327795a7c1724ce766085
+Building at 0366e4d699ede8a12eb90eea2a427ce8a66f5a68
 
 make -f tensorflow/lite/micro/tools/make/Makefile clean
 
