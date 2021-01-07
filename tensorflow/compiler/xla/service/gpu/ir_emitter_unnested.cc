@@ -224,14 +224,14 @@ StatusOr<BufferAllocation::Slice> GetAllocationSliceForMlir(
               .getValue()
               .getSExtValue(),
           size);
-    } else if (mlir::isa<mlir::GetGlobalMemrefOp>(op)) {
+    } else if (auto get_global = mlir::dyn_cast<mlir::GetGlobalMemrefOp>(op)) {
+      auto module = get_global->getParentOfType<mlir::ModuleOp>();
+      auto global = mlir::cast<mlir::GlobalMemrefOp>(
+          module.lookupSymbol(get_global.name()));
       int64_t index =
-          op->getAttrOfType<mlir::IntegerAttr>("lmhlo.alloc").getInt();
-      int64_t offset =
-          op->getAttrOfType<mlir::IntegerAttr>("lmhlo.slice_offset").getInt();
-      int64_t size =
-          op->getAttrOfType<mlir::IntegerAttr>("lmhlo.slice_size").getInt();
-      return BufferAllocation::Slice(&allocations[index], offset, size);
+          global->getAttrOfType<mlir::IntegerAttr>("lmhlo.alloc").getInt();
+      return BufferAllocation::Slice(&allocations[index], 0,
+                                     allocations[index].size());
     }
     return Unimplemented("MemRefReinterpretCastOp has to wrap a ViewOp");
   }
@@ -1122,6 +1122,8 @@ Status IrEmitterUnnested::EmitConvolutionThunkFromMlir(MlirEmitterInput input) {
     descriptor.result_shape = apply_layout(TypeToShape(conv_result.getType()),
                                            op.backend_config().result_layout());
     descriptor.dnums = ConvertConvDimensionNumbers(op.dimension_numbers());
+    descriptor.scratch_size =
+        input.extra_slice->shape.tuple_shapes(1).dimensions(0);
     mlir::DenseIntElementsAttr window_strides = op.window_strides().getValue();
     mlir::DenseIntElementsAttr padding = op.padding().getValue();
     mlir::DenseIntElementsAttr lhs_dilation = op.lhs_dilation().getValue();
