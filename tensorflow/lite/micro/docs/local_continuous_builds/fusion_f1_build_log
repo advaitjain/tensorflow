@@ -1,4 +1,4 @@
-Building at 3b314f0e099185360d6b6e1e43eff966b778951c
+Building at 287ab9046604c277908969e20b7b4c0febe8b4ab
 
 make -f tensorflow/lite/micro/tools/make/Makefile clean
 
@@ -10,23 +10,23 @@ make -f tensorflow/lite/micro/tools/make/Makefile TARGET=xtensa OPTIMIZED_KERNEL
 
 tensorflow/lite/micro/tools/make/downloads/flatbuffers already exists, skipping the download.
 tensorflow/lite/micro/tools/make/downloads/pigweed already exists, skipping the download.
---2021-01-10 12:03:00--  http://mirror.tensorflow.org/github.com/foss-xtensa/nnlib-hifi4/raw/master/archive/xa_nnlib_06_27.zip
+--2021-01-10 19:02:59--  http://mirror.tensorflow.org/github.com/foss-xtensa/nnlib-hifi4/raw/master/archive/xa_nnlib_06_27.zip
 Resolving mirror.tensorflow.org (mirror.tensorflow.org)... 2607:f8b0:4005:80a::2010, 172.217.6.80
 Connecting to mirror.tensorflow.org (mirror.tensorflow.org)|2607:f8b0:4005:80a::2010|:80... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 374042 (365K) [application/zip]
 Saving to: '/tmp/xa_nnlib_hifi4.zip'
 
-     0K .......... .......... .......... .......... .......... 13% 6.32M 0s
-    50K .......... .......... .......... .......... .......... 27% 6.06M 0s
-   100K .......... .......... .......... .......... .......... 41%  101M 0s
-   150K .......... .......... .......... .......... .......... 54%  102M 0s
-   200K .......... .......... .......... .......... .......... 68% 70.2M 0s
-   250K .......... .......... .......... .......... .......... 82% 73.3M 0s
-   300K .......... .......... .......... .......... .......... 95%  115M 0s
+     0K .......... .......... .......... .......... .......... 13% 5.70M 0s
+    50K .......... .......... .......... .......... .......... 27% 6.10M 0s
+   100K .......... .......... .......... .......... .......... 41% 58.2M 0s
+   150K .......... .......... .......... .......... .......... 54% 70.3M 0s
+   200K .......... .......... .......... .......... .......... 68%  102M 0s
+   250K .......... .......... .......... .......... .......... 82% 97.6M 0s
+   300K .......... .......... .......... .......... .......... 95%  130M 0s
    350K .......... .....                                      100%  108M=0.02s
 
-2021-01-10 12:03:00 (19.1 MB/s) - '/tmp/xa_nnlib_hifi4.zip' saved [374042/374042]
+2021-01-10 19:02:59 (18.2 MB/s) - '/tmp/xa_nnlib_hifi4.zip' saved [374042/374042]
 
 xt-clang++ -std=c++11 -fno-exceptions -fno-threadsafe-statics -fno-unwind-tables -ffunction-sections -fdata-sections -fmessage-length=0 -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -O3 -Werror -Wsign-compare -Wdouble-promotion -Wshadow -Wunused-variable -Wmissing-field-initializers -Wunused-function -Wswitch -Wvla -Wall -Wextra -Wstrict-aliasing -Wno-unused-parameter -DXTENSA -DNDEBUG -DTF_LITE_STRIP_ERROR_STRINGS -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME --xtensa-core=F1_190305_swupgrade -mcoproc -DMAX_RFFT_PWR=9 -DMIN_RFFT_PWR=MAX_RFFT_PWR -DFUSION_F1 -Wno-unused-private-field -DNNLIB_V2 -Wno-shadow -I. -Itensorflow/lite/micro/tools/make/downloads/gemmlowp -Itensorflow/lite/micro/tools/make/downloads/flatbuffers/include -Itensorflow/lite/micro/tools/make/downloads/ruy -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/algo/kernels/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/include/nnlib/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/include/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/algo/common/include/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/algo/ndsp/hifi4/include/ -c tensorflow/lite/micro/benchmarks/keyword_benchmark.cc -o tensorflow/lite/micro/tools/make/gen/xtensa_fusion_f1/obj/tensorflow/lite/micro/benchmarks/keyword_benchmark.o
 xt-clang++ -std=c++11 -fno-exceptions -fno-threadsafe-statics -fno-unwind-tables -ffunction-sections -fdata-sections -fmessage-length=0 -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -O3 -Werror -Wsign-compare -Wdouble-promotion -Wshadow -Wunused-variable -Wmissing-field-initializers -Wunused-function -Wswitch -Wvla -Wall -Wextra -Wstrict-aliasing -Wno-unused-parameter -DXTENSA -DNDEBUG -DTF_LITE_STRIP_ERROR_STRINGS -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME --xtensa-core=F1_190305_swupgrade -mcoproc -DMAX_RFFT_PWR=9 -DMIN_RFFT_PWR=MAX_RFFT_PWR -DFUSION_F1 -Wno-unused-private-field -DNNLIB_V2 -Wno-shadow -I. -Itensorflow/lite/micro/tools/make/downloads/gemmlowp -Itensorflow/lite/micro/tools/make/downloads/flatbuffers/include -Itensorflow/lite/micro/tools/make/downloads/ruy -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/algo/kernels/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/include/nnlib/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/include/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/algo/common/include/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/algo/ndsp/hifi4/include/ -c tensorflow/lite/micro/benchmarks/keyword_scrambled_model_data.cc -o tensorflow/lite/micro/tools/make/gen/xtensa_fusion_f1/obj/tensorflow/lite/micro/benchmarks/keyword_scrambled_model_data.o
