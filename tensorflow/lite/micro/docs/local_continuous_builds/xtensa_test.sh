@@ -57,7 +57,7 @@ function run_xtensa_build() {
   date >> ${SIZE_LOG}
   echo "tensorflow version: "${HEAD_SHA} >> ${SIZE_LOG}
 
-  xt-size tensorflow/lite/micro/tools/make/gen/xtensa_${TARGET_ARCH}/bin/keyword_benchmark &>> ${SIZE_LOG}
+  xt-size tensorflow/lite/micro/tools/make/gen/xtensa_${TARGET_ARCH}_release/bin/keyword_benchmark &>> ${SIZE_LOG}
 
   # Save a plot showing the evolution of the size.
   python3 ${SCRIPT_DIR}/plot_size.py ${SIZE_LOG} --output_plot ${SCRIPT_DIR}/${TARGET_ARCH}_size_history.png --hide
@@ -80,7 +80,7 @@ function run_xtensa_build() {
   echo "" >> ${LATENCY_LOG}
   date >> ${LATENCY_LOG}
   echo "tensorflow version: "${HEAD_SHA} >> ${LATENCY_LOG}
-  xt-run tensorflow/lite/micro/tools/make/gen/xtensa_${TARGET_ARCH}/bin/keyword_benchmark --xtensa-core=${XTENSA_CORE} &>> ${LATENCY_LOG}
+  xt-run tensorflow/lite/micro/tools/make/gen/xtensa_${TARGET_ARCH}_default/bin/keyword_benchmark --xtensa-core=${XTENSA_CORE} &>> ${LATENCY_LOG}
 
   # Save a plot showing the evolution of the latency.
   python3 ${SCRIPT_DIR}/plot_latency.py ${LATENCY_LOG} --output_plot ${SCRIPT_DIR}/${TARGET_ARCH}_latency_history.png --hide
