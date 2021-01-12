@@ -91,13 +91,19 @@ struct ComputeTaskDescriptor {
                     const TensorDescriptor& desc);
   void AddDstTensor(const std::string& tensor_name,
                     const TensorDescriptor& desc);
+
+  absl::Status AddTask(ComputeTaskDescriptor* task_desc);
+  void AssembleCode();
+
+ private:
+  int linkable_count = 0;        // temporary, used during op construction
+  std::string elementwise_code;  // temporary, used during op construction
 };
 
 using ComputeTaskDescriptorPtr = std::shared_ptr<ComputeTaskDescriptor>;
 
 struct NodeDescriptor {
   ComputeTaskDescriptorPtr task;
-  // Unique ID to match the graph compilation errors.
   int id;
   std::string description;
   std::vector<ValueId> src_tensors_ids;
