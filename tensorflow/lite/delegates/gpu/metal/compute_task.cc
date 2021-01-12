@@ -17,6 +17,7 @@ limitations under the License.
 
 #include <Availability.h>
 
+#include <map>
 #include <string>
 #include <tuple>
 
@@ -37,8 +38,10 @@ absl::Status ComputeTask::CompileWithDevice(id<MTLDevice> device,
                                             const NodeDescriptor& desc,
                                             CalculationsPrecision precision) {
   desc.task->AssembleCode();
-  RETURN_IF_ERROR(
-      metal_args_.Init(device, 0, &desc.task->args, &desc.task->shader_source));
+  const std::map<std::string, std::string> linkables = {
+      {desc.task->dst_tensors_names[0], desc.task->elementwise_code}};
+  RETURN_IF_ERROR(metal_args_.Init(device, linkables, &desc.task->args,
+                                   &desc.task->shader_source));
   NSString* barrier;
   // simdgroup_barrier is supported on macOS 10.13+ and Metal shading language
   // version 2.0
@@ -105,23 +108,8 @@ absl::Status ComputeTask::CompileWithDevice(id<MTLDevice> device,
 }
 
 absl::Status ComputeTask::UpdateParamsWithDevice(
-      id<MTLDevice> device, const std::map<ValueId, BHWC>& tensor_shapes) {
-  std::vector<BHWC> src_shapes;
-  std::vector<BHWC> dst_shapes;
-  for (const auto& in_buf : input_buffers_) {
-    auto it = tensor_shapes.find(in_buf);
-    if (it == tensor_shapes.end()) {
-      return absl::InvalidArgumentError("Missing tensor shape");
-    }
-    src_shapes.push_back(it->second);
-  }
-  for (const auto& out_buf : output_buffers_) {
-    auto it = tensor_shapes.find(out_buf);
-    if (it == tensor_shapes.end()) {
-      return absl::InvalidArgumentError("Missing tensor shape");
-    }
-    dst_shapes.push_back(it->second);
-  }
+    id<MTLDevice> device, const std::vector<BHWC>& src_shapes,
+    const std::vector<BHWC>& dst_shapes) {
   RETURN_IF_ERROR(update_function_(src_shapes, dst_shapes, &metal_args_));
 
   // Dispatch parameters re-calculation
