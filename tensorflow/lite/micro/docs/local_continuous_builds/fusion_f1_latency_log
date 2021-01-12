@@ -431,3 +431,9 @@ tensorflow version: 6d01d3f8343e82f794c6cfed61de170183ab7b64
 InitializeKeywordRunner() took 280774 ticks (280 ms)
 KeywordRunNIerations(1) took 170431 ticks (170 ms)
 KeywordRunNIerations(10) took 1703817 ticks (1703 ms)
+
+Mon Jan 11 19:04:51 PST 2021
+tensorflow version: 4517ba2893079cca5fa27b7e8aaca6f6ab0b94ef
+InitializeKeywordRunner() took 280774 ticks (280 ms)
+KeywordRunNIerations(1) took 170431 ticks (170 ms)
+KeywordRunNIerations(10) took 1703817 ticks (1703 ms)
