@@ -57,6 +57,7 @@ filegroup(
         "gpu_op_imag.cc",
         "gpu_op_is_inf.cc",
         "gpu_op_log.cc",
+        "gpu_op_log1p.cc",
         "gpu_op_logical_not.cc",
         "gpu_op_neg.cc",
         "gpu_op_real.cc",
@@ -118,6 +119,7 @@ tf_kernel_library(
         ":imag_kernels",
         ":is_inf_kernels",
         ":log_kernels",
+        ":log1p_kernels",
         ":logical_not_kernels",
         ":neg_kernels",
         ":real_kernels",
@@ -151,6 +153,7 @@ tf_kernel_library(
         "gpu_op_logical_or.cc",
         "gpu_op_mul.cc",
         "gpu_op_not_equal.cc",
+        "gpu_op_pow.cc",
         "gpu_op_right_shift.cc",
         "gpu_op_sub.cc",
     ],
@@ -178,6 +181,7 @@ tf_kernel_library(
         ":minimum_kernels",
         ":mul_kernels",
         ":not_equal_kernels",
+        ":pow_kernels",
         ":right_shift_kernels",
         ":sub_kernels",
         "//third_party/eigen3",
@@ -226,7 +230,7 @@ tf_cuda_cc_test(
 
 tf_cuda_cc_test(
     name = "gpu_binary_ops_test",
-    size = "small",
+    size = "medium",
     srcs = if_mlir_generated_gpu_kernels_enabled(["gpu_binary_ops_test.cc"]),
     tags = tf_cuda_tests_tags() + [
         "no_cuda_asan",  # b/173033461
@@ -621,6 +625,7 @@ gen_kernel_library(
         "floor",
         "is_finite",
         "log",
+        "log1p",
         "rsqrt",
         "sqrt",
         "tanh",
@@ -643,3 +648,15 @@ gen_kernel_library(
         "sin",
     ]
 ]
+
+gen_kernel_library(
+    name = "pow",
+    tile_size = "256,1,1",
+    types = [
+        "f16",
+        "f32",
+        "f64",
+        "i64",
+    ],
+    unroll_factors = "4",
+)
