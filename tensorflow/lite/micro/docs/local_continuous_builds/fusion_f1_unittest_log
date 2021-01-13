@@ -1,4 +1,4 @@
-Building at faf1e4efbfc6052f9d0270f6c6426d9f7db90ef0
+Building at 26c468322d9da0a66f10dfacdbe38044a50b9a9f
 
 make -f tensorflow/lite/micro/tools/make/Makefile clean
 
@@ -630,9 +630,7 @@ tensorflow/lite/micro/testing/test_xtensa_binary.sh tensorflow/lite/micro/tools/
 Testing DequantizeOpTestUint8
 Testing DequantizeOpTestInt8
 Testing DequantizeOpTestInt16
-Testing DequantizeOpTestInt8ToInt32
-Testing DequantizeOpTestInt16ToInt32
-5/5 tests passed
+3/3 tests passed
 ~~~ALL TESTS PASSED~~~
 
 tensorflow/lite/micro/tools/make/gen/xtensa_fusion_f1_default/bin/kernel_dequantize_test: PASS
