@@ -34,12 +34,8 @@ namespace tflite {
 namespace gpu {
 namespace metal {
 
-void ComputeTask::Init(std::unique_ptr<ComputeTaskDescriptor>&& task_desc,
-                       const std::vector<ValueId>& input_ids,
-                       const std::vector<ValueId>& output_ids) {
+void ComputeTask::Init(std::unique_ptr<ComputeTaskDescriptor>&& task_desc) {
   task_desc_ = std::move(task_desc);
-  input_buffers_ = input_ids;
-  output_buffers_ = output_ids;
 }
 
 absl::Status ComputeTask::Compile(CalculationsPrecision precision,
@@ -47,8 +43,7 @@ absl::Status ComputeTask::Compile(CalculationsPrecision precision,
   task_desc_->AssembleCode();
   const std::map<std::string, std::string> linkables = {
       {task_desc_->dst_tensors_names[0], task_desc_->elementwise_code}};
-  RETURN_IF_ERROR(metal_args_.Init(device->device(), linkables,
-                                   &task_desc_->args,
+  RETURN_IF_ERROR(metal_args_.Init(linkables, device, &task_desc_->args,
                                    &task_desc_->shader_source));
   task_desc_->args.ReleaseCPURepresentation();
   NSString* barrier;
@@ -142,20 +137,6 @@ absl::Status ComputeTask::UpdateParams(const GpuInfo& gpu_info,
   return absl::OkStatus();
 }
 
-bool ComputeTask::HasInOutIds(const std::set<ValueId>& ids) const {
-  for (auto& buffer : input_buffers_) {
-    if (ids.count(buffer)) {
-      return true;
-    }
-  }
-  for (auto& buffer : output_buffers_) {
-    if (ids.count(buffer)) {
-      return true;
-    }
-  }
-  return false;
-}
-
 void ComputeTask::EncodeWithEncoder(id<MTLComputeCommandEncoder> encoder) {
   // The dispatch call is intended to be skipped.
   if (groups_count_.x * groups_count_.y * groups_count_.z == 0) {
@@ -173,12 +154,6 @@ void ComputeTask::EncodeWithEncoder(id<MTLComputeCommandEncoder> encoder) {
       MTLSizeMake(groups_size_.x, groups_size_.y, groups_size_.z);
   [encoder dispatchThreadgroups:groupsCount threadsPerThreadgroup:groupsSize];
 }
-
-std::vector<ValueId> ComputeTask::GetOutputIds() const {
-  return output_buffers_;
-}
-
-std::vector<ValueId> ComputeTask::GetInputIds() const { return input_buffers_; }
 
 void ComputeTask::SetSrcTensor(const MetalSpatialTensor& tensor, int index) {
   auto status =

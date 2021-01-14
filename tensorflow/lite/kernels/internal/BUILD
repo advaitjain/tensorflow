@@ -187,6 +187,13 @@ config_setting(
 )
 
 config_setting(
+    name = "darwin_arm64",
+    values = {
+        "cpu": "darwin_arm64",
+    },
+)
+
+config_setting(
     name = "freebsd",
     values = {
         "cpu": "freebsd",
@@ -452,6 +459,7 @@ cc_library(
         "reference/comparisons.h",
         "reference/concatenation.h",
         "reference/conv.h",
+        "reference/conv3d.h",
         "reference/densify.h",
         "reference/depth_to_space.h",
         "reference/depthwiseconv_float.h",
@@ -565,6 +573,7 @@ cc_library(
         "reference/comparisons.h",
         "reference/concatenation.h",
         "reference/conv.h",
+        "reference/conv3d.h",
         "reference/densify.h",
         "reference/depth_to_space.h",
         "reference/depthwiseconv_float.h",
@@ -808,6 +817,7 @@ cc_library(
             ":ios_armv7",
             ":ios_arm64",
             ":ios_arm64e",
+            ":darwin_arm64",
             ":raspberry_pi_with_neon",
         ): [":neon_tensor_utils"],
         (
