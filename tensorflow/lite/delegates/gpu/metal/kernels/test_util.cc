@@ -166,12 +166,6 @@ absl::Status CompareVectors(const std::vector<float>& reference,
   return absl::OkStatus();
 }
 
-MetalExecutionEnvironment::MetalExecutionEnvironment() {
-  device_ = MTLCreateSystemDefaultDevice();
-  std::string device_name = std::string([[device_ name] UTF8String]);
-  GetGpuInfoFromDeviceDescription(device_name, GpuApi::kMetal, &gpu_info_);
-}
-
 std::vector<CalculationsPrecision>
 MetalExecutionEnvironment::GetSupportedPrecisions() const {
   return {CalculationsPrecision::F32, CalculationsPrecision::F32_F16,
@@ -203,8 +197,8 @@ absl::Status MetalExecutionEnvironment::ExecuteGPUOperation(
       return absl::InvalidArgumentError(
           "Layout doesn't have Batch dimension, but shape.b != 1");
     }
-    RETURN_IF_ERROR(
-        CreateTensor(device_, src_shape, op_def.src_tensors[i], &src[i]));
+    RETURN_IF_ERROR(CreateTensor(device_.device(), src_shape,
+                                 op_def.src_tensors[i], &src[i]));
     RETURN_IF_ERROR(src[i].WriteData(src_cpu[i]));
   }
 
@@ -215,32 +209,28 @@ absl::Status MetalExecutionEnvironment::ExecuteGPUOperation(
       return absl::InvalidArgumentError(
           "Layout doesn't have Batch dimension, but shape.b != 1");
     }
-    RETURN_IF_ERROR(
-        CreateTensor(device_, dst_shape, op_def.dst_tensors[i], &dst[i]));
+    RETURN_IF_ERROR(CreateTensor(device_.device(), dst_shape,
+                                 op_def.dst_tensors[i], &dst[i]));
   }
 
   std::vector<BHWC> src_shapes;
   std::vector<BHWC> dst_shapes;
-  NodeDescriptor metal_node;
-  metal_node.task = std::move(operation);
-  metal_node.src_tensors_ids.resize(src_cpu.size());
+  std::vector<ValueId> src_ids;
+  std::vector<ValueId> dst_ids;
   for (int i = 0; i < src_cpu.size(); ++i) {
-    metal_node.src_tensors_ids[i] = i;
+    src_ids.push_back(i);
     src_shapes.push_back(src_cpu[i].shape);
   }
-  metal_node.dst_tensors_ids.resize(dst_cpu.size());
   for (int i = 0; i < dst_cpu.size(); ++i) {
-    metal_node.dst_tensors_ids[i] = src_cpu.size() + i;
+    dst_ids.push_back(src_cpu.size() + i);
     dst_shapes.push_back(dst_sizes[i]);
   }
-  metal_node.description = "test_op";
-  metal_node.id = 0;
 
   ComputeTask gpu_task;
+  gpu_task.Init(std::move(operation), src_ids, dst_ids);
+  RETURN_IF_ERROR(gpu_task.Compile(op_def.precision, &device_));
   RETURN_IF_ERROR(
-      gpu_task.CompileWithDevice(device_, metal_node, op_def.precision));
-  RETURN_IF_ERROR(
-      gpu_task.UpdateParamsWithDevice(device_, src_shapes, dst_shapes));
+      gpu_task.UpdateParams(device_.GetInfo(), src_shapes, dst_shapes));
   for (int i = 0; i < src_cpu.size(); ++i) {
     gpu_task.SetSrcTensor(src[i], i);
   }
@@ -248,7 +238,7 @@ absl::Status MetalExecutionEnvironment::ExecuteGPUOperation(
     gpu_task.SetDstTensor(dst[i], i);
   }
 
-  id<MTLCommandQueue> command_queue = [device_ newCommandQueue];
+  id<MTLCommandQueue> command_queue = [device_.device() newCommandQueue];
   id<MTLCommandBuffer> command_buffer = [command_queue commandBuffer];
   id<MTLComputeCommandEncoder> encoder = [command_buffer computeCommandEncoder];
   gpu_task.EncodeWithEncoder(encoder);

@@ -30,6 +30,7 @@ limitations under the License.
 #include "tensorflow/lite/delegates/gpu/metal/common.h"
 #include "tensorflow/lite/delegates/gpu/metal/compute_task_descriptor.h"
 #include "tensorflow/lite/delegates/gpu/metal/metal_arguments.h"
+#include "tensorflow/lite/delegates/gpu/metal/metal_device.h"
 #include "tensorflow/lite/delegates/gpu/metal/metal_spatial_tensor.h"
 
 namespace tflite {
@@ -46,15 +47,20 @@ class ComputeTask {
   ComputeTask(const ComputeTask&) = delete;
   ComputeTask& operator=(const ComputeTask&) = delete;
 
+  void Init(std::unique_ptr<ComputeTaskDescriptor>&& task_desc,
+            const std::vector<ValueId>& input_ids,
+            const std::vector<ValueId>& output_ids);
+
+  ComputeTaskDescriptor& GetTaskDesc() { return *task_desc_; }
+  const ComputeTaskDescriptor& GetTaskDesc() const { return *task_desc_; }
+
   /// Returns empty string or error if shader can't be compiled.
-  absl::Status CompileWithDevice(id<MTLDevice> device,
-                                 const NodeDescriptor& desc,
-                                 CalculationsPrecision precision);
+  absl::Status Compile(CalculationsPrecision precision, MetalDevice* device);
 
   /// Updates parameters for inputs/outputs/intermediate tensors
-  absl::Status UpdateParamsWithDevice(id<MTLDevice> device,
-                                      const std::vector<BHWC>& src_shapes,
-                                      const std::vector<BHWC>& dst_shapes);
+  absl::Status UpdateParams(const GpuInfo& gpu_info,
+                            const std::vector<BHWC>& src_shapes,
+                            const std::vector<BHWC>& dst_shapes);
 
   bool HasInOutIds(const std::set<ValueId>& ids) const;
 
@@ -67,20 +73,14 @@ class ComputeTask {
 
   void SetDstTensor(const MetalSpatialTensor& tensor, int index);
 
-  void SetDescription(const std::string& description);
-
  private:
+  std::unique_ptr<ComputeTaskDescriptor> task_desc_;
   id<MTLComputePipelineState> program_;
+  MetalArguments metal_args_;
   std::vector<ValueId> input_buffers_;
   std::vector<ValueId> output_buffers_;
   uint3 groups_size_;
   uint3 groups_count_;
-  UpdateArgsFunction update_function_;
-  DispatchParamsFunction resize_function_;
-  std::string description_;
-  MetalArguments metal_args_;
-  std::vector<std::string> src_tensors_names_;
-  std::vector<std::string> dst_tensors_names_;
 };
 
 }  // namespace metal

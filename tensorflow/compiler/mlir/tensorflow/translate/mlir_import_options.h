@@ -1,4 +1,4 @@
-/* Copyright 2015 The TensorFlow Authors. All Rights Reserved.
+/* Copyright 2021 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,26 +13,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#ifndef TENSORFLOW_CORE_PLATFORM_DEFAULT_INTEGRAL_TYPES_H_
-#define TENSORFLOW_CORE_PLATFORM_DEFAULT_INTEGRAL_TYPES_H_
-
-#include <cstdint>
-
-// IWYU pragma: private, include "third_party/tensorflow/core/platform/types.h"
-// IWYU pragma: friend third_party/tensorflow/core/platform/types.h
+#ifndef TENSORFLOW_COMPILER_MLIR_TENSORFLOW_TRANSLATE_MLIR_IMPORT_OPTIONS_H_
+#define TENSORFLOW_COMPILER_MLIR_TENSORFLOW_TRANSLATE_MLIR_IMPORT_OPTIONS_H_
 
 namespace tensorflow {
 
-typedef signed char int8;
-typedef short int16;
-typedef int int32;
-typedef std::int64_t int64;
+struct MLIRImportOptions {
+  // If true, functionalize the input graph before importing it into MLIR.
+  bool upgrade_legacy = false;
 
-typedef unsigned char uint8;
-typedef unsigned short uint16;
-typedef unsigned int uint32;
-typedef std::uint64_t uint64;
+  // If true, run grappler over the input graph before importing it into MLIR.
+  bool enable_grappler = false;
+};
 
 }  // namespace tensorflow
 
-#endif  // TENSORFLOW_CORE_PLATFORM_DEFAULT_INTEGRAL_TYPES_H_
+#endif  // TENSORFLOW_COMPILER_MLIR_TENSORFLOW_TRANSLATE_MLIR_IMPORT_OPTIONS_H_
