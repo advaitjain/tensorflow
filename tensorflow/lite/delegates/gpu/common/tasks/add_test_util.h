@@ -12,14 +12,25 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
-#include "third_party/eigen3/unsupported/Eigen/CXX11/Tensor"
-#include "tensorflow/core/kernels/mlir_generated/gpu_ops_base.h"
 
-namespace tensorflow {
+#ifndef TENSORFLOW_LITE_DELEGATES_GPU_COMMON_TASKS_ADD_TEST_UTIL_H_
+#define TENSORFLOW_LITE_DELEGATES_GPU_COMMON_TASKS_ADD_TEST_UTIL_H_
 
-GENERATE_AND_REGISTER_BINARY_KERNEL(Pow, f16, DT_HALF, Eigen::half);
-GENERATE_AND_REGISTER_BINARY_KERNEL(Pow, f32, DT_FLOAT, float);
-GENERATE_AND_REGISTER_BINARY_KERNEL(Pow, f64, DT_DOUBLE, double);
-GENERATE_AND_REGISTER_BINARY_KERNEL(Pow, i64, DT_INT64, int64);
+#include "tensorflow/lite/delegates/gpu/common/status.h"
+#include "tensorflow/lite/delegates/gpu/common/task/testing_util.h"
 
-}  // namespace tensorflow
+namespace tflite {
+namespace gpu {
+
+absl::Status AddTwoEqualTensorsTest(TestExecutionEnvironment* env);
+
+absl::Status AddFirstTensorHasMoreChannelsThanSecondTest(
+    TestExecutionEnvironment* env);
+
+absl::Status AddFirstTensorHasLessChannelsThanSecond(
+    TestExecutionEnvironment* env);
+
+}  // namespace gpu
+}  // namespace tflite
+
+#endif  // TENSORFLOW_LITE_DELEGATES_GPU_COMMON_TASKS_ADD_TEST_UTIL_H_
