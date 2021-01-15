@@ -469,6 +469,25 @@ GENERATE_DEFAULT_TESTS(BitwiseXor,
 GENERATE_DEFAULT_TESTS(BitwiseXor,
                        /*test_name=*/Int64, int64, int64, baseline_bitwise_xor)
 
+/// Test `tf.Complex`.
+
+template <typename T>
+std::complex<T> baseline_complex(T lhs, T rhs) {
+  return std::complex<T>(lhs, rhs);
+}
+
+GENERATE_DEFAULT_TESTS_2(
+    Complex,
+    /*test_name=*/C64, float, float, std::complex<float>, std::complex<float>,
+    test::DefaultInput<float>(), test::DefaultInput<float>(), baseline_complex,
+    test::GpuOpsTestConfig().ExpectStrictlyEqual().AddTout())
+GENERATE_DEFAULT_TESTS_2(
+    Complex,
+    /*test_name=*/C128, double, double, std::complex<double>,
+    std::complex<double>, test::DefaultInput<double>(),
+    test::DefaultInput<double>(), baseline_complex,
+    test::GpuOpsTestConfig().ExpectStrictlyEqual().AddTout())
+
 /// Test `tf.Div`.
 
 template <typename T>
@@ -693,6 +712,22 @@ GENERATE_DEFAULT_TESTS(NotEqual, /*test_name=*/Int16, int16, bool,
 GENERATE_DEFAULT_TESTS(NotEqual, /*test_name=*/Int64, int64, bool,
                        baseline_not_equal)
 
+/// Test `tf.RealDiv`.
+
+GENERATE_DEFAULT_TESTS_WITH_SPECIFIC_INPUT_VALUES(
+    RealDiv,
+    /*test_name=*/Half, Eigen::half, Eigen::half,
+    test::DefaultInput<Eigen::half>(), test::DefaultInputNonZero<Eigen::half>(),
+    baseline_div);
+GENERATE_DEFAULT_TESTS_WITH_SPECIFIC_INPUT_VALUES(
+    RealDiv,
+    /*test_name=*/Float, float, float, test::DefaultInput<float>(),
+    test::DefaultInputNonZero<float>(), baseline_div);
+GENERATE_DEFAULT_TESTS_WITH_SPECIFIC_INPUT_VALUES(
+    RealDiv,
+    /*test_name=*/Double, double, double, test::DefaultInput<double>(),
+    test::DefaultInputNonZero<double>(), baseline_div);
+
 /// Test `tf.RightShift`.
 
 template <typename T>
@@ -733,6 +768,17 @@ GENERATE_DEFAULT_TESTS(Sub,
                        /*test_name=*/Double, double, double, baseline_sub)
 GENERATE_DEFAULT_TESTS(Sub,
                        /*test_name=*/Int64, int64, int64, baseline_sub)
+
+/// Test `tf.TruncateDiv`.
+
+GENERATE_DEFAULT_TESTS_WITH_SPECIFIC_INPUT_VALUES(
+    TruncateDiv,
+    /*test_name=*/Int16, int16, int16, test::DefaultInput<int16>(),
+    test::DefaultInputNonZero<int16>(), baseline_div);
+GENERATE_DEFAULT_TESTS_WITH_SPECIFIC_INPUT_VALUES(
+    TruncateDiv,
+    /*test_name=*/Int64, int64, int64, test::DefaultInput<int64>(),
+    test::DefaultInputNonZero<int64>(), baseline_div);
 
 }  // namespace
 }  // end namespace tensorflow
