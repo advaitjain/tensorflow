@@ -13,12 +13,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
+#include <complex>
+
 #include "third_party/eigen3/unsupported/Eigen/CXX11/Tensor"
 #include "tensorflow/core/kernels/mlir_generated/gpu_ops_base.h"
 
 namespace tensorflow {
 
-GENERATE_AND_REGISTER_UNARY_KERNEL(Asinh, f32, DT_FLOAT, float);
-GENERATE_AND_REGISTER_UNARY_KERNEL(Asinh, f64, DT_DOUBLE, double);
+GENERATE_UNARY_KERNEL2(IsNan, f16, DT_BOOL, bool, Eigen::half);
+REGISTER_KERNEL(IsNan, f16, Eigen::half);
+GENERATE_UNARY_KERNEL2(IsNan, f32, DT_BOOL, bool, float);
+REGISTER_KERNEL(IsNan, f32, float);
+GENERATE_UNARY_KERNEL2(IsNan, f64, DT_BOOL, bool, double);
+REGISTER_KERNEL(IsNan, f64, double);
 
 }  // namespace tensorflow
