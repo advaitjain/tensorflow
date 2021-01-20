@@ -2672,6 +2672,7 @@ cuda_py_test(
     srcs_version = "PY2AND3",
     tags = [
         "manual",
+        "no_cuda_asan",  # b/177916286
         "no_pip",
         "nomac",
     ],
@@ -5195,11 +5196,12 @@ py_library(
 pywrap_tensorflow_macro(
     name = "pywrap_tensorflow_internal",
     srcs = ["pywrap_tensorflow_internal.cc"],
-    # add win_def_file for pywrap_tensorflow
+    # copybara:comment_begin(OSS Windows only: DEF file for exported symbols)
     win_def_file = select({
         "//tensorflow:windows": ":pywrap_tensorflow_filtered_def_file",
         "//conditions:default": None,
     }),
+    # copybara:comment_end
     deps = [
         ":bfloat16_lib",
         ":cost_analyzer_lib",

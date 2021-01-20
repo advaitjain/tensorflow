@@ -136,6 +136,7 @@ absl::Status InferenceContext::InitFromGraph(
   RETURN_IF_ERROR(AllocateTensors(&metal_device));
   BindTensorsToOperations();
   RETURN_IF_ERROR(UpdateParams(metal_device.GetInfo()));
+  RETURN_IF_ERROR(Tune(TuningType::kFast, &metal_device));
   return absl::OkStatus();
 }
 
@@ -228,7 +229,11 @@ absl::Status InferenceContext::Compile(const GraphFloat32& graph,
     }
     for (auto& gpu_op : gpu_subgraph.operations) {
       MetalNode metal_node;
-      metal_node.task.Init(std::move(gpu_op.operation));
+      if (gpu_op.task_desc) {
+        metal_node.task.Init(std::move(gpu_op.task_desc));
+      } else {
+        metal_node.task.Init(std::move(gpu_op.operation));
+      }
       metal_node.inputs.resize(gpu_op.input_ids.size());
       for (int j = 0; j < gpu_op.input_ids.size(); ++j) {
         int id = gpu_op.input_ids[j];
@@ -460,6 +465,14 @@ absl::Status InferenceContext::AllocateMemoryForBuffers(MetalDevice* device) {
           shared_buffers_[buffer_index], shape, descriptor);
       created_tensors[tensor_index] = true;
     }
+  }
+  return absl::OkStatus();
+}
+
+absl::Status InferenceContext::Tune(TuningType tuning_type,
+                                    MetalDevice* device) {
+  for (auto& node : nodes_) {
+    RETURN_IF_ERROR(node.task.Tune(tuning_type, device));
   }
   return absl::OkStatus();
 }
