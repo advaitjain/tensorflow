@@ -54,6 +54,9 @@ def plot_latency_history(init_cycle_list, single_invoke_cycle_list, last_date):
                       hspace=0.1)
 
 
+  min_observed_latency =
+
+
 if __name__ == '__main__':
 
   parser = argparse.ArgumentParser()

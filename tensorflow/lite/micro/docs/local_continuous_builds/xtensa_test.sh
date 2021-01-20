@@ -84,6 +84,13 @@ function run_xtensa_build() {
 
   # Save a plot showing the evolution of the latency.
   python3 ${SCRIPT_DIR}/plot_latency.py ${LATENCY_LOG} --output_plot ${SCRIPT_DIR}/${TARGET_ARCH}_latency_history.png --hide
+  LATENCY_RESULT=$?
+  if [[ ${LATENCY_RESULT} != 0 ]]
+  then
+    /bin/cp ${SCRIPT_DIR}/TFLM-Xtensa-failed.svg ${KEYWORD_LATENCY_BADGE}
+    return ${LATENCY_RESULT}
+  fi
+
 
   # Build was successful.
   /bin/cp ${SCRIPT_DIR}/TFLM-Xtensa-passing.svg ${KEYWORD_BUILD_BADGE}
