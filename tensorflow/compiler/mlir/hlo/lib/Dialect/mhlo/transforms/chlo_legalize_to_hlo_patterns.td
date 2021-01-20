@@ -60,6 +60,58 @@ def : Pat<(HLOClient_AcosOp NonComplexElementType:$input),
     (HLO_ConstantLike<"M_PI"> $input)
   )>;
 
+// Expand acosh to MHLO dialect as follows:
+//   acosh(x) = log(x + sqrt(x^2 - 1))      if x >= -1
+//            = log(x + sqrt((x+1)*(x-1)))
+//   acosh(x) = nan                         if x < -1
+//
+// If x^2 will overflow, we approximate sqrt(x^2 - 1) == x and compute as
+// log(2*x) = log(2) + log(x).  (Note this works because negative x never
+// overflows; x < -1 simply yields nan.
+def : Pat<(HLOClient_AcoshOp NonComplexElementType:$input),
+  (HLO_SelectOp
+    (HLO_CompareOp
+      $input,
+      (HLO_ConstantLike<"-1"> $input),
+      HLO_COMPARISON_DIRECTION_LT,
+      (HLO_DEFAULT_COMPARISON_TYPE)
+    ),
+    (HLO_ConstantLike<"NAN"> $input),
+    (HLO_SelectOp
+      (HLO_CompareOp
+        $input,
+        (HLO_SqrtOp
+          (HLO_ConstantLikeMaxFiniteValue $input)
+        ),
+        HLO_COMPARISON_DIRECTION_GE,
+        (HLO_DEFAULT_COMPARISON_TYPE)
+      ),
+      (HLO_AddOp
+        (HLO_LogOp $input),
+        (HLO_LogOp
+          (HLO_ConstantLike<"2"> $input)
+        )
+      ),
+      (HLO_LogOp
+        (HLO_AddOp
+          $input,
+          (HLO_SqrtOp
+            (HLO_MulOp
+              (HLO_AddOp
+                (HLO_ConstantLike<"1"> $input),
+                $input
+              ),
+              (HLO_AddOp
+                (HLO_ConstantLike<"-1"> $input),
+                $input
+              )
+            )
+          )
+        )
+      )
+    )
+  )>;
+
 // Expand asin to MHLO dialect as follows:
 //   asin(x) = 2 * atan(x / (1 + sqrt(1 - x^2)))
 def : Pat<(HLOClient_AsinOp NonComplexElementType:$input),
@@ -73,6 +125,94 @@ def : Pat<(HLOClient_AsinOp NonComplexElementType:$input),
           (HLO_SubOp
             (HLO_ConstantLike<"1"> $input),
             (HLO_MulOp $input, $input)
+          )
+        )
+      )
+    )
+  )>;
+
+// Expand asinh to MHLO dialect as
+//   asinh(x) = log(x + sqrt(x^2 + 1))
+//
+// If x^2 will overflow and x is positive, we can approximate x + sqrt(x^2 + 1)
+// as 2*x and return log(2) + log(x).
+//
+// For small x, sqrt(x^2 + 1) will evaluate to 1 due to floating point
+// arithmetic. However, we would like to retain the low order term of this,
+// which is around 0.5 * x^2 using a binomial expansion.
+// Let z = sqrt(a^2 + 1)
+// The following rewrite retains the lower order term.
+// log(a + sqrt(a^2 + 1))
+//   = log((a + sqrt(a^2 + 1)) * (1 + sqrt(a^2 + 1)) / (1 + sqrt(a^2 + 1)))
+//   = log((a + a^2 + 1 + a * z + z) / (1 + z))
+//   = log(1 + a + a^2 / (1 + z))
+//   = log(1 + a + a^2 / (1 + sqrt(a^2 + 1)))
+//
+// If x is negative, the above would give us some trouble; we can't approximate
+// the result as x + abs(x) = 0 but we are saved by the fact that asinh(-x) =
+// -asinh(x).
+def : Pat<(HLOClient_AsinhOp NonComplexElementType:$input),
+  (HLO_MulOp
+    (HLO_SignOp $input),
+    (HLO_SelectOp
+      (HLO_CompareOp
+        (HLO_AbsOp $input),
+        (HLO_SqrtOp
+          (HLO_ConstantLikeMaxFiniteValue $input)
+        ),
+        HLO_COMPARISON_DIRECTION_GE,
+        (HLO_DEFAULT_COMPARISON_TYPE)
+      ),
+      (HLO_AddOp
+        (HLO_LogOp
+          (HLO_AbsOp $input)
+        ),
+        (HLO_LogOp
+          (HLO_ConstantLike<"2"> $input)
+        )
+      ),
+      (HLO_SelectOp
+        (HLO_CompareOp
+          (HLO_AbsOp $input),
+          (HLO_ConstantLike<"1"> $input),
+          HLO_COMPARISON_DIRECTION_LE,
+          (HLO_DEFAULT_COMPARISON_TYPE)
+        ),
+        (HLO_Log1pOp
+          (HLO_AddOp
+            (HLO_AbsOp $input),
+            (HLO_MulOp
+              (HLO_AbsOp $input),
+              (HLO_DivOp
+                (HLO_AbsOp $input),
+                (HLO_AddOp
+                  (HLO_ConstantLike<"1"> $input),
+                  (HLO_SqrtOp
+                    (HLO_AddOp
+                      (HLO_MulOp
+                        (HLO_AbsOp $input),
+                        (HLO_AbsOp $input)
+                      ),
+                      (HLO_ConstantLike<"1"> $input)
+                    )
+                  )
+                )
+              )
+            )
+          )
+        ),
+        (HLO_LogOp
+          (HLO_AddOp
+            (HLO_AbsOp $input),
+            (HLO_SqrtOp
+              (HLO_AddOp
+                (HLO_MulOp
+                  (HLO_AbsOp $input),
+                  (HLO_AbsOp $input)
+                ),
+                (HLO_ConstantLike<"1"> $input)
+              )
+            )
           )
         )
       )

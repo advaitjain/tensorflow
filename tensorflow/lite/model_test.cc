@@ -14,18 +14,32 @@ limitations under the License.
 ==============================================================================*/
 #include "tensorflow/lite/model.h"
 
-#include <fcntl.h>
+#include <stddef.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include <fstream>
-#include <iostream>
+#include <iterator>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include <gtest/gtest.h>
+#include "flatbuffers/flatbuffers.h"  // from @flatbuffers
+#include "tensorflow/lite/allocation.h"
 #include "tensorflow/lite/core/api/error_reporter.h"
+#include "tensorflow/lite/core/api/op_resolver.h"
+#include "tensorflow/lite/core/api/verifier.h"
+#include "tensorflow/lite/interpreter.h"
+#include "tensorflow/lite/interpreter_builder.h"
 #include "tensorflow/lite/interpreter_test_util.h"
 #include "tensorflow/lite/kernels/register.h"
+#include "tensorflow/lite/model_builder.h"
+#include "tensorflow/lite/schema/schema_generated.h"
+#include "tensorflow/lite/string_type.h"
+#include "tensorflow/lite/string_util.h"
 #include "tensorflow/lite/testing/util.h"
 
 // Comparison for TfLiteRegistration. Since TfLiteRegistration is a C object,
@@ -548,6 +562,36 @@ TEST(TestAddDelegateOwnership, AddDelegateDoesNotTakeOwnership) {
   // Only after the delegate itself goes out of scope should the delegate be
   // destroyed.
   EXPECT_TRUE(destroyed);
+}
+
+// The model contains a while loop with a forwarding string input. This test
+// makes sure that the dynamic tensor existence in the while subgraph's outputs
+// is detected. If not, the while loop will be failed at handling the dynamic
+// tensor handling as a static tensor.
+TEST(BasicFlatBufferModel, TestHandleModelWithWhileOpContainsForwardingInput) {
+  const auto model_path =
+      "tensorflow/lite/testdata/while_op_with_forwarding_input.bin";
+
+  std::unique_ptr<tflite::FlatBufferModel> model =
+      FlatBufferModel::BuildFromFile(model_path);
+  ASSERT_NE(model, nullptr);
+
+  tflite::ops::builtin::BuiltinOpResolver resolver;
+  InterpreterBuilder builder(*model, resolver);
+  std::unique_ptr<Interpreter> interpreter;
+  ASSERT_EQ(builder(&interpreter), kTfLiteOk);
+  ASSERT_NE(interpreter, nullptr);
+  ASSERT_EQ(interpreter->AllocateTensors(), kTfLiteOk);
+
+  int32_t* tensor_data = interpreter->typed_tensor<int32_t>(0);
+  tensor_data[0] = 20;
+
+  auto tensor = interpreter->tensor(1);
+  DynamicBuffer buf;
+  buf.AddString("a", 1);
+  buf.WriteToTensor(tensor, /*new_shape=*/nullptr);
+
+  ASSERT_EQ(interpreter->Invoke(), kTfLiteOk);
 }
 
 // TODO(aselle): Add tests for serialization of builtin op data types.

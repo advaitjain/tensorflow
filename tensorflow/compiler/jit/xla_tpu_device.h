@@ -13,8 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#ifndef TENSORFLOW_CORE_TPU_TPU_NODE_DEVICE_H_
-#define TENSORFLOW_CORE_TPU_TPU_NODE_DEVICE_H_
+#ifndef TENSORFLOW_COMPILER_JIT_XLA_TPU_DEVICE_H_
+#define TENSORFLOW_COMPILER_JIT_XLA_TPU_DEVICE_H_
 
 #include "tensorflow/core/common_runtime/device.h"
 #include "tensorflow/core/common_runtime/device_factory.h"
@@ -29,6 +29,8 @@ void RegisterTpuNodeDevice(
     bool tpu_autoclustering, bool tpu_xla_device_failure_closes_chips,
     bool tpu_use_substreams_for_cross_tpu_device_transfers);
 
+void RegisterTpuSystemDevice();
+
 }  // namespace tensorflow
 
-#endif  // TENSORFLOW_CORE_TPU_TPU_NODE_DEVICE_H_
+#endif  // TENSORFLOW_COMPILER_JIT_XLA_TPU_DEVICE_H_

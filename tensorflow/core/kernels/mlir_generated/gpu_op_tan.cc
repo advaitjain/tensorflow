@@ -1,4 +1,4 @@
-/* Copyright 2020 The TensorFlow Authors. All Rights Reserved.
+/* Copyright 2021 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,15 +13,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#ifndef TENSORFLOW_CORE_TPU_TPU_SYSTEM_DEVICE_H_
-#define TENSORFLOW_CORE_TPU_TPU_SYSTEM_DEVICE_H_
+#include "third_party/eigen3/unsupported/Eigen/CXX11/Tensor"
+#include "tensorflow/core/kernels/mlir_generated/gpu_ops_base.h"
 
 namespace tensorflow {
-namespace tpu {
 
-void RegisterTpuSystemDevice();
+GENERATE_AND_REGISTER_UNARY_KERNEL(Tan, f16, DT_HALF, Eigen::half);
+GENERATE_AND_REGISTER_UNARY_KERNEL(Tan, f32, DT_FLOAT, float);
+GENERATE_AND_REGISTER_UNARY_KERNEL(Tan, f64, DT_DOUBLE, double);
 
-}  // namespace tpu
 }  // namespace tensorflow
-
-#endif  // TENSORFLOW_CORE_TPU_TPU_SYSTEM_DEVICE_H_
