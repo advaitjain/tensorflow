@@ -1,4 +1,4 @@
-/* Copyright 2019 The TensorFlow Authors. All Rights Reserved.
+/* Copyright 2021 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,26 +13,34 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#ifndef TENSORFLOW_LITE_DELEGATES_GPU_METAL_KERNELS_CONCAT_H_
-#define TENSORFLOW_LITE_DELEGATES_GPU_METAL_KERNELS_CONCAT_H_
+#import <XCTest/XCTest.h>
 
+#include <string>
 #include <vector>
 
-#include "tensorflow/lite/delegates/gpu/common/model.h"
 #include "tensorflow/lite/delegates/gpu/common/operations.h"
 #include "tensorflow/lite/delegates/gpu/common/shape.h"
+#include "tensorflow/lite/delegates/gpu/common/status.h"
+#include "tensorflow/lite/delegates/gpu/common/tasks/lstm_test_util.h"
+#include "tensorflow/lite/delegates/gpu/common/tensor.h"
+#include "tensorflow/lite/delegates/gpu/common/util.h"
 #include "tensorflow/lite/delegates/gpu/metal/compute_task_descriptor.h"
+#include "tensorflow/lite/delegates/gpu/metal/kernels/test_util.h"
 
-namespace tflite {
-namespace gpu {
-namespace metal {
+@interface LSTMMetalTest : XCTestCase
+@end
 
-ComputeTaskDescriptor Concat(const OperationDef& definition,
-                             const ConcatAttributes& attr,
-                             const std::vector<BHWC>& input_shapes);
+@implementation LSTMMetalTest {
+  tflite::gpu::metal::MetalExecutionEnvironment exec_env_;
+}
 
-}  // namespace metal
-}  // namespace gpu
-}  // namespace tflite
+- (void)setUp {
+  [super setUp];
+}
 
-#endif  // TENSORFLOW_LITE_DELEGATES_GPU_METAL_KERNELS_CONCAT_H_
+- (void)testLSTM {
+  auto status = LstmTest(&exec_env_);
+  XCTAssertTrue(status.ok(), @"%s", std::string(status.message()).c_str());
+}
+
+@end

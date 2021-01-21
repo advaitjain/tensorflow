@@ -25,14 +25,16 @@ limitations under the License.
 #include "tensorflow/lite/delegates/gpu/common/status.h"
 #include "tensorflow/lite/delegates/gpu/common/task/tensor_desc.h"
 #include "tensorflow/lite/delegates/gpu/common/tasks/add.h"
+#include "tensorflow/lite/delegates/gpu/common/tasks/concat_xy.h"
+#include "tensorflow/lite/delegates/gpu/common/tasks/concat_z.h"
 #include "tensorflow/lite/delegates/gpu/common/tasks/elementwise.h"
 #include "tensorflow/lite/delegates/gpu/common/tasks/prelu.h"
 #include "tensorflow/lite/delegates/gpu/common/tasks/quantize_and_dequantize.h"
 #include "tensorflow/lite/delegates/gpu/common/tasks/relu.h"
+#include "tensorflow/lite/delegates/gpu/common/tasks/transpose.h"
 #include "tensorflow/lite/delegates/gpu/common/util.h"
 #include "tensorflow/lite/delegates/gpu/common/winograd_util.h"
 #include "tensorflow/lite/delegates/gpu/metal/compute_task_descriptor.h"
-#include "tensorflow/lite/delegates/gpu/metal/kernels/concat.h"
 #include "tensorflow/lite/delegates/gpu/metal/kernels/conv.h"
 #include "tensorflow/lite/delegates/gpu/metal/kernels/depthwise_conv.h"
 #include "tensorflow/lite/delegates/gpu/metal/kernels/fully_connected.h"
@@ -66,6 +68,29 @@ std::unique_ptr<ComputeTaskDescriptor> SelectDepthWiseConv(
   } else {
     auto gpu_op = DepthWiseConvolution(op_def, attr);
     return absl::make_unique<ComputeTaskDescriptor>(std::move(gpu_op));
+  }
+}
+
+absl::Status SelectConcat(const ConcatAttributes& attr,
+                          const std::vector<int>& channels,
+                          const OperationDef& op_def, const GpuInfo& gpu_info,
+                          std::unique_ptr<GPUOperation>* ptr) {
+  switch (attr.axis) {
+    case Axis::CHANNELS: {
+      GPUOperation operation = CreateConcatZ(op_def, channels, gpu_info);
+      *ptr = absl::make_unique<GPUOperation>(std::move(operation));
+      return absl::OkStatus();
+    }
+    case Axis::BATCH:
+    case Axis::DEPTH:
+    case Axis::HEIGHT:
+    case Axis::WIDTH: {
+      GPUOperation operation = CreateConcatXY(op_def, attr);
+      *ptr = absl::make_unique<GPUOperation>(std::move(operation));
+      return absl::OkStatus();
+    }
+    default:
+      return absl::UnimplementedError("No concat for this axis.");
   }
 }
 
@@ -109,6 +134,13 @@ std::unique_ptr<ComputeTaskDescriptor> SelectSpaceToDepth(
     const OperationDef& op_def, const SpaceToDepthAttributes& attr) {
   auto gpu_op = SpaceToDepth(op_def, attr);
   return absl::make_unique<ComputeTaskDescriptor>(std::move(gpu_op));
+}
+
+void SelectTranspose(const TransposeAttributes& attr,
+                     const OperationDef& op_def,
+                     std::unique_ptr<GPUOperation>* ptr) {
+  GPUOperation operation = CreateTranspose(op_def, attr);
+  *ptr = absl::make_unique<GPUOperation>(std::move(operation));
 }
 
 std::unique_ptr<ComputeTaskDescriptor> SelectWinograd4x4To36(
@@ -262,16 +294,13 @@ absl::Status GPUOperationFromNode(const GpuInfo& gpu_info,
           "No support of ", node.operation.type, " with this parameters"));
     }
     case OperationType::CONCAT: {
-      std::vector<BHWC> input_shapes;
-      for (auto& input : inputs) {
-        input_shapes.push_back(input->tensor.shape);
+      auto attr = absl::any_cast<ConcatAttributes>(node.operation.attributes);
+      std::vector<int> channels(inputs.size());
+      for (int i = 0; i < inputs.size(); ++i) {
+        channels[i] = inputs[i]->tensor.shape.c;
       }
-      auto gpu_op = Concat(
-          op_def, absl::any_cast<ConcatAttributes>(node.operation.attributes),
-          input_shapes);
-      gpu_operation->task_desc =
-          absl::make_unique<ComputeTaskDescriptor>(std::move(gpu_op));
-      break;
+      return SelectConcat(attr, channels, op_def, gpu_info,
+                          &gpu_operation->operation);
     }
     case OperationType::CONVOLUTION_2D: {
       if (inputs.size() != 1) {
@@ -431,6 +460,12 @@ absl::Status GPUOperationFromNode(const GpuInfo& gpu_info,
           op_def,
           absl::any_cast<SpaceToDepthAttributes>(node.operation.attributes));
       break;
+    case OperationType::TRANSPOSE: {
+      auto attr =
+          absl::any_cast<TransposeAttributes>(node.operation.attributes);
+      SelectTranspose(attr, op_def, &gpu_operation->operation);
+      return absl::OkStatus();
+    }
     case OperationType::ABS:
     case OperationType::COPY:
     case OperationType::COS:
@@ -494,7 +529,6 @@ absl::Status GPUOperationFromNode(const GpuInfo& gpu_info,
     case OperationType::REDUCE_PRODUCT:
     case OperationType::REDUCE_SUM:
     case OperationType::SPACE_TO_BATCH:
-    case OperationType::TRANSPOSE:
       return absl::UnimplementedError("Unsupported op: " + node.operation.type);
     default:
       return SelectDefault(gpu_info, op_def, inputs, outputs, node,

@@ -422,6 +422,19 @@ cc_library(
 )
 
 cc_library(
+    name = "padding_test_util",
+    testonly = 1,
+    srcs = ["padding_test_util.cc"],
+    hdrs = ["padding_test_util.h"],
+    deps = [
+        ":padding",
+        "//tensorflow/lite/delegates/gpu/common:operations",
+        "//tensorflow/lite/delegates/gpu/common:status",
+        "//tensorflow/lite/delegates/gpu/common/task:testing_util",
+    ],
+)
+
+cc_library(
     name = "pooling",
     srcs = ["pooling.cc"],
     hdrs = ["pooling.h"],
@@ -561,6 +574,20 @@ cc_library(
 )
 
 cc_library(
+    name = "reshape_test_util",
+    testonly = 1,
+    srcs = ["reshape_test_util.cc"],
+    hdrs = ["reshape_test_util.h"],
+    deps = [
+        ":reshape",
+        ":reshapex4",
+        "//tensorflow/lite/delegates/gpu/common:operations",
+        "//tensorflow/lite/delegates/gpu/common:status",
+        "//tensorflow/lite/delegates/gpu/common/task:testing_util",
+    ],
+)
+
+cc_library(
     name = "resize",
     srcs = ["resize.cc"],
     hdrs = ["resize.h"],
@@ -595,6 +622,19 @@ cc_library(
         "//tensorflow/lite/delegates/gpu/common/task:gpu_operation",
         "//tensorflow/lite/delegates/gpu/common/task:tensor_desc",
         "//tensorflow/lite/delegates/gpu/common/task:util",
+    ],
+)
+
+cc_library(
+    name = "softmax_test_util",
+    testonly = 1,
+    srcs = ["softmax_test_util.cc"],
+    hdrs = ["softmax_test_util.h"],
+    deps = [
+        ":softmax",
+        "//tensorflow/lite/delegates/gpu/common:operations",
+        "//tensorflow/lite/delegates/gpu/common:status",
+        "//tensorflow/lite/delegates/gpu/common/task:testing_util",
     ],
 )
 
