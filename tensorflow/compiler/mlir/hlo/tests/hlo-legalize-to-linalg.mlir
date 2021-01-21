@@ -33,7 +33,7 @@ func @integer_add(%lhs: tensor<2x2xi32>,
 func @complex_add(%lhs: tensor<2x2xcomplex<f32>>,
                   %rhs: tensor<2x2xcomplex<f32>>) -> tensor<2x2xcomplex<f32>> {
   // CHECK: linalg.generic
-  // CHECK: addcf
+  // CHECK: complex.add
   %0 = "mhlo.add"(%lhs, %rhs) : (tensor<2x2xcomplex<f32>>,
       tensor<2x2xcomplex<f32>>) -> tensor<2x2xcomplex<f32>>
   return %0 : tensor<2x2xcomplex<f32>>
@@ -128,7 +128,7 @@ func @integer_sub(%lhs: tensor<2x2xi32>,
 func @complex_sub(%lhs: tensor<2x2xcomplex<f32>>,
                   %rhs: tensor<2x2xcomplex<f32>>) -> tensor<2x2xcomplex<f32>> {
   // CHECK: linalg.generic
-  // CHECK: subcf
+  // CHECK: complex.sub
   %0 = "mhlo.subtract"(%lhs, %rhs) : (tensor<2x2xcomplex<f32>>,
       tensor<2x2xcomplex<f32>>) -> tensor<2x2xcomplex<f32>>
   return %0 : tensor<2x2xcomplex<f32>>
@@ -605,6 +605,19 @@ func @reshape_multiple_collapse
 //   CHECK-DAG: #[[MAP3:.*]] = affine_map<(d0, d1, d2, d3, d4, d5) -> (d4, d5)>
 // CHECK-LABEL: func @reshape_multiple_collapse
 //       CHECK: linalg.tensor_reshape %{{.*}} [#[[MAP0]], #[[MAP1]], #[[MAP2]], #[[MAP3]]]
+
+// -----
+
+// CHECK-LABEL: func @convert_i1_to_f32
+func @convert_i1_to_f32(%input: tensor<2x2xi1>) -> tensor<2x2xf32> {
+  %result = "mhlo.convert"(%input) : (tensor<2x2xi1>) -> tensor<2x2xf32>
+  return %result : tensor<2x2xf32>
+}
+// CHECK: linalg.init_tensor
+// CHECK: linalg.generic
+// CHECK-NEXT: ^bb0(%[[OPERAND_IN:.*]]: i1, %{{.*}}: f32):
+// CHECK-NEXT:   %[[RESULT:.*]] = uitofp %[[OPERAND_IN]] : i1 to f32
+// CHECK-NEXT:   linalg.yield %[[RESULT]] : f32
 
 // -----
 
