@@ -53,7 +53,6 @@ gh-md-toc --insert --no-backup xtensa.md
 * [Keyword benchmark build log](hifimini_build_log) from the most recent run.
 * [Keyword benchmark build status history](hifimini_build_status)
 * [Keyword Benchmark size history](hifimini_size_log)
-* [Keyword Benchmark latency history](hifimini_latency_log)
 
 #### Binary size graph
 ![Size graph](hifimini_size_history.png)
@@ -75,7 +74,6 @@ gh-md-toc --insert --no-backup xtensa.md
 * [Keyword benchmark build log](fusion_f1_build_log) from the most recent run.
 * [Keyword benchmark build status history](fusion_f1_build_status)
 * [Keyword Benchmark size history](fusion_f1_size_log)
-* [Keyword Benchmark latency history](fusion_f1_latency_log)
 
 #### Binary size graph
 ![Size graph](fusion_f1_size_history.png)
@@ -97,7 +95,6 @@ gh-md-toc --insert --no-backup xtensa.md
 * [Keyword benchmark build log](vision_p6_build_log) from the most recent run.
 * [Keyword benchmark build status history](vision_p6_build_status)
 * [Keyword Benchmark size history](vision_p6_size_log)
-* [Keyword Benchmark latency history](vision_p6_latency_log)
 
 #### Binary size graph
 ![Size graph](vision_p6_size_history.png)
