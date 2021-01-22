@@ -60,6 +60,7 @@ filegroup(
         "gpu_op_cos.cc",
         "gpu_op_cosh.cc",
         "gpu_op_erf.cc",
+        "gpu_op_erfc.cc",
         "gpu_op_exp.cc",
         "gpu_op_expm1.cc",
         "gpu_op_floor.cc",
@@ -78,6 +79,7 @@ filegroup(
         "gpu_op_sin.cc",
         "gpu_op_sinh.cc",
         "gpu_op_sqrt.cc",
+        "gpu_op_square.cc",
         "gpu_op_tan.cc",
     ],
     compatible_with = get_compatible_with_cloud(),
@@ -123,6 +125,7 @@ tf_kernel_library(
         # sure that those targets can be built, so it should not hurt to
         # link them in even if they are currently not needed yet.
         ":abs_kernels",
+        ":square_kernels",
         ":acos_kernels",
         ":acosh_kernels",
         ":asin_kernels",
@@ -136,6 +139,7 @@ tf_kernel_library(
         ":cos_kernels",
         ":cosh_kernels",
         ":erf_kernels",
+        ":erfc_kernels",
         ":exp_kernels",
         ":expm1_kernels",
         ":floor_kernels",
@@ -429,6 +433,17 @@ gen_kernel_library(
 )
 
 gen_kernel_library(
+    name = "erfc",
+    tile_size = "256",
+    types = [
+        "f16",
+        "f32",
+        "f64",
+    ],
+    unroll_factors = "4",
+)
+
+gen_kernel_library(
     name = "imag",
     tile_size = "256",
     types = [
@@ -501,6 +516,7 @@ gen_kernel_library(
         unroll_factors = "4",
     )
     for name in [
+        "square",
         "add_v2",
         "sub",
     ]
