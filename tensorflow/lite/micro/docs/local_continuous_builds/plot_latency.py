@@ -71,7 +71,9 @@ if __name__ == '__main__':
 
   args = parser.parse_args()
 
-  plot_latency_history(*parse_log(args.input_log))
+  init_cycle_list, single_invoke_cycle_list, last_date = parse_log(args.input_log)
+
+  plot_latency_history(init_cycle_list, single_invoke_cycle_list, last_date)
 
   if args.output_plot:
     plt.savefig(args.output_plot)
