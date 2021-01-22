@@ -91,7 +91,6 @@ function run_xtensa_build() {
     return ${LATENCY_RESULT}
   fi
 
-
   # Build was successful.
   /bin/cp ${SCRIPT_DIR}/TFLM-Xtensa-passing.svg ${KEYWORD_BUILD_BADGE}
   echo `date` ${HEAD_SHA} ${BUILD_RESULT} >> ${BUILD_STATUS_LOG}

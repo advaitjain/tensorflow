@@ -1,6 +1,7 @@
 import argparse
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
 
 
 def parse_log(log_name):
@@ -43,31 +44,30 @@ def plot_latency_history(init_cycle_list, single_invoke_cycle_list, last_date):
 
   axs[0, 1].set_title('Invoke latency')
   axs[0, 1].plot(single_invoke_cycle_list, 'o-')
-  axs[1, 1].plot(np.concatenate(([0], np.diff(single_invoke_cycle_list))),
-                 'o-')
+  axs[1, 1].plot(np.concatenate(([0], np.diff(single_invoke_cycle_list))), 'o-')
 
-  plt.subplots_adjust(left=0.12,
-                      bottom=0.05,
-                      right=0.98,
-                      top=0.88,
-                      wspace=0.22,
-                      hspace=0.1)
+  plt.subplots_adjust(
+      left=0.12, bottom=0.05, right=0.98, top=0.88, wspace=0.22, hspace=0.1)
 
 
-  min_observed_latency =
+def check_latency_regression(single_invoke_cycle_list):
+  window_size = min(len(single_invoke_cycle_list), 20)
+  if single_invoke_cycle_list[-1] > np.min(single_invoke_cycle_list[-window_size:]):
+    sys.exit(1)
 
 
 if __name__ == '__main__':
 
   parser = argparse.ArgumentParser()
-  parser.add_argument('input_log',
-                      help='Path to the size log file (e.g. ~/size_log')
+  parser.add_argument(
+      'input_log', help='Path to the size log file (e.g. ~/size_log')
   parser.add_argument(
       '--output_plot',
       help='Path to optionally save plot to (e.g. /tmp/size.png)')
-  parser.add_argument('--hide',
-                      action='store_true',
-                      help='Do NOT show the plot in a matplotlib window.')
+  parser.add_argument(
+      '--hide',
+      action='store_true',
+      help='Do NOT show the plot in a matplotlib window.')
 
   args = parser.parse_args()
 
@@ -78,3 +78,5 @@ if __name__ == '__main__':
 
   if not args.hide:
     plt.show()
+
+  check_latency_regression(single_invoke_cycle_list)

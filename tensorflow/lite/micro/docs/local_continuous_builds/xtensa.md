@@ -14,17 +14,14 @@ gh-md-toc --insert --no-backup xtensa.md
          * [Unit tests](#unit-tests)
          * [Keyword Benchmark](#keyword-benchmark)
             * [Binary size graph](#binary-size-graph)
-            * [Latency graph](#latency-graph)
       * [Fusion F1](#fusion-f1)
          * [Unit tests](#unit-tests-1)
          * [Keyword Benchmark](#keyword-benchmark-1)
             * [Binary size graph](#binary-size-graph-1)
-            * [Latency graph](#latency-graph-1)
       * [Vision P6](#vision-p6)
          * [Unit tests](#unit-tests-2)
          * [Keyword Benchmark](#keyword-benchmark-2)
             * [Binary size graph](#binary-size-graph-2)
-            * [Latency graph](#latency-graph-2)
 
 <!-- Added by: advaitjain, at: Wed 16 Dec 2020 04:38:35 PM PST -->
 
@@ -61,8 +58,10 @@ gh-md-toc --insert --no-backup xtensa.md
 #### Binary size graph
 ![Size graph](hifimini_size_history.png)
 
+<!--
 #### Latency graph
 ![Latency graph](hifimini_latency_history.png)
+-->
 
 ## Fusion F1
 
@@ -81,8 +80,10 @@ gh-md-toc --insert --no-backup xtensa.md
 #### Binary size graph
 ![Size graph](fusion_f1_size_history.png)
 
+<!--
 #### Latency graph
 ![Latency graph](fusion_f1_latency_history.png)
+-->
 
 ## Vision P6
 
@@ -101,7 +102,7 @@ gh-md-toc --insert --no-backup xtensa.md
 #### Binary size graph
 ![Size graph](vision_p6_size_history.png)
 
+<!--
 #### Latency graph
 ![Latency graph](vision_p6_latency_history.png)
-
-
+-->
