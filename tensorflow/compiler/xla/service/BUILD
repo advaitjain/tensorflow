@@ -2489,6 +2489,7 @@ cc_library(
         ":hlo",
         ":hlo_evaluator",
         ":pattern_matcher",
+        "//tensorflow/compiler/xla/service:hlo_reachability",
         "@com_google_absl//absl/base",
         "@com_google_absl//absl/types:optional",
     ],
@@ -2923,6 +2924,7 @@ cc_library(
         "//tensorflow/stream_executor/tpu:status_helper",
         "//tensorflow/stream_executor/tpu:tpu_executor_c_api_hdrs",
         "//tensorflow/stream_executor/tpu:tpu_platform_hdr",
+        "//tensorflow/stream_executor/tpu:tpu_platform_id",
         "//tensorflow/stream_executor/tpu:tpu_topology_external",
     ],
     alwayslink = True,  # Contains TPU computation placer registration
