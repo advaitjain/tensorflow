@@ -396,6 +396,19 @@ cc_library(
 )
 
 cc_library(
+    name = "max_unpooling_test_util",
+    testonly = 1,
+    srcs = ["max_unpooling_test_util.cc"],
+    hdrs = ["max_unpooling_test_util.h"],
+    deps = [
+        ":max_unpooling",
+        "//tensorflow/lite/delegates/gpu/common:operations",
+        "//tensorflow/lite/delegates/gpu/common:status",
+        "//tensorflow/lite/delegates/gpu/common/task:testing_util",
+    ],
+)
+
+cc_library(
     name = "mean_stddev_normalization",
     srcs = ["mean_stddev_normalization.cc"],
     hdrs = ["mean_stddev_normalization.h"],
@@ -446,6 +459,19 @@ cc_library(
         "//tensorflow/lite/delegates/gpu/common/task:tensor_desc",
         "//tensorflow/lite/delegates/gpu/common/task:util",
         "//tensorflow/lite/delegates/gpu/common/task:work_group_picking",
+    ],
+)
+
+cc_library(
+    name = "pooling_test_util",
+    testonly = 1,
+    srcs = ["pooling_test_util.cc"],
+    hdrs = ["pooling_test_util.h"],
+    deps = [
+        ":pooling",
+        "//tensorflow/lite/delegates/gpu/common:operations",
+        "//tensorflow/lite/delegates/gpu/common:status",
+        "//tensorflow/lite/delegates/gpu/common/task:testing_util",
     ],
 )
 
