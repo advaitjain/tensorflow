@@ -75,7 +75,12 @@ function run_xtensa_build() {
     return ${BUILD_RESULT}
   fi
 
+  # Build was successful.
+  /bin/cp ${SCRIPT_DIR}/TFLM-Xtensa-passing.svg ${KEYWORD_BUILD_BADGE}
+  echo `date` ${HEAD_SHA} ${BUILD_RESULT} >> ${BUILD_STATUS_LOG}
+
   # Profile the cycles.
+  KEYWORD_LATENCY_BADGE=${SCRIPT_DIR}/xtensa-${TARGET_ARCH}-keyword-latency-status.svg
   LATENCY_LOG=${SCRIPT_DIR}/${TARGET_ARCH}_latency_log
   echo "" >> ${LATENCY_LOG}
   date >> ${LATENCY_LOG}
@@ -91,9 +96,8 @@ function run_xtensa_build() {
     return ${LATENCY_RESULT}
   fi
 
-  # Build was successful.
-  /bin/cp ${SCRIPT_DIR}/TFLM-Xtensa-passing.svg ${KEYWORD_BUILD_BADGE}
-  echo `date` ${HEAD_SHA} ${BUILD_RESULT} >> ${BUILD_STATUS_LOG}
+  # No regression in the latency.
+  /bin/cp ${SCRIPT_DIR}/TFLM-Xtensa-passing.svg ${KEYWORD_LATENCY_BADGE}
 }
 
 # Parameters:

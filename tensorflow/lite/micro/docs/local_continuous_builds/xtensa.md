@@ -33,11 +33,11 @@ gh-md-toc --insert --no-backup xtensa.md
 
 * Table with more granular results
 
-| Architecture |  Keyword benchmark (build) | Unit tests |
-| ---------- |       -------              |  --------  |
-| Hifimini  | [![Status](xtensa-hifimini-keyword-build-status.svg)](hifimini_build_log) | [![Status](xtensa-hifimini-unittests-status.svg)](hifimini_unittest_log) |
-| Fusion F1  | [![Status](xtensa-fusion_f1-keyword-build-status.svg)](fusion_f1_build_log) | [![Status](xtensa-fusion_f1-unittests-status.svg)](fusion_f1_unittest_log) |
-| Vision P6  | [![Status](xtensa-vision_p6-keyword-build-status.svg)](vision_p6_build_log) | [![Status](xtensa-vision_p6-unittests-status.svg)](vision_p6_unittest_log) |
+| Architecture |  Keyword (build) | Keyword (metrics) | Unit tests |
+| ---------- |       -------      |     ------        |  --------  |
+| Hifimini  | [![Status](xtensa-hifimini-keyword-build-status.svg)](hifimini_build_log) | [![Status](xtensa-hifimini-keyword-latency-status.svg)](hifimini_latency_log) | [![Status](xtensa-hifimini-unittests-status.svg)](hifimini_unittest_log) |
+| Fusion F1  | [![Status](xtensa-fusion_f1-keyword-build-status.svg)](fusion_f1_build_log) | [![Status](xtensa-fusion_f1-keyword-latency-status.svg)](fusion_f1_latency_log) | [![Status](xtensa-fusion_f1-unittests-status.svg)](fusion_f1_unittest_log) |
+| Vision P6  | [![Status](xtensa-vision_p6-keyword-build-status.svg)](vision_p6_build_log) | [![Status](xtensa-vision_p6-keyword-latency-status.svg)](vision_p6_latency_log) | [![Status](xtensa-vision_p6-unittests-status.svg)](vision_p6_unittest_log) |
 
 
 # Detailed Results
