@@ -41,6 +41,7 @@ filegroup(
         "gpu_op_abs.cc",
         "gpu_op_atan.cc",
         "gpu_op_atanh.cc",
+        "gpu_op_ceil.cc",
         "gpu_op_cos.cc",
         "gpu_op_cosh.cc",
         "gpu_op_sqrt.cc",
@@ -58,7 +59,6 @@ filegroup(
         "gpu_op_acosh.cc",
         "gpu_op_asin.cc",
         "gpu_op_asinh.cc",
-        "gpu_op_ceil.cc",
         "gpu_op_complex.cc",
         "gpu_op_complex_abs.cc",
         "gpu_op_conj.cc",
@@ -72,6 +72,7 @@ filegroup(
         "gpu_op_is_finite.cc",
         "gpu_op_is_inf.cc",
         "gpu_op_is_nan.cc",
+        "gpu_op_lgamma.cc",
         "gpu_op_log.cc",
         "gpu_op_log1p.cc",
         "gpu_op_logical_not.cc",
@@ -148,6 +149,7 @@ tf_kernel_library(
         ":is_finite_kernels",
         ":is_inf_kernels",
         ":is_nan_kernels",
+        ":lgamma_kernels",
         ":log_kernels",
         ":log1p_kernels",
         ":logical_not_kernels",
@@ -332,6 +334,7 @@ cc_library(
 #     ],
 # )
 
+# TODO(b/25387198): Add an int32 kernel.
 gen_kernel_library(
     name = "abs",
     tile_size = "256",
@@ -339,7 +342,6 @@ gen_kernel_library(
         "f16",
         "f32",
         "f64",
-        "i32",
         "i64",
     ],
     unroll_factors = "4",
@@ -745,6 +747,7 @@ gen_kernel_library(
         "is_finite",
         "is_inf",
         "is_nan",
+        "lgamma",
         "log",
         "log1p",
         "rsqrt",

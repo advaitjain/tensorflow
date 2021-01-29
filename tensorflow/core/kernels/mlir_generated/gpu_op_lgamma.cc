@@ -1,4 +1,4 @@
-/* Copyright 2020 The TensorFlow Authors. All Rights Reserved.
+/* Copyright 2021 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,10 +18,8 @@ limitations under the License.
 
 namespace tensorflow {
 
-GENERATE_AND_REGISTER_UNARY_KERNEL(Abs, f16, DT_HALF, Eigen::half);
-GENERATE_AND_REGISTER_UNARY_KERNEL(Abs, f32, DT_FLOAT, float);
-GENERATE_AND_REGISTER_UNARY_KERNEL(Abs, f64, DT_DOUBLE, double);
-// TODO(b/25387198): Add an int32 kernel.
-GENERATE_AND_REGISTER_UNARY_KERNEL(Abs, i64, DT_INT64, int64);
+GENERATE_AND_REGISTER_UNARY_KERNEL(Lgamma, f16, DT_HALF, Eigen::half);
+GENERATE_AND_REGISTER_UNARY_KERNEL(Lgamma, f32, DT_FLOAT, float);
+GENERATE_AND_REGISTER_UNARY_KERNEL(Lgamma, f64, DT_DOUBLE, double);
 
 }  // namespace tensorflow
