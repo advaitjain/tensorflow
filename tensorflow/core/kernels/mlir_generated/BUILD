@@ -204,6 +204,7 @@ tf_kernel_library(
         "gpu_op_right_shift.cc",
         "gpu_op_squared_difference.cc",
         "gpu_op_sub.cc",
+        "gpu_op_zeta.cc",
     ],
     tags = [
         "manual",
@@ -233,6 +234,7 @@ tf_kernel_library(
         ":right_shift_kernels",
         ":squared_difference_kernels",
         ":sub_kernels",
+        ":zeta_kernels",
         "//third_party/eigen3",
     ],
 )
@@ -861,28 +863,27 @@ gen_kernel_library(
     ]
 ]
 
-# TODO(b/178578256): Enable this target after it doesn't cause the ROCM build to fail.
-# gen_kernel_library(
-#     name = "cast",
-#     # We generate all combinations of input types/output types from the set
-#     # {i1, i8, i16, i32, i64, f16, f32, f64}. The easiest way to do this is to
-#     # repeat each input type 8 times and match it with the 8 different output
-#     # types (thus, the list of 8 different output types needs to be repeated 8
-#     # times as well).
-#     output_types = [
-#         "i1",
-#         "i8",
-#         "i16",
-#         "i32",
-#         "i64",
-#         "f16",
-#         "f32",
-#         "f64",
-#     ] * 8,
-#     tile_size = "256",
-#     types = ["i1"] * 8 + ["i8"] * 8 + ["i16"] * 8 + ["i32"] * 8 + ["i64"] * 8 + ["f16"] * 8 + ["f32"] * 8 + ["f64"] * 8,
-#     unroll_factors = "4",
-# )
+gen_kernel_library(
+    name = "cast",
+    # We generate all combinations of input types/output types from the set
+    # {i1, i8, i16, i32, i64, f16, f32, f64}. The easiest way to do this is to
+    # repeat each input type 8 times and match it with the 8 different output
+    # types (thus, the list of 8 different output types needs to be repeated 8
+    # times as well).
+    output_types = [
+        "i1",
+        "i8",
+        "i16",
+        "i32",
+        "i64",
+        "f16",
+        "f32",
+        "f64",
+    ] * 8,
+    tile_size = "256",
+    types = ["i1"] * 8 + ["i8"] * 8 + ["i16"] * 8 + ["i32"] * 8 + ["i64"] * 8 + ["f16"] * 8 + ["f32"] * 8 + ["f64"] * 8,
+    unroll_factors = "4",
+)
 
 gen_kernel_library(
     name = "pow",
@@ -892,6 +893,18 @@ gen_kernel_library(
         "f32",
         "f64",
         "i64",
+    ],
+    # TODO(b/178388085): Enable unrolling after vectorization is fixed.
+    # unroll_factors = "4",
+)
+
+gen_kernel_library(
+    # The zeta kernels needs many registers so tile at 256.
+    name = "zeta",
+    tile_size = "256",
+    types = [
+        "f32",
+        "f64",
     ],
     # TODO(b/178388085): Enable unrolling after vectorization is fixed.
     # unroll_factors = "4",
