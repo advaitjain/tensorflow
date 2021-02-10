@@ -213,3 +213,27 @@ tensorflow version: f0e53711dbb57ef6aed604ebec621cbef6282977
 InitializeKeywordRunner() took 137496 ticks (137 ms)
 KeywordRunNIerations(1) took 128023 ticks (128 ms)
 KeywordRunNIerations(10) took 1279756 ticks (1279 ms)
+
+Tue Feb  9 19:14:16 PST 2021
+tensorflow version: d406c45eb135a9bcee7372ebce953e707e3d7d94
+InitializeKeywordRunner took 122791 ticks (122 ms).
+
+KeywordRunNIerations(1) took 128583 ticks (128 ms)
+QUANTIZE took 2802 ticks (2 ms).
+SVDF took 27779 ticks (27 ms).
+FULLY_CONNECTED took 4372 ticks (4 ms).
+SVDF took 14979 ticks (14 ms).
+FULLY_CONNECTED took 4372 ticks (4 ms).
+SVDF took 14979 ticks (14 ms).
+FULLY_CONNECTED took 4372 ticks (4 ms).
+SVDF took 14979 ticks (14 ms).
+FULLY_CONNECTED took 4372 ticks (4 ms).
+SVDF took 10051 ticks (10 ms).
+SVDF took 11331 ticks (11 ms).
+SVDF took 11331 ticks (11 ms).
+FULLY_CONNECTED took 892 ticks (0 ms).
+SOFTMAX took 1619 ticks (1 ms).
+QUANTIZE took 353 ticks (0 ms).
+
+KeywordRunNIerations(10) took 1285830 ticks (1285 ms)
+
