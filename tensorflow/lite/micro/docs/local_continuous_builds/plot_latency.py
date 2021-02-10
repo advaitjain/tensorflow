@@ -20,9 +20,9 @@ def parse_log(log_name):
     last_date = ''
 
     for i, line in enumerate(all_lines):
-      if 'InitializeKeywordRunner' in line and (i + 1) < len(all_lines):
+      if 'InitializeKeywordRunner' in line and (i + 2) < len(all_lines):
         init_cycle_list.append(int(line.split()[2]))
-        single_invoke_cycle_list.append(int(all_lines[i + 1].split()[2]))
+        single_invoke_cycle_list.append(int(all_lines[i + 2].split()[2]))
         last_date = all_lines[i - 2].strip()
 
     return init_cycle_list, single_invoke_cycle_list, last_date
