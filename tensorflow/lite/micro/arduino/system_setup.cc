@@ -13,13 +13,24 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#include "third_party/eigen3/unsupported/Eigen/CXX11/Tensor"
-#include "tensorflow/core/kernels/mlir_generated/base_gpu_op.h"
+#include "tensorflow/lite/micro/system_setup.h"
 
-namespace tensorflow {
+#include "Arduino.h"
+#include "tensorflow/lite/micro/debug_log.h"
 
-GENERATE_AND_REGISTER_UNARY_GPU_KERNEL(Erf, f16, Eigen::half);
-GENERATE_AND_REGISTER_UNARY_GPU_KERNEL(Erf, f32, float);
-GENERATE_AND_REGISTER_UNARY_GPU_KERNEL(Erf, f64, double);
+// The Arduino DUE uses a different object for the default serial port shown in
+// the monitor than most other models, so make sure we pick the right one. See
+// https://github.com/arduino/Arduino/issues/3088#issuecomment-406655244
+#if defined(__SAM3X8E__)
+#define DEBUG_SERIAL_OBJECT (SerialUSB)
+#else
+#define DEBUG_SERIAL_OBJECT (Serial)
+#endif
 
-}  // namespace tensorflow
+extern "C" void DebugLog(const char* s) { DEBUG_SERIAL_OBJECT.print(s); }
+
+namespace tflite {
+
+void InitializeTarget() { DEBUG_SERIAL_OBJECT.begin(9600); }
+
+}  // namespace tflite

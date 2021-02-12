@@ -13,13 +13,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#include "third_party/eigen3/unsupported/Eigen/CXX11/Tensor"
-#include "tensorflow/core/kernels/mlir_generated/base_gpu_op.h"
+#include "tensorflow/lite/micro/system_setup.h"
 
-namespace tensorflow {
+namespace tflite {
 
-GENERATE_AND_REGISTER_UNARY_GPU_KERNEL(Erf, f16, Eigen::half);
-GENERATE_AND_REGISTER_UNARY_GPU_KERNEL(Erf, f32, float);
-GENERATE_AND_REGISTER_UNARY_GPU_KERNEL(Erf, f64, double);
+// To add an equivalent function for your own platform, create your own
+// implementation file, and place it in a subfolder named after the target. See
+// tensorflow/lite/micro/debug_log.cc for a similar example.
+void InitializeTarget() {}
 
-}  // namespace tensorflow
+}  // namespace tflite
