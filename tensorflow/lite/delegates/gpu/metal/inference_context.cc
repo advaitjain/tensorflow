@@ -26,6 +26,7 @@ limitations under the License.
 #include "tensorflow/lite/delegates/gpu/common/model.h"
 #include "tensorflow/lite/delegates/gpu/common/operations.h"
 #include "tensorflow/lite/delegates/gpu/common/precision.h"
+#include "tensorflow/lite/delegates/gpu/common/selectors/operation_selector.h"
 #include "tensorflow/lite/delegates/gpu/common/selectors/subgraph.h"
 #include "tensorflow/lite/delegates/gpu/common/shape.h"
 #include "tensorflow/lite/delegates/gpu/common/status.h"
@@ -36,12 +37,17 @@ limitations under the License.
 #include "tensorflow/lite/delegates/gpu/common/util.h"
 #include "tensorflow/lite/delegates/gpu/metal/compute_task.h"
 #include "tensorflow/lite/delegates/gpu/metal/metal_spatial_tensor.h"
-#include "tensorflow/lite/delegates/gpu/metal/selectors/operation_selector.h"
 
 namespace tflite {
 namespace gpu {
 namespace metal {
 namespace {
+
+// returns true if actual memory for this storage type is buffer
+bool IsBufferBased(const TensorStorageType& type) {
+  return type == TensorStorageType::BUFFER ||
+         type == TensorStorageType::IMAGE_BUFFER;
+}
 
 bool HasIntersection(const std::vector<ValueId>& vec_ids,
                      const std::set<ValueId>& ids) {
@@ -140,8 +146,7 @@ absl::Status InferenceContext::InitFromGraph(
 
   MetalDevice metal_device(device_id);
   ReserveGraphTensors(create_info, metal_device.GetInfo(), graph);
-  RETURN_IF_ERROR(
-      Compile(graph, metal_device.GetInfo(), create_info.precision));
+  RETURN_IF_ERROR(Compile(graph, metal_device.GetInfo(), create_info.hints));
   RETURN_IF_ERROR(Merge());
   RETURN_IF_ERROR(CompileOperations(&metal_device));
   RETURN_IF_ERROR(AllocateTensors(&metal_device));
@@ -184,7 +189,7 @@ void InferenceContext::ReserveGraphTensors(
 
 absl::Status InferenceContext::Compile(const GraphFloat32& graph,
                                        const GpuInfo& gpu_info,
-                                       CalculationsPrecision precision) {
+                                       ModelHints hints) {
   if (!IsBatchMatchesForAllValues(graph)) {
     return absl::InvalidArgumentError(
         "Only identical batch dimension is supported");
@@ -198,6 +203,16 @@ absl::Status InferenceContext::Compile(const GraphFloat32& graph,
   std::vector<Node*> graph_nodes = graph.nodes();
   for (int i = 0; i < graph_nodes.size(); ++i) {
     const Node& node = *graph_nodes[i];
+    auto op_type = OperationTypeFromString(node.operation.type);
+    if (op_type == OperationType::CONSTANT) {
+      auto attr =
+          absl::any_cast<ConstTensorAttributes>(node.operation.attributes);
+      auto outputs = graph.FindOutputs(node.id);
+      const_tensors_descs_[outputs[0]->id] =
+          tensor_reserver_.Get(outputs[0]->id).descriptor;
+      const_tensors_descs_[outputs[0]->id].UploadData(attr.tensor);
+      continue;
+    }
     auto inputs = graph.FindInputs(node.id);
     auto outputs = graph.FindOutputs(node.id);
     // Reordering of input ids and updating of temporary tensors_usage struct.
@@ -220,7 +235,7 @@ absl::Status InferenceContext::Compile(const GraphFloat32& graph,
       std::swap(inputs[0], inputs[latest_written_tensor_index]);
     }
     OperationDef op_def;
-    op_def.precision = precision;
+    op_def.precision = precision_;
     for (int j = 0; j < inputs.size(); ++j) {
       op_def.src_tensors.push_back(
           tensor_reserver_.Get(inputs[j]->id).descriptor);
@@ -230,8 +245,8 @@ absl::Status InferenceContext::Compile(const GraphFloat32& graph,
           tensor_reserver_.Get(outputs[j]->id).descriptor);
     }
     GPUOperationsSubgraph gpu_subgraph;
-    RETURN_IF_ERROR(GPUOperationFromNode(gpu_info, op_def, inputs, outputs,
-                                         node, &gpu_subgraph));
+    RETURN_IF_ERROR(GPUOperationFromNode(gpu_info, op_def, hints, inputs,
+                                         outputs, node, &gpu_subgraph));
     std::map<int, ValueId> mapping_to_global_ids;
     for (int j = 0; j < gpu_subgraph.new_tensors.size(); ++j) {
       const auto& t = gpu_subgraph.new_tensors[j];
@@ -334,13 +349,13 @@ absl::Status InferenceContext::AllocateTensors(MetalDevice* device) {
     }
   }
 
-  const bool f32_storage = precision_ == CalculationsPrecision::F32;
   for (auto& tensor_id : preallocated_ids) {
     const auto& t = tensor_reserver_.Get(tensor_id);
     RETURN_IF_ERROR(CreateSharedBufferTensor(
         nil, t.shape, t.descriptor, &preallocated_tensors_[tensor_id]));
   }
 
+  RETURN_IF_ERROR(AllocateMemoryForConstTensors(device));
   RETURN_IF_ERROR(AllocateMemoryForBuffers(device));
   return absl::OkStatus();
 }
@@ -348,6 +363,8 @@ absl::Status InferenceContext::AllocateTensors(MetalDevice* device) {
 MetalSpatialTensor* InferenceContext::GetTensor(ValueId tensor_id) {
   if (preallocated_tensors_.find(tensor_id) != preallocated_tensors_.end()) {
     return &preallocated_tensors_[tensor_id];
+  } else if (const_tensors_.find(tensor_id) != const_tensors_.end()) {
+    return &const_tensors_[tensor_id];
   } else if (graph_ids_to_shared_buffer_tensors_.find(tensor_id) !=
              graph_ids_to_shared_buffer_tensors_.end()) {
     return &shared_buffer_tensors_
@@ -384,36 +401,62 @@ absl::Status InferenceContext::UpdateParams(const GpuInfo& gpu_info) {
   return absl::OkStatus();
 }
 
-void InferenceContext::GetUsages(std::map<ValueId, int2>* usages) {
+InferenceContext::TensorMemoryType InferenceContext::GetTensorMemoryType(
+    ValueId id) {
+  if (preallocated_tensors_.find(id) != preallocated_tensors_.end()) {
+    return TensorMemoryType::kPreallocated;
+  } else if (const_tensors_.find(id) != const_tensors_.end()) {
+    return TensorMemoryType::kConst;
+  } else if (IsBufferBased(tensor_reserver_.Get(id).descriptor.storage_type)) {
+    return TensorMemoryType::kBuffer;
+  } else {
+    return TensorMemoryType::kStrongShape;
+  }
+}
+
+void InferenceContext::GetUsages(const std::function<bool(ValueId)>& functor,
+                                 std::map<ValueId, int2>* usages) {
   for (ValueId in_id : input_ids_) {
-    if (preallocated_tensors_.find(in_id) == preallocated_tensors_.end()) {
+    if (functor(in_id)) {
       AddUsage(in_id, 0, usages);
     }
   }
   for (int op_index = 0; op_index < nodes_.size(); ++op_index) {
     for (auto& tensor_id : nodes_[op_index].inputs) {
-      if (preallocated_tensors_.find(tensor_id) ==
-          preallocated_tensors_.end()) {
+      if (functor(tensor_id)) {
         AddUsage(tensor_id, op_index, usages);
       }
     }
     for (auto& tensor_id : nodes_[op_index].outputs) {
-      if (preallocated_tensors_.find(tensor_id) ==
-          preallocated_tensors_.end()) {
+      if (functor(tensor_id)) {
         AddUsage(tensor_id, op_index, usages);
       }
     }
   }
   for (ValueId out_id : output_ids_) {
-    if (preallocated_tensors_.find(out_id) == preallocated_tensors_.end()) {
+    if (functor(out_id)) {
       AddUsage(out_id, nodes_.size(), usages);
     }
   }
 }
 
+absl::Status InferenceContext::AllocateMemoryForConstTensors(
+    MetalDevice* device) {
+  for (auto& description : const_tensors_descs_) {
+    RETURN_IF_ERROR(const_tensors_[description.first].CreateFromDescriptor(
+        description.second, device->device()));
+  }
+  const_tensors_descs_.clear();
+  return absl::OkStatus();
+}
+
 absl::Status InferenceContext::AllocateMemoryForBuffers(MetalDevice* device) {
   std::map<ValueId, int2> buffer_usages;
-  GetUsages(&buffer_usages);
+  GetUsages(
+      [this](ValueId id) {
+        return GetTensorMemoryType(id) == TensorMemoryType::kBuffer;
+      },
+      &buffer_usages);
 
   std::vector<TensorUsageRecord<size_t>> buffer_usage_records;
   for (auto& usage : buffer_usages) {
