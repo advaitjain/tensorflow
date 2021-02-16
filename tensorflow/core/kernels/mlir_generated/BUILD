@@ -322,6 +322,19 @@ tf_kernel_library(
     ],
 )
 
+tf_kernel_library(
+    name = "cast_op",
+    srcs = ["gpu_op_cast.cc"],
+    tags = [
+        "manual",
+    ],
+    deps = [
+        ":base_gpu_op",
+        ":gpu_cast_kernels",
+        "//third_party/eigen3",
+    ],
+)
+
 cc_library(
     name = "base_ops_test",
     testonly = 1,
@@ -482,7 +495,7 @@ gpu_kernel_library(
         "f32",
         "f64",
     ],
-    unroll_factors = "4",
+    # Cannot vectorize.
 )
 
 gpu_kernel_library(
@@ -519,7 +532,7 @@ gpu_kernel_library(
         "f32",
         "f64",
     ],
-    unroll_factors = "4",
+    # Cannot vectorize.
 )
 
 gpu_kernel_library(
