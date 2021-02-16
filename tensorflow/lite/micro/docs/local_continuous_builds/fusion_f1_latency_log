@@ -477,3 +477,27 @@ QUANTIZE took 366 ticks (0 ms).
 
 KeywordRunNIerations(10) took 1513490 ticks (1513 ms)
 
+
+Tue Feb 16 06:05:27 PST 2021
+tensorflow version: d8c13306e07f597e3c984e99513d1faa0933ae3a
+InitializeKeywordRunner took 159364 ticks (159 ms).
+
+KeywordRunNIerations(1) took 151349 ticks (151 ms)
+QUANTIZE took 3758 ticks (3 ms).
+SVDF took 38003 ticks (38 ms).
+FULLY_CONNECTED took 1353 ticks (1 ms).
+SVDF took 18803 ticks (18 ms).
+FULLY_CONNECTED took 1353 ticks (1 ms).
+SVDF took 18803 ticks (18 ms).
+FULLY_CONNECTED took 1353 ticks (1 ms).
+SVDF took 18803 ticks (18 ms).
+FULLY_CONNECTED took 1353 ticks (1 ms).
+SVDF took 13907 ticks (13 ms).
+SVDF took 15827 ticks (15 ms).
+SVDF took 15827 ticks (15 ms).
+FULLY_CONNECTED took 1091 ticks (1 ms).
+SOFTMAX took 749 ticks (0 ms).
+QUANTIZE took 366 ticks (0 ms).
+
+KeywordRunNIerations(10) took 1513490 ticks (1513 ms)
+
