@@ -1900,10 +1900,12 @@ Status IrEmitterUnnested::HandleFusion(HloInstruction* fusion) {
               GetNestedComputer());
           FusedIrEmitter operand_fused_emitter(&operand_elemental_emitter);
           for (int i = 0; i < fused_computation->num_parameters(); i++) {
+            auto fused_operand = fused_computation->parameter_instruction(i);
             operand_fused_emitter.BindGenerator(
-                fused_computation->parameter_instruction(i),
-                [this, &ir_arrays, i](llvm_ir::IrArray::Index index) {
-                  return ir_arrays[i].EmitReadArrayElement(index, &b_);
+                fused_operand, [this, &ir_arrays, i, fused_operand](
+                                   const llvm_ir::IrArray::Index& index) {
+                  return ir_arrays[i].EmitReadArrayElement(
+                      index, &b_, fused_operand->name());
                 });
           }
           TF_ASSIGN_OR_RETURN(
@@ -1942,10 +1944,12 @@ Status IrEmitterUnnested::HandleFusion(HloInstruction* fusion) {
               GetNestedComputer());
           FusedIrEmitter scatter_fused_emitter(&scatter_elemental_emitter);
           for (int i = 0; i < fused_computation->num_parameters(); i++) {
+            auto fused_operand = fused_computation->parameter_instruction(i);
             scatter_fused_emitter.BindGenerator(
-                fused_computation->parameter_instruction(i),
-                [this, &ir_arrays, i](llvm_ir::IrArray::Index index) {
-                  return ir_arrays[i].EmitReadArrayElement(index, &b_);
+                fused_operand, [this, &ir_arrays, i, fused_operand](
+                                   const llvm_ir::IrArray::Index& index) {
+                  return ir_arrays[i].EmitReadArrayElement(
+                      index, &b_, fused_operand->name());
                 });
           }
 
@@ -2049,10 +2053,12 @@ Status IrEmitterUnnested::HandleFusion(HloInstruction* fusion) {
                                             /*is_fusion=*/true));
 
     for (int i = 0; i < fused_computation->num_parameters(); i++) {
+      auto fused_operand = fused_computation->parameter_instruction(i);
       fused_emitter.BindGenerator(
-          fused_computation->parameter_instruction(i),
-          [this, &ir_arrays, i](llvm_ir::IrArray::Index index) {
-            return ir_arrays[i].EmitReadArrayElement(index, &b_);
+          fused_operand, [this, &ir_arrays, i,
+                          fused_operand](const llvm_ir::IrArray::Index& index) {
+            return ir_arrays[i].EmitReadArrayElement(index, &b_,
+                                                     fused_operand->name());
           });
     }
 
@@ -3823,6 +3829,20 @@ Status CheckConditionalBuffersShareAllocation(
   return Status::OK();
 }
 
+Status AcceptMaybeOrdered(HloComputation* computation,
+                          IrEmitterUnnested* emitter,
+                          const BufferAssignment& buffer_assignment) {
+  const auto& debug_options = computation->parent()->config().debug_options();
+  if (debug_options.xla_gpu_disable_multi_streaming()) {
+    const HloInstructionSequence* sequence =
+        buffer_assignment.hlo_ordering().SequentialOrder(*computation);
+    // Always expect a sequential ordering for single-stream programs.
+    TF_RET_CHECK(sequence);
+    return computation->AcceptOrdered(emitter, sequence->instructions());
+  }
+  return computation->Accept(emitter);
+}
+
 }  // namespace
 
 StatusOr<std::unique_ptr<Thunk>> IrEmitterUnnested::BuildWhileThunk(
@@ -3836,14 +3856,18 @@ StatusOr<std::unique_ptr<Thunk>> IrEmitterUnnested::BuildWhileThunk(
   TF_ASSIGN_OR_RETURN(auto ir_emitter_condition,
                       IrEmitterUnnested::Create(hlo_module_config_, condition,
                                                 ir_emitter_context_));
-  TF_RETURN_IF_ERROR(condition->Accept(ir_emitter_condition.get()));
+
+  TF_RETURN_IF_ERROR(
+      AcceptMaybeOrdered(condition, ir_emitter_condition.get(),
+                         ir_emitter_context_->buffer_assignment()));
 
   // Generate thunk sequence for while 'body'.
   HloComputation* body = hlo->while_body();
   TF_ASSIGN_OR_RETURN(
       auto ir_emitter_body,
       IrEmitterUnnested::Create(hlo_module_config_, body, ir_emitter_context_));
-  TF_RETURN_IF_ERROR(body->Accept(ir_emitter_body.get()));
+  TF_RETURN_IF_ERROR(AcceptMaybeOrdered(
+      body, ir_emitter_body.get(), ir_emitter_context_->buffer_assignment()));
 
   const auto* index_map = ir_emitter_context_->profile_index_map();
   absl::optional<size_t> condition_profile_index, body_profile_index;
@@ -3871,7 +3895,8 @@ StatusOr<std::unique_ptr<Thunk>> IrEmitterUnnested::BuildForThunk(
   TF_ASSIGN_OR_RETURN(
       auto ir_emitter_body,
       IrEmitterUnnested::Create(hlo_module_config_, body, ir_emitter_context_));
-  TF_RETURN_IF_ERROR(body->Accept(ir_emitter_body.get()));
+  TF_RETURN_IF_ERROR(AcceptMaybeOrdered(
+      body, ir_emitter_body.get(), ir_emitter_context_->buffer_assignment()));
 
   const auto* index_map = ir_emitter_context_->profile_index_map();
   absl::optional<size_t> body_profile_index;
@@ -3908,7 +3933,8 @@ StatusOr<std::unique_ptr<Thunk>> IrEmitterUnnested::BuildConditionalThunk(
         auto ir_emitter,
         IrEmitterUnnested::Create(hlo_module_config_, branch_computation,
                                   ir_emitter_context_));
-    TF_CHECK_OK(branch_computation->Accept(ir_emitter.get()));
+    TF_CHECK_OK(AcceptMaybeOrdered(branch_computation, ir_emitter.get(),
+                                   ir_emitter_context_->buffer_assignment()));
     branch_thunks.push_back(std::move(*ir_emitter->ConsumeThunkSequence()));
 
     absl::optional<size_t> profile_index;
@@ -4165,8 +4191,9 @@ void IrEmitterUnnested::EmitTileElementForFusion(
       };
     } else {
       auto array = operand_arrays[i];
-      gen = [this, array](llvm_ir::IrArray::Index index) {
-        return array.EmitReadArrayElement(index, &b_);
+      auto name = fused_computation->parameter_instruction(i)->name();
+      gen = [this, array, name](const llvm_ir::IrArray::Index& index) {
+        return array.EmitReadArrayElement(index, &b_, name);
       };
     }
     fused_emitter.BindGenerator(fused_computation->parameter_instruction(i),
@@ -5621,10 +5648,12 @@ Status IrEmitterUnnested::EmitReductionFromOrToContiguousDimensions(
     CHECK_LT(fused_computation->num_parameters(), ir_arrays.size());
     for (int i = 0; i < fused_computation->num_parameters(); i++) {
       auto ir_array = ir_arrays[i];
+      auto fused_operand = fused_computation->parameter_instruction(i);
       fused_emitter->BindGenerator(
-          fused_computation->parameter_instruction(i),
-          [this, ir_array](llvm_ir::IrArray::Index index) {
-            return ir_array.EmitReadArrayElement(index, &b_);
+          fused_operand, [this, ir_array,
+                          fused_operand](const llvm_ir::IrArray::Index& index) {
+            return ir_array.EmitReadArrayElement(index, &b_,
+                                                 fused_operand->name());
           });
     }
     result_ir_arrays = absl::MakeSpan(ir_arrays).subspan(
