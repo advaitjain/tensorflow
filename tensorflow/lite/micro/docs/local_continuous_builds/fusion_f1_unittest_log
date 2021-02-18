@@ -1,4 +1,4 @@
-Building at 25ab142e166c9f2fbdf71f8675154c385602f693
+Building at 630a18b20f90b34c73768feed67176b48ec9c254
 
 make -f tensorflow/lite/micro/tools/make/Makefile clean
 
@@ -533,7 +533,7 @@ tensorflow/lite/micro/testing/test_xtensa_binary.sh tensorflow/lite/micro/tools/
 Testing BatchToSpaceBasicFloat
 Testing BatchToSpaceBasicInt8
 Testing BatchToSpaceInvalidOutputDimensionShouldFail
-tensorflow/lite/micro/kernels/batch_to_space_nd.cc:51 GetTensorShape(input).FlatSize() != GetTensorShape(output).FlatSize() (16 != 12)
+tensorflow/lite/micro/kernels/batch_to_space_nd.cc:56 ElementCount(*output->dims) >= ElementCount(*input->dims) was not true.
 3/3 tests passed
 ~~~ALL TESTS PASSED~~~
 
@@ -983,7 +983,7 @@ tensorflow/lite/micro/testing/test_xtensa_binary.sh tensorflow/lite/micro/tools/
 Testing SpaceToBatchBasicFloat
 Testing SpaceToBatchBasicInt8
 Testing SpaceToBatchInvalidOutputDimensionShouldFail
-tensorflow/lite/micro/kernels/space_to_batch_nd.cc:61 GetTensorShape(input).FlatSize() != GetTensorShape(output).FlatSize() (16 != 12)
+tensorflow/lite/micro/kernels/space_to_batch_nd.cc:62 ElementCount(*output->dims) >= ElementCount(*input->dims) was not true.
 3/3 tests passed
 ~~~ALL TESTS PASSED~~~
 
@@ -1113,9 +1113,9 @@ tensorflow/lite/micro/testing/test_xtensa_binary.sh tensorflow/lite/micro/tools/
 Testing SimpleTestFloat
 Testing SimpleTestQuantizedPerChannel
 Testing InputOutputDifferentTypeIsError
-tensorflow/lite/micro/kernels/transpose_conv.cc:210 input->type != output->type (1 != 9)
+tensorflow/lite/micro/kernels/transpose_conv.cc:214 input->type != output->type (1 != 9)
 Testing HybridModeIsError
-tensorflow/lite/micro/kernels/transpose_conv.cc Hybrid models are not supported on TFLite Micro.
+tensorflow/lite/micro/kernels/transpose_conv.cc:164 affine_quantization was not true.
 4/4 tests passed
 ~~~ALL TESTS PASSED~~~
 
