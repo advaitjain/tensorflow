@@ -1,4 +1,4 @@
-/* Copyright 2015 The TensorFlow Authors. All Rights Reserved.
+/* Copyright 2021 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,17 +13,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#if GOOGLE_CUDA || TENSORFLOW_USE_ROCM
+#ifndef TENSORFLOW_COMPILER_MLIR_TENSORFLOW_TRANSFORMS_SAVEDMODEL_PASS_DETAIL_H_
+#define TENSORFLOW_COMPILER_MLIR_TENSORFLOW_TRANSFORMS_SAVEDMODEL_PASS_DETAIL_H_
 
-#include "tensorflow/core/kernels/cwise_ops_gpu_common.cu.h"
-#include "tensorflow/core/kernels/cwise_ops_gpu_gradients.cu.h"
+#include "mlir/IR/Dialect.h"
+#include "mlir/Pass/Pass.h"
 
-namespace tensorflow {
-namespace functor {
-DEFINE_UNARY6(inverse, Eigen::half, float, double, int64, complex64,
-              complex128);
-DEFINE_SIMPLE_BINARY3(inverse_grad, Eigen::half, float, double);
-}  // namespace functor
-}  // namespace tensorflow
+namespace mlir {
+namespace tf_saved_model {
 
-#endif  // GOOGLE_CUDA || TENSORFLOW_USE_ROCM
+#define GEN_PASS_CLASSES
+#include "tensorflow/compiler/mlir/tensorflow/transforms/tf_savedmodel_passes.h.inc"
+
+}  // namespace tf_saved_model
+}  // namespace mlir
+
+#endif  // TENSORFLOW_COMPILER_MLIR_TENSORFLOW_TRANSFORMS_SAVEDMODEL_PASS_DETAIL_H_
