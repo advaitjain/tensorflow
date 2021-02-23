@@ -60,6 +60,7 @@ limitations under the License.
 #include "tensorflow/compiler/xla/literal.h"
 #include "tensorflow/compiler/xla/permutation_util.h"
 #include "tensorflow/compiler/xla/service/buffer_assignment.h"
+#include "tensorflow/compiler/xla/service/collective_ops_utils.h"
 #include "tensorflow/compiler/xla/service/custom_call_target_registry.h"
 #include "tensorflow/compiler/xla/service/dfs_hlo_visitor.h"
 #include "tensorflow/compiler/xla/service/gpu/backend_configs.pb.h"
@@ -3146,14 +3147,19 @@ template <typename NcclThunkType, typename OpTy>
 Status IrEmitterUnnested::EmitNcclThunkFromMlir(MlirEmitterInput input) {
   OpTy op = mlir::cast<OpTy>(input.op);
   int64 replica_count = hlo_module_config_.replica_count();
+  int64 partition_count = hlo_module_config_.num_partitions();
   VLOG(2) << NcclThunkType::GetName() << "; replica count: " << replica_count
+          << "; partition count: " << partition_count
           << "; operand count: " << op.operands().size()
           << "; NCCL is enabled: " << NcclThunkType::NcclIsEnabled();
 
-  // Note the replica_count == 1 case is handled via device-to-device copy
-  // below.
+  // A given collective op can be degenerate if across all groups formed
+  // by it are singleton. In such a case, we don't need to do any communication
+  // and we can just copy the input to the output.
+  bool is_degenerate =
+      NcclThunkType::IsDegenerate(op, replica_count, partition_count);
   bool should_use_nccl_thunk =
-      replica_count > 1 && NcclThunkType::CanImplement(op);
+      !is_degenerate && NcclThunkType::CanImplement(op);
 
   // Stash relevant information in NcclAllGatherThunk::Buffer even if we may
   // not generate an NcclAllGatherThunk.
@@ -3173,17 +3179,21 @@ Status IrEmitterUnnested::EmitNcclThunkFromMlir(MlirEmitterInput input) {
 
   if (should_use_nccl_thunk) {
     auto nccl_thunk =
-        absl::make_unique<NcclThunkType>(input.thunk_info, op, replica_count,
+        absl::make_unique<NcclThunkType>(input.thunk_info, op,
                                          /*buffers=*/std::move(buffers));
     AddThunkToThunkSequence(std::move(nccl_thunk));
     return Status::OK();
   }
 
   if (replica_count != 1) {
+    CollectiveOpGroupMode group_mode = NcclThunkType::GetGroupMode(op);
+
     string message = absl::StrFormat(
         "Requested %s not implemented on GPU; replica_count: %d; "
-        "operand_count: %d; NCCL support: %d",
-        NcclThunkType::GetName(), replica_count, op.operands().size(),
+        "partition_count: %d, group_mode: %s, operand_count: %d; NCCL support: "
+        "%d",
+        NcclThunkType::GetName(), replica_count, partition_count,
+        CollectiveOpGroupModeToString(group_mode), op.operands().size(),
         NcclThunkType::NcclIsEnabled());
     if (!op.operands().empty()) {
       const Shape shape = TypeToShape(op.operands().front().getType());
@@ -3875,6 +3885,20 @@ Status CheckConditionalBuffersShareAllocation(
   return Status::OK();
 }
 
+Status AcceptMaybeOrdered(HloComputation* computation,
+                          IrEmitterUnnested* emitter,
+                          const BufferAssignment& buffer_assignment) {
+  const auto& debug_options = computation->parent()->config().debug_options();
+  if (debug_options.xla_gpu_disable_multi_streaming()) {
+    const HloInstructionSequence* sequence =
+        buffer_assignment.hlo_ordering().SequentialOrder(*computation);
+    // Always expect a sequential ordering for single-stream programs.
+    TF_RET_CHECK(sequence);
+    return computation->AcceptOrdered(emitter, sequence->instructions());
+  }
+  return computation->Accept(emitter);
+}
+
 }  // namespace
 
 StatusOr<std::unique_ptr<Thunk>> IrEmitterUnnested::BuildWhileThunk(
@@ -3888,14 +3912,18 @@ StatusOr<std::unique_ptr<Thunk>> IrEmitterUnnested::BuildWhileThunk(
   TF_ASSIGN_OR_RETURN(auto ir_emitter_condition,
                       IrEmitterUnnested::Create(hlo_module_config_, condition,
                                                 ir_emitter_context_));
-  TF_RETURN_IF_ERROR(condition->Accept(ir_emitter_condition.get()));
+
+  TF_RETURN_IF_ERROR(
+      AcceptMaybeOrdered(condition, ir_emitter_condition.get(),
+                         ir_emitter_context_->buffer_assignment()));
 
   // Generate thunk sequence for while 'body'.
   HloComputation* body = hlo->while_body();
   TF_ASSIGN_OR_RETURN(
       auto ir_emitter_body,
       IrEmitterUnnested::Create(hlo_module_config_, body, ir_emitter_context_));
-  TF_RETURN_IF_ERROR(body->Accept(ir_emitter_body.get()));
+  TF_RETURN_IF_ERROR(AcceptMaybeOrdered(
+      body, ir_emitter_body.get(), ir_emitter_context_->buffer_assignment()));
 
   const auto* index_map = ir_emitter_context_->profile_index_map();
   absl::optional<size_t> condition_profile_index, body_profile_index;
@@ -3923,7 +3951,8 @@ StatusOr<std::unique_ptr<Thunk>> IrEmitterUnnested::BuildForThunk(
   TF_ASSIGN_OR_RETURN(
       auto ir_emitter_body,
       IrEmitterUnnested::Create(hlo_module_config_, body, ir_emitter_context_));
-  TF_RETURN_IF_ERROR(body->Accept(ir_emitter_body.get()));
+  TF_RETURN_IF_ERROR(AcceptMaybeOrdered(
+      body, ir_emitter_body.get(), ir_emitter_context_->buffer_assignment()));
 
   const auto* index_map = ir_emitter_context_->profile_index_map();
   absl::optional<size_t> body_profile_index;
@@ -3960,7 +3989,8 @@ StatusOr<std::unique_ptr<Thunk>> IrEmitterUnnested::BuildConditionalThunk(
         auto ir_emitter,
         IrEmitterUnnested::Create(hlo_module_config_, branch_computation,
                                   ir_emitter_context_));
-    TF_CHECK_OK(branch_computation->Accept(ir_emitter.get()));
+    TF_CHECK_OK(AcceptMaybeOrdered(branch_computation, ir_emitter.get(),
+                                   ir_emitter_context_->buffer_assignment()));
     branch_thunks.push_back(std::move(*ir_emitter->ConsumeThunkSequence()));
 
     absl::optional<size_t> profile_index;
