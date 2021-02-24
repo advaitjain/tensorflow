@@ -13,7 +13,6 @@ def repo():
         ],
         build_file = "//third_party/flatbuffers:BUILD.bazel",
         system_build_file = "//third_party/flatbuffers:BUILD.system",
-        delete = ["build_defs.bzl"],
         link_files = {
             "//third_party/flatbuffers:build_defs.bzl": "build_defs.bzl",
         },
