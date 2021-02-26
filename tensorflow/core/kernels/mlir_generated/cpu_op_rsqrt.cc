@@ -13,19 +13,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#ifndef TENSORFLOW_COMPILER_MLIR_XLA_TRANSFORMS_XLA_PASSES_DETAIL_H_
-#define TENSORFLOW_COMPILER_MLIR_XLA_TRANSFORMS_XLA_PASSES_DETAIL_H_
+#include "third_party/eigen3/unsupported/Eigen/CXX11/Tensor"
+#include "tensorflow/core/kernels/mlir_generated/base_cpu_op.h"
 
-#include "mlir/IR/Dialect.h"
-#include "mlir/Pass/Pass.h"
+namespace tensorflow {
 
-namespace mlir {
-namespace mhlo {
+GENERATE_AND_REGISTER_UNARY_CPU_KERNEL(Rsqrt, DT_HALF);
+GENERATE_AND_REGISTER_UNARY_CPU_KERNEL(Rsqrt, DT_FLOAT);
+GENERATE_AND_REGISTER_UNARY_CPU_KERNEL(Rsqrt, DT_DOUBLE);
 
-#define GEN_PASS_CLASSES
-#include "tensorflow/compiler/mlir/xla/transforms/xla_passes.h.inc"
-
-}  // namespace mhlo
-}  // namespace mlir
-
-#endif  // TENSORFLOW_COMPILER_MLIR_XLA_TRANSFORMS_XLA_PASSES_DETAIL_H_
+}  // namespace tensorflow
