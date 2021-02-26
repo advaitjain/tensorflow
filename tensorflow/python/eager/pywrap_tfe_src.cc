@@ -1449,6 +1449,12 @@ PyObject* PyTapeTensor::OnesLike() const {
 }
 
 PyObject* PyTapeTensor::ZerosLike() const {
+  if (GetDType() == tensorflow::DT_RESOURCE) {
+    // Gradient functions for ops which return resource tensors accept
+    // None. This is the behavior of py_vspace->Zeros, but checking here avoids
+    // issues with ZerosLike.
+    Py_RETURN_NONE;
+  }
   if (shape_.index() == 1) {
     PyObject* tensor = absl::get<1>(shape_);
     return py_vspace->ZerosLike(tensor);

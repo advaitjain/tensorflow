@@ -13,11 +13,23 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#include "tensorflow/lite/micro/kernels/ceva/ceva_tflm_lib.h"
-#define CEVA_TFLM_KERNELS_SCRATCH_SIZE_VAL_DEF 32768
-int32_t CEVA_TFLM_KERNELS_SCRATCH_SIZE_VAL =
-    CEVA_TFLM_KERNELS_SCRATCH_SIZE_VAL_DEF;
-#ifndef WIN32
-__attribute__((section(".MODEL_DATA")))
-#endif
-int32_t CEVA_TFLM_KERNELS_SCRATCH[CEVA_TFLM_KERNELS_SCRATCH_SIZE_VAL_DEF];
+#ifndef TENSORFLOW_CORE_TPU_KERNELS_TPU_ORDINAL_SELECTOR_INTERFACE_H_
+#define TENSORFLOW_CORE_TPU_KERNELS_TPU_ORDINAL_SELECTOR_INTERFACE_H_
+
+#include "tensorflow/core/framework/types.h"
+
+namespace tensorflow {
+namespace tpu {
+
+class TPUOrdinalSelectorInterface {
+ public:
+  virtual ~TPUOrdinalSelectorInterface() = default;
+  virtual int64 GetOrdinal(int64_t* req_id) = 0;
+  virtual void DequeueFromCoreSelector(int32_t device_ordinal,
+                                       int64_t req_id) = 0;
+};
+
+}  // namespace tpu
+}  // namespace tensorflow
+
+#endif  // TENSORFLOW_CORE_TPU_KERNELS_TPU_ORDINAL_SELECTOR_INTERFACE_H_

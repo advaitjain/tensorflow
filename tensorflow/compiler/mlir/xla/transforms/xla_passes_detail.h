@@ -13,11 +13,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#include "tensorflow/lite/micro/kernels/ceva/ceva_tflm_lib.h"
-#define CEVA_TFLM_KERNELS_SCRATCH_SIZE_VAL_DEF 32768
-int32_t CEVA_TFLM_KERNELS_SCRATCH_SIZE_VAL =
-    CEVA_TFLM_KERNELS_SCRATCH_SIZE_VAL_DEF;
-#ifndef WIN32
-__attribute__((section(".MODEL_DATA")))
-#endif
-int32_t CEVA_TFLM_KERNELS_SCRATCH[CEVA_TFLM_KERNELS_SCRATCH_SIZE_VAL_DEF];
+#ifndef TENSORFLOW_COMPILER_MLIR_XLA_TRANSFORMS_XLA_PASSES_DETAIL_H_
+#define TENSORFLOW_COMPILER_MLIR_XLA_TRANSFORMS_XLA_PASSES_DETAIL_H_
+
+#include "mlir/IR/Dialect.h"
+#include "mlir/Pass/Pass.h"
+
+namespace mlir {
+namespace mhlo {
+
+#define GEN_PASS_CLASSES
+#include "tensorflow/compiler/mlir/xla/transforms/xla_passes.h.inc"
+
+}  // namespace mhlo
+}  // namespace mlir
+
+#endif  // TENSORFLOW_COMPILER_MLIR_XLA_TRANSFORMS_XLA_PASSES_DETAIL_H_
