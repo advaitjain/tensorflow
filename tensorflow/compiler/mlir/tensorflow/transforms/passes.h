@@ -261,6 +261,8 @@ std::unique_ptr<OperationPass<ModuleOp>> CreateClusterOutliningPass();
 // Creates a pass that clusters ops into tf_device::ClusterOp regions
 // according to a policy specified by the pass options.
 std::unique_ptr<FunctionPass> CreateClusterOpsByPolicyPass();
+std::unique_ptr<FunctionPass> CreateClusterOpsByPolicyPass(
+    ArrayRef<std::string> oplist, const std::string& policy_name);
 
 // A pass that decomposes composite resource operations into primitive ones like
 // ReadVariableOp, AssignVariableOp and other computations to facilitate
@@ -402,7 +404,7 @@ std::unique_ptr<OperationPass<ModuleOp>>
 CreateTPUExtractOutsideCompilationPass();
 
 // Creates a pass that propagates TPU devices to users.
-std::unique_ptr<OperationPass<FuncOp>> CreateTPUDevicePropagationPass();
+std::unique_ptr<OperationPass<ModuleOp>> CreateTPUDevicePropagationPass();
 
 // Populates the supplied passmanager with the passes required to run the
 // bridge.
