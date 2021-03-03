@@ -9,8 +9,6 @@ load("//third_party/nccl:nccl_configure.bzl", "nccl_configure")
 load("//third_party/git:git_configure.bzl", "git_configure")
 load("//third_party/py:python_configure.bzl", "python_configure")
 load("//third_party/systemlibs:syslibs_configure.bzl", "syslibs_configure")
-load("//third_party/toolchains/remote:configure.bzl", "remote_execution_configure")
-load("//third_party/toolchains/clang6:repo.bzl", "clang6_configure")
 load("//third_party/toolchains/cpus/arm:arm_compiler_configure.bzl", "arm_compiler_configure")
 load("//third_party/toolchains/embedded/arm-linux:arm_linux_toolchain_configure.bzl", "arm_linux_toolchain_configure")
 load("//third_party:repo.bzl", "tf_http_archive")
@@ -48,6 +46,8 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
 load("@bazel_tools//tools/build_defs/repo:java.bzl", "java_import_external")
 load("@io_bazel_rules_closure//closure:defs.bzl", "filegroup_external")
 load("@tf_toolchains//toolchains/remote_config:configs.bzl", "initialize_rbe_configs")
+load("@tf_toolchains//toolchains/remote:configure.bzl", "remote_execution_configure")
+load("@tf_toolchains//toolchains/clang6:repo.bzl", "clang6_configure")
 
 def _initialize_third_party():
     """ Load third party repositories.  See above load() statements. """
@@ -529,15 +529,15 @@ def _tf_repositories():
     tf_http_archive(
         name = "com_google_protobuf",
         patch_file = "//third_party/protobuf:protobuf.patch",
-        sha256 = "cfcba2df10feec52a84208693937c17a4b5df7775e1635c1e3baffc487b24c9b",
-        strip_prefix = "protobuf-3.9.2",
+        sha256 = "9748c0d90e54ea09e5e75fb7fac16edce15d2028d4356f32211cfa3c0e956564",
+        strip_prefix = "protobuf-3.11.4",
         system_build_file = "//third_party/systemlibs:protobuf.BUILD",
         system_link_files = {
             "//third_party/systemlibs:protobuf.bzl": "protobuf.bzl",
         },
         urls = [
-            "https://storage.googleapis.com/mirror.tensorflow.org/github.com/protocolbuffers/protobuf/archive/v3.9.2.zip",
-            "https://github.com/protocolbuffers/protobuf/archive/v3.9.2.zip",
+            "https://storage.googleapis.com/mirror.tensorflow.org/github.com/protocolbuffers/protobuf/archive/v3.11.4.zip",
+            "https://github.com/protocolbuffers/protobuf/archive/v3.11.4.zip",
         ],
     )
 
