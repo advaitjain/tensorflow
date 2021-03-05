@@ -1,4 +1,4 @@
-/* Copyright 2015 The TensorFlow Authors. All Rights Reserved.
+/* Copyright 2021 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,18 +13,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#if GOOGLE_CUDA || TENSORFLOW_USE_ROCM
+// This file is generated. See:
+// third_party/tensorflow/lite/micro/kernels/test_data_generation/README.md
 
-#include "tensorflow/core/kernels/cwise_ops_gpu_common.cu.h"
+#include "tensorflow/lite/micro/kernels/circular_buffer_flexbuffers_generated_data.h"
 
-namespace tensorflow {
-namespace functor {
-#if !defined(MLIR_GENERATED_GPU_KERNELS_ENABLED)
-DEFINE_BINARY6(minimum, Eigen::half, float, double, uint8, int16, int64);
-#else
-DEFINE_BINARY1(minimum, uint8);
-#endif
-}  // namespace functor
-}  // namespace tensorflow
-
-#endif  // GOOGLE_CUDA || TENSORFLOW_USE_ROCM
+const int g_gen_data_size_circular_buffer_config = 21;
+const unsigned char g_gen_data_circular_buffer_config[] = {
+    0x63, 0x79, 0x63, 0x6c, 0x65, 0x73, 0x5f, 0x6d, 0x61, 0x78, 0x00,
+    0x01, 0x0c, 0x01, 0x01, 0x01, 0x01, 0x04, 0x02, 0x24, 0x01,
+};
