@@ -305,6 +305,7 @@ tf_py_test(
 tf_py_test(
     name = "ignore_errors_test",
     srcs = ["ignore_errors_test.py"],
+    tags = ["noasan"],  # b/182370073
     deps = [
         "//tensorflow/python:array_ops",
         "//tensorflow/python:client_testlib",
@@ -808,6 +809,9 @@ tf_py_test(
     timeout = "long",
     srcs = ["snapshot_test.py"],
     shard_count = 10,
+    tags = [
+        "no_windows",  # TODO(b/182379890)
+    ],
     deps = [
         ":reader_dataset_ops_test_base",
         "//tensorflow/python:client_testlib",
