@@ -20,6 +20,8 @@ limitations under the License.
 
 #if defined(__ANDROID__)
 #include "tensorflow/lite/profiling/atrace_profiler.h"
+#elif defined(__APPLE__)
+#include "tensorflow/lite/profiling/signpost_profiler.h"
 #endif
 
 namespace tflite {
@@ -28,6 +30,8 @@ namespace profiling {
 std::unique_ptr<tflite::Profiler> MaybeCreatePlatformProfiler() {
 #if defined(__ANDROID__)
   return MaybeCreateATraceProfiler();
+#elif defined(__APPLE__)
+  return MaybeCreateSignpostProfiler();
 #else
   return nullptr;
 #endif
