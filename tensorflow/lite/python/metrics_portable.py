@@ -16,8 +16,10 @@
 """Python TFLite metrics helper."""
 from typing import Optional, Text
 
+from tensorflow.lite.python import metrics_interface
 
-class TFLiteMetrics(object):
+
+class TFLiteMetrics(metrics_interface.TFLiteMetricsInterface):
 
   def __init__(self,
                md5: Optional[Text] = None,

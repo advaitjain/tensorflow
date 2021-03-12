@@ -1,5 +1,5 @@
-#!/bin/bash
-# Copyright 2019 The TensorFlow Authors. All Rights Reserved.
+# Lint as: python2, python3
+# Copyright 2021 The TensorFlow Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,20 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-set -e
+"""Python TFLite metrics helper interface."""
+import abc
 
-# Install latest bazel
-source tensorflow/tools/ci_build/release/common.sh
-install_bazelisk
-which bazel
 
-# We need py3 lint
-sudo python3.8 -m pip install pep8
+class TFLiteMetricsInterface(metaclass=abc.ABCMeta):
 
-# Install pylint
-sudo python3.8 -m pip install setuptools --upgrade
-sudo python3.8 -m pip install pylint==2.4.4
-python3.8 -m pylint --version
-
-# Run tensorflow sanity checks.
-tensorflow/tools/ci_build/ci_sanity.sh
+  @abc.abstractmethod
+  def increase_counter_interpreter_creation(self):
+    raise NotImplementedError
