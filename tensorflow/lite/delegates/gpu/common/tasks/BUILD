@@ -91,6 +91,19 @@ cc_library(
 )
 
 cc_library(
+    name = "conv_buffer_1x1_test_util",
+    testonly = 1,
+    srcs = ["conv_buffer_1x1_test_util.cc"],
+    hdrs = ["conv_buffer_1x1_test_util.h"],
+    deps = [
+        ":conv_buffer_1x1",
+        "//tensorflow/lite/delegates/gpu/common:operations",
+        "//tensorflow/lite/delegates/gpu/common:status",
+        "//tensorflow/lite/delegates/gpu/common/task:testing_util",
+    ],
+)
+
+cc_library(
     name = "conv_constants",
     srcs = ["conv_constants.cc"],
     hdrs = ["conv_constants.h"],
@@ -108,6 +121,19 @@ cc_library(
         "//tensorflow/lite/delegates/gpu/common/task:util",
         "//tensorflow/lite/delegates/gpu/common/task:work_group_picking",
         "@com_google_absl//absl/strings",
+    ],
+)
+
+cc_library(
+    name = "conv_constants_test_util",
+    testonly = 1,
+    srcs = ["conv_constants_test_util.cc"],
+    hdrs = ["conv_constants_test_util.h"],
+    deps = [
+        ":conv_constants",
+        "//tensorflow/lite/delegates/gpu/common:operations",
+        "//tensorflow/lite/delegates/gpu/common:status",
+        "//tensorflow/lite/delegates/gpu/common/task:testing_util",
     ],
 )
 
