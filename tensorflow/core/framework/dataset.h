@@ -302,6 +302,7 @@ class GraphDefBuilderWrapper {
 };
 
 class StatsAggregator;
+class FunctionHandleCache;
 
 // A utility class for running a function and ensuring that there is always a
 // `tensorflow::data` symbol on the stack.
@@ -353,6 +354,7 @@ class IteratorContext {
           cancellation_manager(ctx->cancellation_manager()),
           env(ctx->env()),
           flr(ctx->flr()),
+          function_handle_cache(ctx->function_handle_cache()),
           resource_mgr(ctx->resource_mgr()),
           model(ctx->model()),
           runner(*(ctx->runner())),
@@ -409,6 +411,9 @@ class IteratorContext {
     // The FunctionLibraryRuntime object to be used to make function calls.
     FunctionLibraryRuntime* flr = nullptr;
 
+    // A FunctionHandleCache that owns all the function handles. Not owned.
+    FunctionHandleCache* function_handle_cache = nullptr;
+
     // A resource manager for storing dataset-related state, e.g. random
     // seeds or cached tensors. Not owned.
     ResourceMgr* resource_mgr = nullptr;
@@ -456,6 +461,10 @@ class IteratorContext {
   Env* env() const { return params_.env; }
 
   FunctionLibraryRuntime* flr() { return params_.flr; }
+
+  FunctionHandleCache* function_handle_cache() {
+    return params_.function_handle_cache;
+  }
 
   ResourceMgr* resource_mgr() { return params_.resource_mgr; }
 
@@ -571,6 +580,9 @@ class SerializationContext {
     // seeds. This param does not affect datasets that use fixed seeds; fixed
     // seeds will always be preserved.
     bool preserve_random_seeds = true;
+
+    // A resource manager for looking up resources during serialization.
+    ResourceMgr* resource_mgr;
   };
 
   explicit SerializationContext(Params params) : params_(params) {}
@@ -588,6 +600,8 @@ class SerializationContext {
   bool serialize_data_tensors() const { return params_.serialize_data_tensors; }
 
   bool preserve_random_seeds() const { return params_.preserve_random_seeds; }
+
+  ResourceMgr* resource_mgr() const { return params_.resource_mgr; }
 
  private:
   Params params_;
@@ -931,6 +945,8 @@ class DatasetBase : public core::RefCounted {
    private:
     Status AddDatasetOrTensorHelper(SerializationContext* ctx,
                                     const Tensor& val, Node** output);
+    Status AddResourceHelper(SerializationContext* ctx, const Tensor& val,
+                             Node** output);
   };
 
   // Serializes the dataset into a `GraphDef`, which has two uses:
