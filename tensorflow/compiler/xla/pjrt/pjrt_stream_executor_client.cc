@@ -91,11 +91,14 @@ limitations under the License.
 #include "tensorflow/compiler/xla/pjrt/local_device_state.h"
 #include "tensorflow/compiler/xla/pjrt/tracked_device_buffer.h"
 #include "tensorflow/compiler/xla/pjrt/utils.h"
+#include "tensorflow/compiler/xla/service/computation_layout.h"
 #include "tensorflow/compiler/xla/service/executable.h"
 #include "tensorflow/compiler/xla/service/hlo_cost_analysis.h"
 #include "tensorflow/compiler/xla/service/hlo_input_output_alias_config.h"
 #include "tensorflow/compiler/xla/service/maybe_owning_device_memory.h"
 #include "tensorflow/compiler/xla/service/shaped_buffer.h"
+#include "tensorflow/compiler/xla/service/transfer_manager.h"
+#include "tensorflow/compiler/xla/shape.h"
 #include "tensorflow/compiler/xla/shape_util.h"
 #include "tensorflow/compiler/xla/util.h"
 #include "tensorflow/compiler/xla/xla_data.pb.h"
@@ -1033,8 +1036,7 @@ PjRtStreamExecutorBuffer::PjRtStreamExecutorBuffer(
     : client_(tensorflow::down_cast<PjRtStreamExecutorClient*>(client)),
       on_device_shape_(std::move(on_device_shape)),
       device_(tensorflow::down_cast<PjRtStreamExecutorDevice*>(device)),
-      device_buffer_(std::move(device_buffer)),
-      donation_semaphore_(/*capacity=*/1) {
+      device_buffer_(std::move(device_buffer)) {
   for (int i = 0; i < ScopedHold::Type::kMaxValue; ++i) {
     holds_[i] = 0;
   }
@@ -1159,6 +1161,8 @@ bool PjRtStreamExecutorBuffer::IsDeleted() {
 
 StatusOr<std::shared_ptr<TrackedDeviceBuffer>>
 PjRtStreamExecutorBuffer::GetBufferForHoldLocked(ScopedHold::Type type) {
+  // All callers should have called WaitForOutstandingDonationHold().
+  CHECK_EQ(holds_[ScopedHold::kDonation], 0);
   if (type == ScopedHold::kDonation) {
     if (device_buffer_ == nullptr) {
       return InvalidArgument("Donation requested for invalid buffer");
@@ -1167,9 +1171,6 @@ PjRtStreamExecutorBuffer::GetBufferForHoldLocked(ScopedHold::Type type) {
       return InvalidArgument(
           "Donation requested for buffer with external reference");
     }
-    // donation_semaphore_ was acquired in GetBufferWithHold so that only one
-    // thread at a time can attempt to get a donation hold.
-    CHECK_EQ(holds_[type], 0);
     // First add the donation hold.
     ++holds_[type];
     // Then wait for any usage holds to be dropped or converted. No new usage
@@ -1180,9 +1181,6 @@ PjRtStreamExecutorBuffer::GetBufferForHoldLocked(ScopedHold::Type type) {
     // we were waiting.
     CHECK(device_buffer_ != nullptr);
   } else {
-    // If there is a donation hold in progress we have to wait before
-    // acquiring any other kind of hold.
-    WaitForOutstandingDonationHold();
     if (device_buffer_ == nullptr) {
       return InvalidArgument("Hold requested on deleted or donated buffer");
     } else {
@@ -1224,8 +1222,6 @@ void PjRtStreamExecutorBuffer::ConfirmDonation(
     // Release or GetBufferWithHold will see an invalid buffer and return.
     device_buffer_.reset();
   }
-  // Unblock another thread, if any, trying to get a donation hold.
-  donation_semaphore_.Release(1);
 }
 
 void PjRtStreamExecutorBuffer::DropHold(ScopedHold::Type type,
@@ -1238,7 +1234,6 @@ void PjRtStreamExecutorBuffer::DropHold(ScopedHold::Type type,
     CHECK_EQ(holds_[ScopedHold::kDonation], 0);
     CHECK_EQ(holds_[ScopedHold::kUsage], 0);
     CHECK_EQ(holds_[ScopedHold::kExternalReference], 0);
-    donation_semaphore_.Release(1);
   }
 }
 
@@ -1308,16 +1303,11 @@ StatusOr<ShapedBuffer> PjRtStreamExecutorBuffer::AsShapedBuffer() const {
 
 PjRtStreamExecutorBuffer::ScopedHold
 PjRtStreamExecutorBuffer::GetBufferWithHold(ScopedHold::Type type) {
-  if (type == ScopedHold::kDonation) {
-    // Ensure that at most one donation hold can be in progress at a time.
-    donation_semaphore_.Acquire(1);
-  }
   absl::MutexLock lock(&mu_);
+  // Ensure that at most one donation hold can be in progress at a time.
+  WaitForOutstandingDonationHold();
   ScopedHold hold(this, type);
   AcquireHoldLocked(&hold);
-  if (type == ScopedHold::kDonation && !hold.ok()) {
-    donation_semaphore_.Release(1);
-  }
   return hold;
 }
 
@@ -1509,21 +1499,42 @@ struct TupleHandle {
   std::shared_ptr<BufferSequencingEvent> event;
 };
 
+Status CheckCompatibleShapes(bool strict_shape_checking,
+                             const Shape& buffer_shape,
+                             const Shape& execution_shape,
+                             const TransferManager& transfer_manager,
+                             int parameter_index) {
+  // TODO(misard) Support casting of tuple parameters.
+  if (strict_shape_checking || buffer_shape.IsTuple()) {
+    if (!ShapeUtil::Equal(buffer_shape, execution_shape)) {
+      return InvalidArgument(
+          "Executable expected shape %s for argument %d but got "
+          "incompatible "
+          "shape %s",
+          ShapeUtil::HumanStringWithLayout(execution_shape), parameter_index,
+          ShapeUtil::HumanStringWithLayout(buffer_shape));
+    }
+  } else {
+    if (transfer_manager.GetByteSizeRequirement(buffer_shape) !=
+        transfer_manager.GetByteSizeRequirement(execution_shape)) {
+      return InvalidArgument(
+          "Executable expected shape %s for argument %d but got "
+          "incompatible "
+          "shape %s",
+          ShapeUtil::HumanStringWithLayout(execution_shape), parameter_index,
+          ShapeUtil::HumanStringWithLayout(buffer_shape));
+    }
+  }
+  return Status::OK();
+}
+
 // Makes a tuple from the arguments to an execution.
 StatusOr<TupleHandle> MakeTupleHelper(
     PjRtClient* client, LocalDeviceState* local_device,
+    bool strict_shape_checking, const Shape& tupled_parameter_shape,
     absl::Span<PjRtBuffer* const> py_buffers,
     absl::Span<const PjRtStreamExecutorBuffer::ScopedHold> device_buffers,
     int device_ordinal) {
-  std::vector<Shape> host_shapes;
-  std::vector<Shape> device_shapes;
-  host_shapes.reserve(py_buffers.size());
-  device_shapes.reserve(py_buffers.size());
-  for (const PjRtBuffer* buffer : py_buffers) {
-    device_shapes.push_back(buffer->on_device_shape());
-  }
-  Shape on_device_shape = ShapeUtil::MakeTupleShape(device_shapes);
-
   se::DeviceMemoryAllocator* allocator =
       tensorflow::down_cast<PjRtStreamExecutorClient*>(client)->allocator();
   TransferManager* transfer_manager =
@@ -1531,12 +1542,24 @@ StatusOr<TupleHandle> MakeTupleHelper(
           ->client()
           ->backend()
           .transfer_manager();
+
+  if (tupled_parameter_shape.tuple_shapes_size() != py_buffers.size()) {
+    return InvalidArgument("Executable expected %lld parameters but got %lld",
+                           tupled_parameter_shape.tuple_shapes_size(),
+                           py_buffers.size());
+  }
+  for (int i = 0; i < py_buffers.size(); ++i) {
+    TF_RETURN_IF_ERROR(CheckCompatibleShapes(
+        strict_shape_checking, py_buffers[i]->on_device_shape(),
+        tupled_parameter_shape.tuple_shapes(i), *transfer_manager, i));
+  }
+
   se::Stream* stream = local_device->host_to_device_stream();
   TF_ASSIGN_OR_RETURN(
       se::OwningDeviceMemory root_table_memory,
       allocator->Allocate(
           device_ordinal,
-          transfer_manager->GetByteSizeRequirement(on_device_shape)));
+          transfer_manager->GetByteSizeRequirement(tupled_parameter_shape)));
 
   if (local_device->allocation_model() ==
       LocalDeviceState::kComputeSynchronized) {
@@ -1546,7 +1569,7 @@ StatusOr<TupleHandle> MakeTupleHelper(
         local_device->compute_stream()->parent(), root_table_memory.cref()));
   }
 
-  ExecutionInput execution_input(on_device_shape);
+  ExecutionInput execution_input(tupled_parameter_shape);
   ShapeTree<MaybeOwningDeviceMemory>::iterator input_iterator =
       execution_input.MutableBuffers()->begin();
   ShapeTree<MaybeOwningDeviceMemory>::iterator iterator_end =
@@ -1610,9 +1633,24 @@ PjRtStreamExecutorExecutable::PjRtStreamExecutorExecutable(
       addressable_device_logical_ids_(
           std::move(addressable_device_logical_ids)),
       addressable_devices_(std::move(addressable_devices)) {
+  TransferManager* transfer_manager =
+      tensorflow::down_cast<PjRtStreamExecutorClient*>(client_)
+          ->client()
+          ->backend()
+          .transfer_manager();
   executables_.reserve(executables.size());
   for (auto& executable : executables) {
+    const auto& computation_layout =
+        executable->executable()->module().entry_computation_layout();
+    std::vector<Shape> parameter_shapes;
+    parameter_shapes.reserve(computation_layout.parameter_count());
+    for (int i = 0; i < computation_layout.parameter_count(); ++i) {
+      parameter_shapes.push_back(transfer_manager->HostShapeToDeviceShape(
+          computation_layout.parameter_shape(i)));
+    }
     executables_.emplace_back(std::move(executable));
+    on_device_executable_parameter_shapes_.push_back(
+        std::move(parameter_shapes));
   }
 
   int num_partitions;
@@ -1668,27 +1706,43 @@ bool PjRtStreamExecutorExecutable::MustDonateParameter(int executable_idx,
 StatusOr<std::vector<ExecutionInput>>
 PjRtStreamExecutorExecutable::MakeExecutionInputsAndWaitForEvents(
     int device_ordinal, const ExecuteOptions& options,
+    absl::Span<const Shape> executable_parameter_shapes,
     absl::Span<PjRtBuffer* const> argument_handles,
     absl::Span<const PjRtStreamExecutorBuffer::ScopedHold> device_buffers,
     absl::flat_hash_set<BufferSequencingEvent*>& events) const {
   std::vector<ExecutionInput> execution_inputs;
   LocalDeviceState* device_state = &(client_->device_state(device_ordinal));
+  TransferManager* transfer_manager =
+      tensorflow::down_cast<PjRtStreamExecutorClient*>(client_)
+          ->client()
+          ->backend()
+          .transfer_manager();
   // Lift tuple_handle outside the conditional so that the event it returns is
   // not destroyed until after the loop below that waits on events.
   absl::optional<TupleHandle> tuple_handle;
   if (parameter_is_tupled_arguments_ && !options.arguments_are_tupled) {
-    TF_ASSIGN_OR_RETURN(tuple_handle,
-                        MakeTupleHelper(client_, device_state, argument_handles,
-                                        device_buffers, device_ordinal));
+    TF_ASSIGN_OR_RETURN(
+        tuple_handle,
+        MakeTupleHelper(client_, device_state, options.strict_shape_checking,
+                        executable_parameter_shapes[0], argument_handles,
+                        device_buffers, device_ordinal));
     events.insert(tuple_handle->event.get());
     execution_inputs.emplace_back(std::move(tuple_handle->execution_input));
   } else {
+    if (argument_handles.size() != executable_parameter_shapes.size()) {
+      return InvalidArgument("Executable expected %lld arguments but got %lld",
+                             executable_parameter_shapes.size(),
+                             argument_handles.size());
+    }
     execution_inputs.reserve(argument_handles.size());
     for (int i = 0; i < argument_handles.size(); ++i) {
       PjRtBuffer* handle = argument_handles[i];
 
       // Make an ExecutionInput from the device buffer.
-      execution_inputs.emplace_back(handle->on_device_shape());
+      TF_RETURN_IF_ERROR(CheckCompatibleShapes(
+          options.strict_shape_checking, handle->on_device_shape(),
+          executable_parameter_shapes[i], *transfer_manager, i));
+      execution_inputs.emplace_back(executable_parameter_shapes[i]);
       ExecutionInput& execution_input = execution_inputs.back();
       ShapeTree<MaybeOwningDeviceMemory>::iterator input_iterator =
           execution_input.MutableBuffers()->begin();
@@ -1778,7 +1832,9 @@ StatusOr<ScopedShapedBuffer> PjRtStreamExecutorExecutable::EnqueueExecution(
   TF_ASSIGN_OR_RETURN(
       std::vector<ExecutionInput> execution_inputs,
       MakeExecutionInputsAndWaitForEvents(
-          device_ordinal, options, argument_handles, *device_buffers, events));
+          device_ordinal, options,
+          on_device_executable_parameter_shapes_[executable_idx],
+          argument_handles, *device_buffers, events));
 
   ExecutableRunOptions run_options;
   run_options.set_stream(device_state->compute_stream());
