@@ -1,0 +1,59 @@
+Mon Mar  8 16:30:28 PST 2021
+tensorflow version: a2f2060e8c47f42528cb9bfdd0849e21cc6ea827
+   text	   data	    bss	    dec	    hex	filename
+  98156	    432	  22816	 121404	  1da3c	tensorflow/lite/micro/tools/make/gen/xtensa_vision_p6_release/bin/keyword_benchmark
+
+Mon Mar  8 19:15:22 PST 2021
+tensorflow version: 8e157e2dcc631cd1234dff0997a6f014be15457f
+   text	   data	    bss	    dec	    hex	filename
+  98156	    432	  22816	 121404	  1da3c	tensorflow/lite/micro/tools/make/gen/xtensa_vision_p6_release/bin/keyword_benchmark
+
+Tue Mar  9 06:15:22 PST 2021
+tensorflow version: 6fb2b8b3ec45207b26a33e6beb58f66d36433cfe
+   text	   data	    bss	    dec	    hex	filename
+  98156	    432	  22816	 121404	  1da3c	tensorflow/lite/micro/tools/make/gen/xtensa_vision_p6_release/bin/keyword_benchmark
+
+Mon Mar 15 19:14:49 PDT 2021
+tensorflow version: a5bef8a3715e94b102804c7f858446dd32f423de
+   text	   data	    bss	    dec	    hex	filename
+  84420	  40452	  25080	 149952	  249c0	tensorflow/lite/micro/tools/make/gen/xtensa_vision_p6_release/bin/keyword_benchmark
+
+Tue Mar 16 06:14:41 PDT 2021
+tensorflow version: e0c681c5c738d8898fd698fc9d27e31c1471b993
+   text	   data	    bss	    dec	    hex	filename
+  84420	  40452	  25080	 149952	  249c0	tensorflow/lite/micro/tools/make/gen/xtensa_vision_p6_release/bin/keyword_benchmark
+
+Tue Mar 16 12:14:41 PDT 2021
+tensorflow version: 6c922429b2ed9b4eb7927fd376ca5570bd4be0b4
+   text	   data	    bss	    dec	    hex	filename
+  84420	  40452	  25080	 149952	  249c0	tensorflow/lite/micro/tools/make/gen/xtensa_vision_p6_release/bin/keyword_benchmark
+
+Tue Mar 16 19:14:38 PDT 2021
+tensorflow version: 242722c021574534c3ba9488ddb7e385e21d19e5
+   text	   data	    bss	    dec	    hex	filename
+  84420	  40452	  25080	 149952	  249c0	tensorflow/lite/micro/tools/make/gen/xtensa_vision_p6_release/bin/keyword_benchmark
+
+Wed Mar 17 06:14:37 PDT 2021
+tensorflow version: b87d02a3f8d8b55045bf4250dd72e746357a3eba
+   text	   data	    bss	    dec	    hex	filename
+  84420	  40452	  25080	 149952	  249c0	tensorflow/lite/micro/tools/make/gen/xtensa_vision_p6_release/bin/keyword_benchmark
+
+Wed Mar 17 12:14:39 PDT 2021
+tensorflow version: b347508e0decd7ac3ec8ae8c9ab53f7a117a6124
+   text	   data	    bss	    dec	    hex	filename
+  84420	  40452	  25080	 149952	  249c0	tensorflow/lite/micro/tools/make/gen/xtensa_vision_p6_release/bin/keyword_benchmark
+
+Wed Mar 17 19:14:39 PDT 2021
+tensorflow version: f4d612f2afb5812971021d07a1d1dc7c1415ed63
+   text	   data	    bss	    dec	    hex	filename
+  83428	  40452	  25080	 148960	  245e0	tensorflow/lite/micro/tools/make/gen/xtensa_vision_p6_release/bin/keyword_benchmark
+
+Thu Mar 18 06:14:42 PDT 2021
+tensorflow version: 9afae6a56be8028a6f01e780d361b848b482f795
+   text	   data	    bss	    dec	    hex	filename
+  83428	  40452	  25080	 148960	  245e0	tensorflow/lite/micro/tools/make/gen/xtensa_vision_p6_release/bin/keyword_benchmark
+
+Thu Mar 18 12:14:45 PDT 2021
+tensorflow version: 631f2b77dc22cf2e1b9a41d0c7518b32fe02e61b
+   text	   data	    bss	    dec	    hex	filename
+  83428	  40452	  25080	 148960	  245e0	tensorflow/lite/micro/tools/make/gen/xtensa_vision_p6_release/bin/keyword_benchmark
