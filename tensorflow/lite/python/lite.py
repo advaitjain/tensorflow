@@ -433,6 +433,11 @@ class QuantizationMode(object):
     return False
 
 
+# The metrics are unregistered if their variables get garbage-collected. So use
+# a global variable to keep them alive till program exits.
+_global_metrics = metrics.TFLiteMetrics()
+
+
 class TFLiteConverterBase(object):
   """Converter subclass to share functionality between V1 and V2 converters."""
 
@@ -453,7 +458,7 @@ class TFLiteConverterBase(object):
     self._saved_model_version = 0
     self._saved_model_exported_names = []
     # Variable for converter metrics.
-    self._tflite_metrics = metrics.TFLiteMetrics()
+    self._tflite_metrics = _global_metrics
 
   def _grappler_config(self, optimizers=None):
     """Creates a tf.compat.v1.ConfigProto for configuring Grappler.
@@ -600,22 +605,34 @@ class TFLiteConverterBase(object):
     """Set conversion parameter metrics."""
     converter_kwargs = converter_params.copy()
     converter_kwargs.update(self._get_base_converter_args())
-    if graph_def:
-      try:
-        quant_mode = QuantizationMode(self.optimizations, self.target_spec,
-                                      self.representative_dataset, graph_def)
-        converter_kwargs.update(
-            quant_mode.converter_flags(inference_type, inference_input_type))
 
-        calibrate_and_quantize, flags = quant_mode.quantizer_flags(
-            inference_type, inference_input_type)
-        converter_kwargs.update(
-            {"calibrate_and_quantize": calibrate_and_quantize})
-        if calibrate_and_quantize:
-          converter_kwargs.update(flags)
-      except Exception:  # pylint: disable=broad-except
-        # Still updates other params.
-        pass
+    # quantization-replated parameters.
+    try:
+      quant_mode = QuantizationMode(self.optimizations, self.target_spec,
+                                    self.representative_dataset, graph_def)
+      calibrate_and_quantize, flags = quant_mode.quantizer_flags(
+          inference_type, inference_input_type)
+      converter_kwargs.update({
+          "calibrate_and_quantize": calibrate_and_quantize,
+      })
+      if calibrate_and_quantize:
+        converter_kwargs.update(flags)
+      converter_kwargs.update(
+          quant_mode.converter_flags(inference_type, inference_input_type))
+    except Exception:  # pylint: disable=broad-except
+      # Still updates other params.
+      pass
+
+    # Optimization parameters.
+    optimization_default = set(self.optimizations).intersection([
+        Optimize.OPTIMIZE_FOR_LATENCY, Optimize.OPTIMIZE_FOR_SIZE,
+        Optimize.DEFAULT
+    ])
+    converter_kwargs.update({
+        "optimization_sparsify_model": self._sparsify_model(),
+        "optimization_default": optimization_default,
+    })
+
     for key, value in converter_kwargs.items():
       self._tflite_metrics.set_converter_param(key, str(value))
 
