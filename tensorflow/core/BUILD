@@ -245,6 +245,7 @@ tf_proto_library(
         "//tensorflow/core/protobuf:for_core_protos",
         "//tensorflow/core/util:protos_all",
         "//tensorflow/core/util:test_log_proto_impl",
+        "//tensorflow/core/grappler/costs:op_performance_data",
     ],
     visibility = ["//visibility:public"],
 )
@@ -1655,7 +1656,9 @@ tf_cuda_library(
         "//tensorflow/core/util:stats_calculator_portable",
         "//tensorflow/core/util:tensor_format",
         "//tensorflow/compiler/jit:common",
-    ] + if_static(
+    ] + if_cuda([
+        "@local_config_cuda//cuda:cudnn_header",
+    ]) + if_static(
         extra_deps = ["@com_google_protobuf//:protobuf"],
         otherwise = ["@com_google_protobuf//:protobuf_headers"],
     ),

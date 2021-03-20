@@ -168,7 +168,6 @@ tf_py_test(
     size = "small",
     srcs = ["data_service_ops_ft_test.py"],
     shard_count = 10,
-    srcs_version = "PY3",
     deps = [
         ":data_service_test_base",
         "//tensorflow:tensorflow_py",
@@ -188,7 +187,6 @@ tf_py_test(
     size = "medium",
     srcs = ["data_service_ops_test.py"],
     shard_count = 10,
-    srcs_version = "PY3",
     tags = [
         "notsan",  # TODO(b/180454113)
     ],
@@ -222,6 +220,7 @@ tf_py_test(
     name = "dense_to_ragged_batch_test",
     size = "small",
     srcs = ["dense_to_ragged_batch_test.py"],
+    shard_count = 4,
     deps = [
         "//tensorflow/python:array_ops",
         "//tensorflow/python:client_testlib",
@@ -432,8 +431,9 @@ tf_py_test(
 
 tf_py_test(
     name = "map_and_batch_test",
-    size = "medium",
+    size = "small",
     srcs = ["map_and_batch_test.py"],
+    shard_count = 4,
     deps = [
         "//tensorflow/python:array_ops",
         "//tensorflow/python:client_testlib",
@@ -833,46 +833,6 @@ tf_py_test(
         "//tensorflow/python/data/experimental/ops:readers",
         "//tensorflow/python/data/kernel_tests:checkpoint_test_base",
         "@org_sqlite//:python",
-    ],
-)
-
-tf_py_test(
-    name = "stats_dataset_ops_test",
-    size = "small",
-    srcs = ["stats_dataset_ops_test.py"],
-    shard_count = 4,
-    tags = [
-        "no_oss",  # TODO(b/155795733): Note that this functionality is deprecated.
-        "no_pip",
-        "notap",
-    ],
-    deps = [
-        ":stats_dataset_test_base",
-        "//tensorflow/python:array_ops",
-        "//tensorflow/python:client_testlib",
-        "//tensorflow/python:errors",
-        "//tensorflow/python:framework_ops",
-        "//tensorflow/python:math_ops",
-        "//tensorflow/python/data/experimental/ops:batching",
-        "//tensorflow/python/data/experimental/ops:stats_aggregator",
-        "//tensorflow/python/data/experimental/ops:stats_ops",
-        "//tensorflow/python/data/experimental/ops:stats_options",
-        "//tensorflow/python/data/kernel_tests:checkpoint_test_base",
-        "//tensorflow/python/data/kernel_tests:tf_record_test_base",
-        "//tensorflow/python/data/ops:dataset_ops",
-        "//third_party/py/numpy",
-        "@absl_py//absl/testing:parameterized",
-    ],
-)
-
-py_library(
-    name = "stats_dataset_test_base",
-    srcs = ["stats_dataset_test_base.py"],
-    srcs_version = "PY3",
-    deps = [
-        "//tensorflow/core:protos_all_py",
-        "//tensorflow/python:client_testlib",
-        "//tensorflow/python/data/kernel_tests:test_base",
     ],
 )
 
