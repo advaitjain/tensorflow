@@ -1,4 +1,4 @@
-Building at 94891bb6574566c4c12b2815084a82092c2a63d8
+Building at 661cd63c70971ea44f07522eaeda0a70025a43c7
 
 make -f tensorflow/lite/micro/tools/make/Makefile clean
 
@@ -558,35 +558,40 @@ Testing FilterDimsNotMatchingAffineQuantization
 tensorflow/lite/micro/kernels/depthwise_conv_common.cc:175 affine_quantization->scale->size == 1 || affine_quantization->scale->size == filter->dims->data[kD was not true.
 tensorflow/lite/micro/kernels/depthwise_conv_common.cc:178 affine_quantization->scale->size != affine_quantization->zero_point->size (4 != 2)
 Testing Int8Input32x4Filter32x4ShouldMatchGolden
-2/2 tests passed
-~~~ALL TESTS PASSED~~~
-
-xt-clang++ -std=c++11 -fno-exceptions -fno-threadsafe-statics -fno-unwind-tables -ffunction-sections -fdata-sections -fmessage-length=0 -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -O3 -Werror -Wsign-compare -Wdouble-promotion -Wshadow -Wunused-variable -Wmissing-field-initializers -Wunused-function -Wswitch -Wvla -Wall -Wextra -Wstrict-aliasing -Wno-unused-parameter -DXTENSA -DXTENSA -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME --xtensa-core=mini1m1m_RG -mcoproc -DMAX_RFFT_PWR=9 -DMIN_RFFT_PWR=MAX_RFFT_PWR -DHIFIMINI -I. -Itensorflow/lite/micro/tools/make/downloads/gemmlowp -Itensorflow/lite/micro/tools/make/downloads/flatbuffers/include -Itensorflow/lite/micro/tools/make/downloads/ruy -c tensorflow/lite/micro/kernels/dequantize_test.cc -o tensorflow/lite/micro/tools/make/gen/xtensa_hifimini_default/obj/tensorflow/lite/micro/kernels/dequantize_test.o
-xt-clang++ -std=c++11 -fno-exceptions -fno-threadsafe-statics -fno-unwind-tables -ffunction-sections -fdata-sections -fmessage-length=0 -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -O3 -Werror -Wsign-compare -Wdouble-promotion -Wshadow -Wunused-variable -Wmissing-field-initializers -Wunused-function -Wswitch -Wvla -Wall -Wextra -Wstrict-aliasing -Wno-unused-parameter -DXTENSA -DXTENSA -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME --xtensa-core=mini1m1m_RG -mcoproc -DMAX_RFFT_PWR=9 -DMIN_RFFT_PWR=MAX_RFFT_PWR -DHIFIMINI -I. -Itensorflow/lite/micro/tools/make/downloads/gemmlowp -Itensorflow/lite/micro/tools/make/downloads/flatbuffers/include -Itensorflow/lite/micro/tools/make/downloads/ruy -o tensorflow/lite/micro/tools/make/gen/xtensa_hifimini_default/bin/kernel_dequantize_test tensorflow/lite/micro/tools/make/gen/xtensa_hifimini_default/obj/tensorflow/lite/micro/kernels/dequantize_test.o tensorflow/lite/micro/tools/make/gen/xtensa_hifimini_default/lib/libtensorflow-microlite.a -Wl,--fatal-warnings -Wl,--gc-sections -lm
-tensorflow/lite/micro/testing/test_xtensa_binary.sh tensorflow/lite/micro/tools/make/gen/xtensa_hifimini_default/bin/kernel_dequantize_test '~~~ALL TESTS PASSED~~~' xtensa
-Testing DequantizeOpTestUint8
-Testing DequantizeOpTestInt8
-Testing DequantizeOpTestInt16
-3/3 tests passed
-~~~ALL TESTS PASSED~~~
-
-xt-clang++ -std=c++11 -fno-exceptions -fno-threadsafe-statics -fno-unwind-tables -ffunction-sections -fdata-sections -fmessage-length=0 -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -O3 -Werror -Wsign-compare -Wdouble-promotion -Wshadow -Wunused-variable -Wmissing-field-initializers -Wunused-function -Wswitch -Wvla -Wall -Wextra -Wstrict-aliasing -Wno-unused-parameter -DXTENSA -DXTENSA -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME --xtensa-core=mini1m1m_RG -mcoproc -DMAX_RFFT_PWR=9 -DMIN_RFFT_PWR=MAX_RFFT_PWR -DHIFIMINI -I. -Itensorflow/lite/micro/tools/make/downloads/gemmlowp -Itensorflow/lite/micro/tools/make/downloads/flatbuffers/include -Itensorflow/lite/micro/tools/make/downloads/ruy -c tensorflow/lite/micro/kernels/div_test.cc -o tensorflow/lite/micro/tools/make/gen/xtensa_hifimini_default/obj/tensorflow/lite/micro/kernels/div_test.o
-xt-clang++ -std=c++11 -fno-exceptions -fno-threadsafe-statics -fno-unwind-tables -ffunction-sections -fdata-sections -fmessage-length=0 -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -O3 -Werror -Wsign-compare -Wdouble-promotion -Wshadow -Wunused-variable -Wmissing-field-initializers -Wunused-function -Wswitch -Wvla -Wall -Wextra -Wstrict-aliasing -Wno-unused-parameter -DXTENSA -DXTENSA -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME --xtensa-core=mini1m1m_RG -mcoproc -DMAX_RFFT_PWR=9 -DMIN_RFFT_PWR=MAX_RFFT_PWR -DHIFIMINI -I. -Itensorflow/lite/micro/tools/make/downloads/gemmlowp -Itensorflow/lite/micro/tools/make/downloads/flatbuffers/include -Itensorflow/lite/micro/tools/make/downloads/ruy -o tensorflow/lite/micro/tools/make/gen/xtensa_hifimini_default/bin/kernel_div_test tensorflow/lite/micro/tools/make/gen/xtensa_hifimini_default/obj/tensorflow/lite/micro/kernels/div_test.o tensorflow/lite/micro/tools/make/gen/xtensa_hifimini_default/lib/libtensorflow-microlite.a -Wl,--fatal-warnings -Wl,--gc-sections -lm
-tensorflow/lite/micro/testing/test_xtensa_binary.sh tensorflow/lite/micro/tools/make/gen/xtensa_hifimini_default/bin/kernel_div_test '~~~ALL TESTS PASSED~~~' xtensa
-Testing FloatDivOpTestActNone
-Testing FloatDivOpTestActReluN1To1
-Testing FloatDivOpTestMultiShape
-Testing FloatDivOpTestBroadcast
-Testing FloatDivOpTestBroadcast5D
-Testing QuantizedDivOpTestActNone
-Testing QuantizedDivOpTestActReluN1To1
-Testing QuantizedDivOpTestMultiShape
-expected_data[i] (1.3339995*2^-1) near output_data[i] (1.2235288*2^-1) failed at tensorflow/lite/micro/kernels/div_test.cc:119
-expected_data[i] (1.3339995*2^-1) near output_data[i] (1.2235288*2^-1) failed at tensorflow/lite/micro/kernels/div_test.cc:119
-expected_data[i] (1.3339995*2^-1) near output_data[i] (1.2235288*2^-1) failed at tensorflow/lite/micro/kernels/div_test.cc:119
-expected_data[i] (1.3339995*2^-1) near output_data[i] (1.2235288*2^-1) failed at tensorflow/lite/micro/kernels/div_test.cc:119
-Testing QuantizedDivOpTestBroadcast
-8/9 tests passed
+Testing Int8Input32x1Filter32x1ShouldMatchGolden
+expected_output_data[i] (-1.0624999*2^4) near output_data[i] (1.1249999*2^4) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (-1.4999999*2^3) near output_data[i] (1.6249998*2^3) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (1.3749998*2^4) near output_data[i] (-1.4374997*2^4) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (1.4999999*2^2) near output_data[i] (-1.4999999*2^2) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (1.4999999*2^4) near output_data[i] (-1.5624998*2^4) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (-1.3749998*2^4) near output_data[i] (1.4999999*2^4) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (-1.0*2^4) near output_data[i] (1.0624999*2^4) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (-1.0624999*2^4) near output_data[i] (1.1249999*2^4) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (1.1249999*2^4) near output_data[i] (-1.1874998*2^4) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (1.2187497*2^5) near output_data[i] (-1.2812498*2^5) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (1.9374996*2^4) near output_data[i] (-1.0312499*2^5) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (-1.2499999*2^4) near output_data[i] (1.3124998*2^4) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (-1.3124998*2^4) near output_data[i] (1.4374997*2^4) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (-1.1249999*2^3) near output_data[i] (1.2499999*2^3) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (-1.7499998*2^3) near output_data[i] (1.8749997*2^3) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (1.4999999*2^3) near output_data[i] (-1.6249998*2^3) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (1.2499999*2^3) near output_data[i] (-1.3749998*2^3) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (1.3749998*2^3) near output_data[i] (-1.4999999*2^3) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (-1.0*2^4) near output_data[i] (1.0624999*2^4) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (-1.8749997*2^3) near output_data[i] (1.0*2^4) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (1.7499998*2^3) near output_data[i] (-1.7499998*2^3) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (-1.0*2^4) near output_data[i] (1.0624999*2^4) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (1.4999999*2^3) near output_data[i] (-1.6249998*2^3) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (1.6249998*2^3) near output_data[i] (-1.6249998*2^3) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (-1.0*2^2) near output_data[i] (1.0*2^2) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (-1.4999999*2^3) near output_data[i] (1.6249998*2^3) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (1.6249998*2^3) near output_data[i] (-1.7499998*2^3) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (1.0*2^2) near output_data[i] (-1.0*2^2) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (1.2499999*2^4) near output_data[i] (-1.3124998*2^4) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (-1.8124997*2^4) near output_data[i] (1.9374996*2^4) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (-1.0*2^3) near output_data[i] (1.1249999*2^3) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+expected_output_data[i] (-1.1874998*2^4) near output_data[i] (1.2499999*2^4) failed at tensorflow/lite/micro/kernels/depthwise_conv_test.cc:77
+2/3 tests passed
 ~~~SOME TESTS FAILED~~~
 
-make: *** [tensorflow/lite/micro/tools/make/Makefile:814: test_kernel_div_test] Error 1
+make: *** [tensorflow/lite/micro/tools/make/Makefile:814: test_kernel_depthwise_conv_test] Error 1

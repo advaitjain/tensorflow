@@ -1,4 +1,4 @@
-Building at 94891bb6574566c4c12b2815084a82092c2a63d8
+Building at 661cd63c70971ea44f07522eaeda0a70025a43c7
 
 make -f tensorflow/lite/micro/tools/make/Makefile clean
 
@@ -680,35 +680,10 @@ Testing FilterDimsNotMatchingAffineQuantization
 tensorflow/lite/micro/kernels/depthwise_conv_common.cc:175 affine_quantization->scale->size == 1 || affine_quantization->scale->size == filter->dims->data[kD was not true.
 tensorflow/lite/micro/kernels/depthwise_conv_common.cc:178 affine_quantization->scale->size != affine_quantization->zero_point->size (4 != 2)
 Testing Int8Input32x4Filter32x4ShouldMatchGolden
-2/2 tests passed
-~~~ALL TESTS PASSED~~~
-
-xt-clang++ -std=c++11 -fno-exceptions -fno-threadsafe-statics -fno-unwind-tables -ffunction-sections -fdata-sections -fmessage-length=0 -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -O3 -Werror -Wsign-compare -Wdouble-promotion -Wshadow -Wunused-variable -Wmissing-field-initializers -Wunused-function -Wswitch -Wvla -Wall -Wextra -Wstrict-aliasing -Wno-unused-parameter -DXTENSA -DXTENSA -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME --xtensa-core=F1_190305_swupgrade -mcoproc -DMAX_RFFT_PWR=9 -DMIN_RFFT_PWR=MAX_RFFT_PWR -DFUSION_F1 -DNNLIB_V2 -Wno-shadow -I. -Itensorflow/lite/micro/tools/make/downloads/gemmlowp -Itensorflow/lite/micro/tools/make/downloads/flatbuffers/include -Itensorflow/lite/micro/tools/make/downloads/ruy -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/algo/kernels/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/include/nnlib/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/include/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/algo/common/include/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/algo/ndsp/hifi4/include/ -c tensorflow/lite/micro/kernels/dequantize_test.cc -o tensorflow/lite/micro/tools/make/gen/xtensa_fusion_f1_default/obj/tensorflow/lite/micro/kernels/dequantize_test.o
-xt-clang++ -std=c++11 -fno-exceptions -fno-threadsafe-statics -fno-unwind-tables -ffunction-sections -fdata-sections -fmessage-length=0 -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -O3 -Werror -Wsign-compare -Wdouble-promotion -Wshadow -Wunused-variable -Wmissing-field-initializers -Wunused-function -Wswitch -Wvla -Wall -Wextra -Wstrict-aliasing -Wno-unused-parameter -DXTENSA -DXTENSA -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME --xtensa-core=F1_190305_swupgrade -mcoproc -DMAX_RFFT_PWR=9 -DMIN_RFFT_PWR=MAX_RFFT_PWR -DFUSION_F1 -DNNLIB_V2 -Wno-shadow -I. -Itensorflow/lite/micro/tools/make/downloads/gemmlowp -Itensorflow/lite/micro/tools/make/downloads/flatbuffers/include -Itensorflow/lite/micro/tools/make/downloads/ruy -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/algo/kernels/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/include/nnlib/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/include/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/algo/common/include/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/algo/ndsp/hifi4/include/ -o tensorflow/lite/micro/tools/make/gen/xtensa_fusion_f1_default/bin/kernel_dequantize_test tensorflow/lite/micro/tools/make/gen/xtensa_fusion_f1_default/obj/tensorflow/lite/micro/kernels/dequantize_test.o tensorflow/lite/micro/tools/make/gen/xtensa_fusion_f1_default/lib/libtensorflow-microlite.a -Wl,--fatal-warnings -Wl,--gc-sections -lm
-tensorflow/lite/micro/testing/test_xtensa_binary.sh tensorflow/lite/micro/tools/make/gen/xtensa_fusion_f1_default/bin/kernel_dequantize_test '~~~ALL TESTS PASSED~~~' xtensa
-Testing DequantizeOpTestUint8
-Testing DequantizeOpTestInt8
-Testing DequantizeOpTestInt16
-3/3 tests passed
-~~~ALL TESTS PASSED~~~
-
-xt-clang++ -std=c++11 -fno-exceptions -fno-threadsafe-statics -fno-unwind-tables -ffunction-sections -fdata-sections -fmessage-length=0 -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -O3 -Werror -Wsign-compare -Wdouble-promotion -Wshadow -Wunused-variable -Wmissing-field-initializers -Wunused-function -Wswitch -Wvla -Wall -Wextra -Wstrict-aliasing -Wno-unused-parameter -DXTENSA -DXTENSA -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME --xtensa-core=F1_190305_swupgrade -mcoproc -DMAX_RFFT_PWR=9 -DMIN_RFFT_PWR=MAX_RFFT_PWR -DFUSION_F1 -DNNLIB_V2 -Wno-shadow -I. -Itensorflow/lite/micro/tools/make/downloads/gemmlowp -Itensorflow/lite/micro/tools/make/downloads/flatbuffers/include -Itensorflow/lite/micro/tools/make/downloads/ruy -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/algo/kernels/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/include/nnlib/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/include/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/algo/common/include/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/algo/ndsp/hifi4/include/ -c tensorflow/lite/micro/kernels/div_test.cc -o tensorflow/lite/micro/tools/make/gen/xtensa_fusion_f1_default/obj/tensorflow/lite/micro/kernels/div_test.o
-xt-clang++ -std=c++11 -fno-exceptions -fno-threadsafe-statics -fno-unwind-tables -ffunction-sections -fdata-sections -fmessage-length=0 -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -O3 -Werror -Wsign-compare -Wdouble-promotion -Wshadow -Wunused-variable -Wmissing-field-initializers -Wunused-function -Wswitch -Wvla -Wall -Wextra -Wstrict-aliasing -Wno-unused-parameter -DXTENSA -DXTENSA -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME --xtensa-core=F1_190305_swupgrade -mcoproc -DMAX_RFFT_PWR=9 -DMIN_RFFT_PWR=MAX_RFFT_PWR -DFUSION_F1 -DNNLIB_V2 -Wno-shadow -I. -Itensorflow/lite/micro/tools/make/downloads/gemmlowp -Itensorflow/lite/micro/tools/make/downloads/flatbuffers/include -Itensorflow/lite/micro/tools/make/downloads/ruy -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/algo/kernels/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/include/nnlib/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/include/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/algo/common/include/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/algo/ndsp/hifi4/include/ -o tensorflow/lite/micro/tools/make/gen/xtensa_fusion_f1_default/bin/kernel_div_test tensorflow/lite/micro/tools/make/gen/xtensa_fusion_f1_default/obj/tensorflow/lite/micro/kernels/div_test.o tensorflow/lite/micro/tools/make/gen/xtensa_fusion_f1_default/lib/libtensorflow-microlite.a -Wl,--fatal-warnings -Wl,--gc-sections -lm
-tensorflow/lite/micro/testing/test_xtensa_binary.sh tensorflow/lite/micro/tools/make/gen/xtensa_fusion_f1_default/bin/kernel_div_test '~~~ALL TESTS PASSED~~~' xtensa
-Testing FloatDivOpTestActNone
-Testing FloatDivOpTestActReluN1To1
-Testing FloatDivOpTestMultiShape
-Testing FloatDivOpTestBroadcast
-Testing FloatDivOpTestBroadcast5D
-Testing QuantizedDivOpTestActNone
-Testing QuantizedDivOpTestActReluN1To1
-Testing QuantizedDivOpTestMultiShape
-expected_data[i] (1.3339995*2^-1) near output_data[i] (1.2235288*2^-1) failed at tensorflow/lite/micro/kernels/div_test.cc:119
-expected_data[i] (1.3339995*2^-1) near output_data[i] (1.2235288*2^-1) failed at tensorflow/lite/micro/kernels/div_test.cc:119
-expected_data[i] (1.3339995*2^-1) near output_data[i] (1.2235288*2^-1) failed at tensorflow/lite/micro/kernels/div_test.cc:119
-expected_data[i] (1.3339995*2^-1) near output_data[i] (1.2235288*2^-1) failed at tensorflow/lite/micro/kernels/div_test.cc:119
-Testing QuantizedDivOpTestBroadcast
-8/9 tests passed
+Testing Int8Input32x1Filter32x1ShouldMatchGolden
+tensorflow/lite/micro/kernels/xtensa/depthwise_conv.cc:338 required_scratch > 0 was not true.
+kTfLiteOk == tflite::testing::ValidateDepthwiseConvGoldens( golden_quantized, output_elements, &conv_params, kQuantizationTolerance, kTensorsSize, tensors) failed at tensorflow/lite/micro/kernels/depthwise_conv_:936 (0 vs 1)
+2/3 tests passed
 ~~~SOME TESTS FAILED~~~
 
-make: *** [tensorflow/lite/micro/tools/make/Makefile:814: test_kernel_div_test] Error 1
+make: *** [tensorflow/lite/micro/tools/make/Makefile:814: test_kernel_depthwise_conv_test] Error 1
