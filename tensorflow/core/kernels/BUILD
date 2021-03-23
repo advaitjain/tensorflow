@@ -558,7 +558,9 @@ tf_cuda_library(
         "@com_google_absl//absl/algorithm:container",
         "@com_google_absl//absl/base",
         "@com_google_absl//absl/types:span",
-    ],
+    ] + if_cuda([
+        "@local_config_cuda//cuda:cudnn_header",
+    ]),
 )
 
 tf_cc_test(
@@ -6015,6 +6017,8 @@ filegroup(
         "//tensorflow/core/kernels/data:batch_dataset_op.h",
         "//tensorflow/core/kernels/data:iterator_ops.h",
         "//tensorflow/core/kernels/data:map_dataset_op.h",
+        "//tensorflow/core/kernels/data:split_utils.h",
+        "//tensorflow/core/kernels/data:tensor_slice_dataset_op.h",
         "//tensorflow/core/kernels/data:dataset_utils.h",
         "//tensorflow/core/kernels/data:unbounded_thread_pool.h",
         "//tensorflow/core/kernels/data:model_dataset_op.h",
@@ -6344,6 +6348,8 @@ filegroup(
         "//tensorflow/core/kernels/data:batch_dataset_op.cc",
         "//tensorflow/core/kernels/data:iterator_ops.cc",
         "//tensorflow/core/kernels/data:map_dataset_op.cc",
+        "//tensorflow/core/kernels/data:split_utils.cc",
+        "//tensorflow/core/kernels/data:tensor_slice_dataset_op.cc",
         "//tensorflow/core/kernels/data:model_dataset_op.cc",
         "//tensorflow/core/kernels/data:optimize_dataset_op.cc",
         "//tensorflow/core/kernels/data:dataset_utils.cc",
