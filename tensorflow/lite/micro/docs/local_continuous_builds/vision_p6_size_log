@@ -97,3 +97,8 @@ Tue Mar 23 19:12:13 PDT 2021
 tensorflow version: f0b63d0e8758b9d8b5976634c324d3fabd1a09d3
    text	   data	    bss	    dec	    hex	filename
   83428	  40452	  25080	 148960	  245e0	tensorflow/lite/micro/tools/make/gen/xtensa_vision_p6_release/bin/keyword_benchmark
+
+Wed Mar 24 06:12:27 PDT 2021
+tensorflow version: 9221fea937f5e8ced20cd534ddcd2c6ecdcbb86c
+   text	   data	    bss	    dec	    hex	filename
+  83428	  40452	  25080	 148960	  245e0	tensorflow/lite/micro/tools/make/gen/xtensa_vision_p6_release/bin/keyword_benchmark
