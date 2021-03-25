@@ -56,6 +56,9 @@
         `DatasetCreator` is intended to work across all `tf.distribute`
         strategies, and is the only input type supported for Parameter Server
         strategy.
+* `tf.distribute`
+    *   `tf.distribute.experimental.ParameterServerStrategy` now supports
+        training with Keras `Model.fit` when used with `DatasetCreator`.
 
 ## Bug Fixes and Other Changes
 
@@ -91,6 +94,8 @@
 *   XLA compilation:
     *   `tf.function(experimental_compile=True)` has become a stable API,
         renamed `tf.function(jit_compile=True)`.
+    *   XLA can now compile MirroredStrategy: the step function passed to
+        `strategy.run` can now be annoted with `jit_compile=True`.
 
 *   `tf.distribute`:
     *   Rename `experimental_prefetch_to_device` in `tf.distribute.InputOptions`

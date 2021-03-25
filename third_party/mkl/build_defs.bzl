@@ -32,15 +32,9 @@ def if_mkl(if_true, if_false = []):
       may need it. It may be deleted in future with refactoring.
     """
     return select({
-        "@org_tensorflow//third_party/mkl:build_with_mkl": if_true,
-        "//tensorflow:android_x86": if_false,
-        "//tensorflow:android_x86_64": if_false,
-        "//tensorflow:arm_any": if_false,
-        "//tensorflow:ios": if_false,
-        "//tensorflow:linux_ppc64le": if_false,
-        "//tensorflow:linux_s390x": if_false,
-        "//tensorflow:macos": if_false,
-        "//conditions:default": if_true,
+        "//tensorflow:linux_x86_64": if_true,
+        "//tensorflow:windows": if_true,
+        "//conditions:default": if_false,
     })
 
 def if_mkl_ml(if_true, if_false = []):
@@ -107,14 +101,9 @@ def mkl_deps():
     """
     return select({
         "@org_tensorflow//third_party/mkl:build_with_mkl_aarch64": ["@mkl_dnn_v1//:mkl_dnn_aarch64"],
-        "//tensorflow:android_x86": [],
-        "//tensorflow:android_x86_64": [],
-        "//tensorflow:arm_any": [],
-        "//tensorflow:ios": [],
-        "//tensorflow:linux_ppc64le": [],
-        "//tensorflow:linux_s390x": [],
-        "//tensorflow:macos": [],
-        "//conditions:default": ["@mkl_dnn_v1//:mkl_dnn"],
+        "//tensorflow:linux_x86_64": ["@mkl_dnn_v1//:mkl_dnn"],
+        "//tensorflow:windows": ["@mkl_dnn_v1//:mkl_dnn"],
+        "//conditions:default": [],
     })
 
 def _enable_local_mkl(repository_ctx):
