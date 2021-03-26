@@ -1,3 +1,35 @@
+# Release 2.6.0
+
+<INSERT SMALL BLURB ABOUT RELEASE FOCUS AREA AND POTENTIAL TOOLCHAIN CHANGES>
+
+## Breaking Changes
+
+*<DOCUMENT BREAKING CHANGES HERE>
+*<THIS SECTION SHOULD CONTAIN API, ABI AND BEHAVIORAL BREAKING CHANGES>
+
+## Known Caveats
+
+*<CAVEATS REGARDING THE RELEASE (BUT NOT BREAKING CHANGES).>
+*<ADDING/BUMPING DEPENDENCIES SHOULD GO HERE>
+*<KNOWN LACK OF SUPPORT ON SOME PLATFORM, SHOULD GO HERE>
+
+## Major Features and Improvements
+
+*<INSERT MAJOR FEATURE HERE, USING MARKDOWN SYNTAX>
+*<IF RELEASE CONTAINS MULTIPLE FEATURES FROM SAME AREA, GROUP THEM TOGETHER>
+
+## Bug Fixes and Other Changes
+
+*<SIMILAR TO ABOVE SECTION, BUT FOR OTHER IMPORTANT CHANGES / BUG FIXES>
+*<IF A CHANGE CLOSES A GITHUB ISSUE, IT SHOULD BE DOCUMENTED HERE>
+*<NOTES SHOULD BE GROUPED PER AREA>
+
+## Thanks to our Contributors
+
+This release contains contributions from many people at Google, as well as:
+
+<INSERT>, <NAME>, <HERE>, <USING>, <GITHUB>, <HANDLE>
+
 # Release 2.5.0
 
 <INSERT SMALL BLURB ABOUT RELEASE FOCUS AREA AND POTENTIAL TOOLCHAIN CHANGES>
@@ -59,6 +91,23 @@
 * `tf.distribute`
     *   `tf.distribute.experimental.ParameterServerStrategy` now supports
         training with Keras `Model.fit` when used with `DatasetCreator`.
+* PluggableDevice
+    * Third-party devices can now connect to TensorFlow
+      [modularly](https://github.com/tensorflow/community/blob/master/rfcs/20190305-modular-tensorflow.md)
+      through [StreamExecutor C API](https://github.com/tensorflow/community/blob/master/rfcs/20200612-stream-executor-c-api.md).
+      and [PluggableDevice](https://github.com/tensorflow/community/blob/master/rfcs/20200624-pluggable-device-for-tensorflow.md) interface.
+      * Add custom ops and kernels through
+        [kernel and op registration C API](https://github.com/tensorflow/community/blob/master/rfcs/20190814-kernel-and-op-registration.md).
+      * Register custom graph optimization passes with
+        [graph optimization C API](https://github.com/tensorflow/community/blob/master/rfcs/20201027-modular-tensorflow-graph-c-api.md). 
+* [oneAPI Deep Neural Network Library (oneDNN)](https://github.com/oneapi-src/oneDNN) 
+  CPU performance optimizations from
+  [Intel-optimized TensorFlow](https://software.intel.com/content/www/us/en/develop/articles/intel-optimization-for-tensorflow-installation-guide.html)
+  are now available in the official x86-64 Linux and Windows builds. 
+    * They are off by default. Enable them by setting the environment variable
+      `TF_ENABLE_ONEDNN_OPTS=1`.
+    * We do not recommend using them in GPU systems, as they have not been
+      sufficiently tested with GPUs yet.
 
 ## Bug Fixes and Other Changes
 
@@ -208,6 +257,8 @@
 * Other
     *   Adding show_debug_info to mlir.convert_graph_def and
         mlir.convert_function.
+    *   Added [Arm Compute Library (ACL)](https://github.com/ARM-software/ComputeLibrary)
+        support to `--config=mkl_aarch64` build.
 
 ## Thanks to our Contributors
 
