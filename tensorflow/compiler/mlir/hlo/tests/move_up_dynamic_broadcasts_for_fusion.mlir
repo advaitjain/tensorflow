@@ -5,7 +5,8 @@
 // CHECK-SAME: (%[[ARG:.*]]: tensor<?x32xi16>)
 func @shape_of_unary(%arg : tensor<?x32xi16>) {
   // CHECK: %[[SHAPE:.*]] = shape.shape_of %[[ARG]] : tensor<?x32xi16> -> tensor<2xindex>
-  // CHECK: "use"(%[[SHAPE]])
+  // CHECK: %[[CASTED:.*]] = tensor.cast %[[SHAPE]] : tensor<2xindex> to tensor<?xindex>
+  // CHECK: "use"(%[[CASTED]])
   %0 = "mhlo.convert"(%arg) : (tensor<?x32xi16>) -> tensor<?x32xf16>
   %1 = shape.shape_of %0 : tensor<?x32xf16> -> tensor<?xindex>
   "use"(%1) : (tensor<?xindex>) -> ()
@@ -19,7 +20,8 @@ func @shape_of_unary(%arg : tensor<?x32xi16>) {
 // CHECK-SAME: (%[[ARG0:.*]]: tensor<?x32xf16>, %[[ARG1:.*]]: tensor<?x32xf16>)
 func @shape_of_nary(%arg0 : tensor<?x32xf16>, %arg1 : tensor<?x32xf16>) {
   // CHECK: %[[SHAPE:.*]] = shape.shape_of %[[ARG0]] : tensor<?x32xf16> -> tensor<2xindex>
-  // CHECK: "use"(%[[SHAPE]])
+  // CHECK: %[[CASTED:.*]] = tensor.cast %[[SHAPE]] : tensor<2xindex> to tensor<?xindex>
+  // CHECK: "use"(%[[CASTED]])
   %0 = mhlo.subtract %arg0, %arg1 : tensor<?x32xf16>
   %1 = mhlo.subtract %0, %arg1 : tensor<?x32xf16>
   %2 = shape.shape_of %1 : tensor<?x32xf16> -> tensor<?xindex>
@@ -94,4 +96,19 @@ func @cast_sub(%arg0: tensor<?x32xi16>, %arg1: tensor<?x?x32xf16>)
     shape.assuming_yield %11 : tensor<?x?x32xf16>
   }
   return %4 : tensor<?x?x32xf16>
+}
+
+// -----
+
+// CHECK-LABEL: @inline_bcasted_shape_operands
+// CHECK-SAME: (%[[A:.*]]: tensor<?xindex>, %[[B:.*]]: tensor<?xindex>, %[[C:.*]]: tensor<?xindex>)
+func @inline_bcasted_shape_operands(%a : tensor<?xindex>, %b : tensor<?xindex>,
+    %c : tensor<?xindex>) -> !shape.witness {
+  // CHECK-NOT: shape.broadcast
+  // CHECK:     %[[WITNESS:.*]] = shape.cstr_broadcastable %[[A]], %[[B]], %[[C]]
+  // CHECK:     return %[[WITNESS]] : !shape.witness
+  %0 = shape.broadcast %a, %b : tensor<?xindex>, tensor<?xindex>
+      -> tensor<?xindex>
+  %1 = shape.cstr_broadcastable %0, %c : tensor<?xindex>, tensor<?xindex>
+  return %1 : !shape.witness
 }
