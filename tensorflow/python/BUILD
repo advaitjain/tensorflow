@@ -2606,6 +2606,7 @@ py_library(
         ":control_flow_ops",
         ":math_ops",
         ":resource_variable_ops",
+        ":resource_variable_ops_gen",
         ":summary_op_util",
         ":summary_ops_gen",
         ":training_util",
@@ -5204,7 +5205,7 @@ alias(
 alias(
     name = "is_mlir_bridge_test_true",
     actual = "//tensorflow/python/framework:is_mlir_bridge_test_true",
-    visibility = visibility + ["//platforms/darwinn/lisa:__subpackages__"],
+    visibility = visibility,
 )
 
 alias(
@@ -5265,7 +5266,7 @@ alias(
 alias(
     name = "is_mlir_bridge_test_false",
     actual = "//tensorflow/python/framework:is_mlir_bridge_test_false",
-    visibility = visibility + ["//platforms/darwinn/lisa:__subpackages__"],
+    visibility = visibility,
 )
 
 alias(
