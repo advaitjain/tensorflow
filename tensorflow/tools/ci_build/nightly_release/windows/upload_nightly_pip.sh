@@ -18,8 +18,6 @@ set -x
 
 source tensorflow/tools/ci_build/release/common.sh
 
-source tensorflow/tools/ci_build/builds/nightly_release_smoke_test.sh
-
 # Use a virtual environment to get access to the latest pips
 python3.9 -m venv venv && source venv/bin/activate
 
@@ -37,23 +35,7 @@ for f in $(ls "${KOKORO_GFILE_DIR}"/tf_nightly_gpu*dev*cp3*-cp3*-win_amd64.whl);
   copy_to_new_project_name "${f}" tf_nightly python
 done
 
-OVERALL_RETVAL=0
 # Upload the built packages to pypi.
 for f in $(ls "${KOKORO_GFILE_DIR}"/tf_nightly*dev*cp3*-cp3*-win_amd64.whl); do
-  WHL_NAME="$f"
-  test_tf_whl_size
-  RETVAL=$?
-
-  # Upload the PIP package if whl test passes.
-  if [ ${RETVAL} -eq 0 ]; then
-    python -m twine upload -r pypi-warehouse "$f"
-  else
-    echo "Unable to upload package $WHL_NAME. Size check failed."
-    OVERALL_RETVAL=1
-  fi
+  python -m twine upload -r pypi-warehouse "$f" || echo
 done
-
-exit $OVERALL_RETVAL
-
-
-
