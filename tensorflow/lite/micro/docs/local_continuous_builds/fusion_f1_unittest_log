@@ -1,4 +1,4 @@
-Building at f295c3e82007d57858c3e99a2454762c8907e95e
+Building at aa44812e3e40b1c95586466bc177b07525b787ea
 
 make -f tensorflow/lite/micro/tools/make/Makefile clean
 
@@ -688,7 +688,13 @@ Testing CumSumOpTestSimple1DTest
 Testing CumSumOpTestSimpleReverseTest
 Testing CumSumOpTestSimpleExclusiveTest
 Testing CumSumOpTestSimpleReverseExclusiveTest
-6/6 tests passed
+Testing CumSumOpTestSimpleTestInt8
+Testing CumSumOpTestSimpleAxis0TestInt8
+Testing CumSumOpTestSimple1DTestInt8
+Testing CumSumOpTestSimpleReverseTestInt8
+Testing CumSumOpTestSimpleExclusiveTestInt8
+Testing CumSumOpTestSimpleReverseExclusiveTestInt8
+12/12 tests passed
 ~~~ALL TESTS PASSED~~~
 
 xt-clang++ -std=c++11 -fno-exceptions -fno-threadsafe-statics -fno-unwind-tables -ffunction-sections -fdata-sections -fmessage-length=0 -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -O3 -Werror -Wsign-compare -Wdouble-promotion -Wshadow -Wunused-variable -Wmissing-field-initializers -Wunused-function -Wswitch -Wvla -Wall -Wextra -Wstrict-aliasing -Wno-unused-parameter -DXTENSA -DXTENSA -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME --xtensa-core=F1_190305_swupgrade -mcoproc -DMAX_RFFT_PWR=9 -DMIN_RFFT_PWR=MAX_RFFT_PWR -DFUSION_F1 -DNNLIB_V2 -Wno-shadow -I. -Itensorflow/lite/micro/tools/make/downloads/gemmlowp -Itensorflow/lite/micro/tools/make/downloads/flatbuffers/include -Itensorflow/lite/micro/tools/make/downloads/ruy -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/algo/kernels/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/include/nnlib/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/include/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/algo/common/include/ -Itensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/algo/ndsp/hifi4/include/ -c tensorflow/lite/micro/kernels/depth_to_space_test.cc -o tensorflow/lite/micro/tools/make/gen/xtensa_fusion_f1_default/obj/tensorflow/lite/micro/kernels/depth_to_space_test.o
