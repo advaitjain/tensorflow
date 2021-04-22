@@ -1,4 +1,4 @@
-Building at 298d139b8e68fa01a1891adc0b059d00144ca7ee
+Building at 4d618cb1fe451d5397f821fb2021c9028cec4f5c
 
 make -f tensorflow/lite/micro/tools/make/Makefile clean
 
@@ -11,29 +11,29 @@ make -f tensorflow/lite/micro/tools/make/Makefile TARGET=xtensa OPTIMIZED_KERNEL
 tensorflow/lite/micro/tools/make/downloads/flatbuffers already exists, skipping the download.
 tensorflow/lite/micro/tools/make/downloads/pigweed already exists, skipping the download.
 URL transformed to HTTPS due to an HSTS policy
---2021-04-21 19:03:59--  https://github.com/foss-xtensa/nnlib-hifi4/raw/master/archive/xa_nnlib_hifi4_02_11_2021.zip
-Resolving github.com (github.com)... 140.82.112.4
-Connecting to github.com (github.com)|140.82.112.4|:443... connected.
+--2021-04-21 22:06:57--  https://github.com/foss-xtensa/nnlib-hifi4/raw/master/archive/xa_nnlib_hifi4_02_11_2021.zip
+Resolving github.com (github.com)... 140.82.112.3
+Connecting to github.com (github.com)|140.82.112.3|:443... connected.
 HTTP request sent, awaiting response... 302 Found
 Location: https://raw.githubusercontent.com/foss-xtensa/nnlib-hifi4/master/archive/xa_nnlib_hifi4_02_11_2021.zip [following]
---2021-04-21 19:04:00--  https://raw.githubusercontent.com/foss-xtensa/nnlib-hifi4/master/archive/xa_nnlib_hifi4_02_11_2021.zip
-Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.108.133, 185.199.109.133, 185.199.110.133, ...
-Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.108.133|:443... connected.
+--2021-04-21 22:06:57--  https://raw.githubusercontent.com/foss-xtensa/nnlib-hifi4/master/archive/xa_nnlib_hifi4_02_11_2021.zip
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.111.133, 185.199.110.133, 185.199.109.133, ...
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.111.133|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 410707 (401K) [application/zip]
 Saving to: '/tmp/xa_nnlib_hifi4.zip'
 
-     0K .......... .......... .......... .......... .......... 12% 21.6M 0s
-    50K .......... .......... .......... .......... .......... 24% 20.3M 0s
-   100K .......... .......... .......... .......... .......... 37% 36.9M 0s
-   150K .......... .......... .......... .......... .......... 49% 25.4M 0s
-   200K .......... .......... .......... .......... .......... 62% 29.3M 0s
-   250K .......... .......... .......... .......... .......... 74% 31.5M 0s
-   300K .......... .......... .......... .......... .......... 87% 26.8M 0s
-   350K .......... .......... .......... .......... .......... 99% 44.7M 0s
-   400K .                                                     100% 42.8M=0.01s
+     0K .......... .......... .......... .......... .......... 12% 20.5M 0s
+    50K .......... .......... .......... .......... .......... 24% 20.1M 0s
+   100K .......... .......... .......... .......... .......... 37% 42.1M 0s
+   150K .......... .......... .......... .......... .......... 49% 24.6M 0s
+   200K .......... .......... .......... .......... .......... 62% 30.1M 0s
+   250K .......... .......... .......... .......... .......... 74% 22.3M 0s
+   300K .......... .......... .......... .......... .......... 87% 43.7M 0s
+   350K .......... .......... .......... .......... .......... 99% 34.7M 0s
+   400K .                                                     100% 14.4M=0.01s
 
-2021-04-21 19:04:00 (27.8 MB/s) - '/tmp/xa_nnlib_hifi4.zip' saved [410707/410707]
+2021-04-21 22:06:57 (27.3 MB/s) - '/tmp/xa_nnlib_hifi4.zip' saved [410707/410707]
 
 ~/github/local-continuous-build/tensorflow/tensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4 ~/github/local-continuous-build/tensorflow
 Initialized empty Git repository in /usr/local/google/home/advaitjain/github/local-continuous-build/tensorflow/tensorflow/lite/micro/tools/make/downloads/xa_nnlib_hifi4/.git/

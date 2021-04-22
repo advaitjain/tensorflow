@@ -189,7 +189,7 @@ HIFI5_RESULT=$?
 test_arch vision_p6 P6_200528
 VISION_P6_RESULT=$?
 
-if [[ ${HIFIMINI_RESULT} == 0 && ${FUSION_F1_RESULT} == 0 && ${HIFI5_RESULT} && ${VISION_P6_RESULT} == 0 ]]
+if [[ ${HIFIMINI_RESULT} == 0 && ${FUSION_F1_RESULT} == 0 && ${HIFI5_RESULT} == 0 && ${VISION_P6_RESULT} == 0 ]]
 then
   # All is well, we can update overall badge to indicate passing.
   /bin/cp ${SCRIPT_DIR}/TFLM-Xtensa-passing.svg ${OVERALL_BUILD_STATUS_BADGE}

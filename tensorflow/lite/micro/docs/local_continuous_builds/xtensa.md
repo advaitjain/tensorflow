@@ -18,12 +18,16 @@ gh-md-toc --insert --no-backup xtensa.md
          * [Unit tests](#unit-tests-1)
          * [Keyword Benchmark](#keyword-benchmark-1)
             * [Binary size graph](#binary-size-graph-1)
-      * [Vision P6](#vision-p6)
+      * [Hifi5](#hifi5)
          * [Unit tests](#unit-tests-2)
          * [Keyword Benchmark](#keyword-benchmark-2)
             * [Binary size graph](#binary-size-graph-2)
+      * [Vision P6](#vision-p6)
+         * [Unit tests](#unit-tests-3)
+         * [Keyword Benchmark](#keyword-benchmark-3)
+            * [Binary size graph](#binary-size-graph-3)
 
-<!-- Added by: advaitjain, at: Wed 16 Dec 2020 04:38:35 PM PST -->
+<!-- Added by: advaitjain, at: Wed 21 Apr 2021 10:05:57 PM PDT -->
 
 <!--te-->
 
