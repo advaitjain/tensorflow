@@ -37,6 +37,7 @@ gh-md-toc --insert --no-backup xtensa.md
 | ---------- |       -------      |     ------        |  --------  |
 | Hifimini  | [![Status](xtensa-hifimini-keyword-build-status.svg)](hifimini_build_log) | [![Status](xtensa-hifimini-keyword-latency-status.svg)](hifimini_latency_log) | [![Status](xtensa-hifimini-unittests-status.svg)](hifimini_unittest_log) |
 | Fusion F1  | [![Status](xtensa-fusion_f1-keyword-build-status.svg)](fusion_f1_build_log) | [![Status](xtensa-fusion_f1-keyword-latency-status.svg)](fusion_f1_latency_log) | [![Status](xtensa-fusion_f1-unittests-status.svg)](fusion_f1_unittest_log) |
+| Hifi5  | [![Status](xtensa-hifi5-keyword-build-status.svg)](hifi5_build_log) | [![Status](xtensa-hifi5-keyword-latency-status.svg)](hifi5_latency_log) | [![Status](xtensa-hifi5-unittests-status.svg)](hifi5_unittest_log) |
 | Vision P6  | [![Status](xtensa-vision_p6-keyword-build-status.svg)](vision_p6_build_log) | [![Status](xtensa-vision_p6-keyword-latency-status.svg)](vision_p6_latency_log) | [![Status](xtensa-vision_p6-unittests-status.svg)](vision_p6_unittest_log) |
 
 
@@ -81,6 +82,27 @@ gh-md-toc --insert --no-backup xtensa.md
 <!--
 #### Latency graph
 ![Latency graph](fusion_f1_latency_history.png)
+-->
+
+## Hifi5
+
+### Unit tests
+
+* [Unit test build log](hifi5_unittest_log) from the most recent run.
+* [Unittest status history](hifi5_unittest_status)
+
+### Keyword Benchmark
+
+* [Keyword benchmark build log](hifi5_build_log) from the most recent run.
+* [Keyword benchmark build status history](hifi5_build_status)
+* [Keyword Benchmark size history](hifi5_size_log)
+
+#### Binary size graph
+![Size graph](hifi5_size_history.png)
+
+<!--
+#### Latency graph
+![Latency graph](hifi5_latency_history.png)
 -->
 
 ## Vision P6

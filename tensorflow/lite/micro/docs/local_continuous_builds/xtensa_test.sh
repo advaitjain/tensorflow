@@ -183,10 +183,13 @@ export PATH=${XTENSA_BASE}/tools/${XTENSA_TOOLS_VERSION}/XtensaTools/bin/:${PATH
 test_arch fusion_f1 F1_190305_swupgrade
 FUSION_F1_RESULT=$?
 
+test_arch hifi5 AE_HiFi5_LE5_AO_FP_XC
+HIFI5_RESULT=$?
+
 test_arch vision_p6 P6_200528
 VISION_P6_RESULT=$?
 
-if [[ ${HIFIMINI_RESULT} == 0 && ${FUSION_F1_RESULT} == 0 && ${VISION_P6_RESULT} == 0 ]]
+if [[ ${HIFIMINI_RESULT} == 0 && ${FUSION_F1_RESULT} == 0 && ${HIFI5_RESULT} && ${VISION_P6_RESULT} == 0 ]]
 then
   # All is well, we can update overall badge to indicate passing.
   /bin/cp ${SCRIPT_DIR}/TFLM-Xtensa-passing.svg ${OVERALL_BUILD_STATUS_BADGE}
