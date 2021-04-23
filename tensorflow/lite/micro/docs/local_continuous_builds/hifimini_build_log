@@ -1,51 +1,51 @@
-Building at ade54336cacffc1d0ea4fe5fd8d2b586fd7261f8
+Building at d6ed5bcfe1dcab9e85a4d39931bd18d99018e75b
 
 make -f tensorflow/lite/micro/tools/make/Makefile clean
 
---2021-04-23 06:00:05--  http://mirror.tensorflow.org/github.com/google/flatbuffers/archive/dca12522a9f9e37f126ab925fd385c807ab4f84e.zip
-Resolving mirror.tensorflow.org (mirror.tensorflow.org)... 2607:f8b0:4005:809::2010, 172.217.6.48
+--2021-04-23 12:00:05--  http://mirror.tensorflow.org/github.com/google/flatbuffers/archive/dca12522a9f9e37f126ab925fd385c807ab4f84e.zip
+Resolving mirror.tensorflow.org (mirror.tensorflow.org)... 2607:f8b0:4005:809::2010, 172.217.11.176
 Connecting to mirror.tensorflow.org (mirror.tensorflow.org)|2607:f8b0:4005:809::2010|:80... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 1760478 (1.7M) [application/zip]
-Saving to: '/tmp/tmp.TBm3OVOPLB/dca12522a9f9e37f126ab925fd385c807ab4f84e.zip'
+Saving to: '/tmp/tmp.LpLSWKpUrd/dca12522a9f9e37f126ab925fd385c807ab4f84e.zip'
 
-     0K .......... .......... .......... .......... ..........  2% 6.32M 0s
-    50K .......... .......... .......... .......... ..........  5% 6.16M 0s
-   100K .......... .......... .......... .......... ..........  8% 79.5M 0s
-   150K .......... .......... .......... .......... .......... 11% 44.2M 0s
-   200K .......... .......... .......... .......... .......... 14% 56.1M 0s
-   250K .......... .......... .......... .......... .......... 17%  110M 0s
-   300K .......... .......... .......... .......... .......... 20% 57.7M 0s
-   350K .......... .......... .......... .......... .......... 23% 12.1M 0s
-   400K .......... .......... .......... .......... .......... 26%  107M 0s
-   450K .......... .......... .......... .......... .......... 29% 52.2M 0s
-   500K .......... .......... .......... .......... .......... 31% 58.8M 0s
-   550K .......... .......... .......... .......... .......... 34% 36.5M 0s
-   600K .......... .......... .......... .......... .......... 37%  122M 0s
-   650K .......... .......... .......... .......... .......... 40% 58.2M 0s
-   700K .......... .......... .......... .......... .......... 43% 58.0M 0s
-   750K .......... .......... .......... .......... .......... 46% 61.0M 0s
-   800K .......... .......... .......... .......... .......... 49% 67.4M 0s
-   850K .......... .......... .......... .......... .......... 52%  117M 0s
-   900K .......... .......... .......... .......... .......... 55% 48.1M 0s
-   950K .......... .......... .......... .......... .......... 58% 81.1M 0s
-  1000K .......... .......... .......... .......... .......... 61%  112M 0s
-  1050K .......... .......... .......... .......... .......... 63%  101M 0s
-  1100K .......... .......... .......... .......... .......... 66% 99.8M 0s
-  1150K .......... .......... .......... .......... .......... 69%  127M 0s
-  1200K .......... .......... .......... .......... .......... 72%  110M 0s
-  1250K .......... .......... .......... .......... .......... 75% 97.2M 0s
-  1300K .......... .......... .......... .......... .......... 78%  101M 0s
-  1350K .......... .......... .......... .......... .......... 81%  110M 0s
-  1400K .......... .......... .......... .......... .......... 84% 99.3M 0s
-  1450K .......... .......... .......... .......... .......... 87%  135M 0s
-  1500K .......... .......... .......... .......... .......... 90%  102M 0s
-  1550K .......... .......... .......... .......... .......... 93%  102M 0s
-  1600K .......... .......... .......... .......... .......... 95%  138M 0s
-  1650K .......... .......... .......... .......... .......... 98%  108M 0s
-  1700K .......... .........                                  100% 85.8M=0.04s
+     0K .......... .......... .......... .......... ..........  2% 6.27M 0s
+    50K .......... .......... .......... .......... ..........  5% 6.08M 0s
+   100K .......... .......... .......... .......... ..........  8% 86.0M 0s
+   150K .......... .......... .......... .......... .......... 11% 46.8M 0s
+   200K .......... .......... .......... .......... .......... 14% 9.68M 0s
+   250K .......... .......... .......... .......... .......... 17% 94.1M 0s
+   300K .......... .......... .......... .......... .......... 20%  104M 0s
+   350K .......... .......... .......... .......... .......... 23% 94.8M 0s
+   400K .......... .......... .......... .......... .......... 26%  100M 0s
+   450K .......... .......... .......... .......... .......... 29% 93.0M 0s
+   500K .......... .......... .......... .......... .......... 31% 97.6M 0s
+   550K .......... .......... .......... .......... .......... 34% 76.0M 0s
+   600K .......... .......... .......... .......... .......... 37%  166M 0s
+   650K .......... .......... .......... .......... .......... 40%  228M 0s
+   700K .......... .......... .......... .......... .......... 43%  163M 0s
+   750K .......... .......... .......... .......... .......... 46% 98.1M 0s
+   800K .......... .......... .......... .......... .......... 49%  111M 0s
+   850K .......... .......... .......... .......... .......... 52%  103M 0s
+   900K .......... .......... .......... .......... .......... 55%  143M 0s
+   950K .......... .......... .......... .......... .......... 58% 98.5M 0s
+  1000K .......... .......... .......... .......... .......... 61%  103M 0s
+  1050K .......... .......... .......... .......... .......... 63%  106M 0s
+  1100K .......... .......... .......... .......... .......... 66% 95.8M 0s
+  1150K .......... .......... .......... .......... .......... 69%  159M 0s
+  1200K .......... .......... .......... .......... .......... 72% 96.5M 0s
+  1250K .......... .......... .......... .......... .......... 75% 98.9M 0s
+  1300K .......... .......... .......... .......... .......... 78%  102M 0s
+  1350K .......... .......... .......... .......... .......... 81%  153M 0s
+  1400K .......... .......... .......... .......... .......... 84% 93.7M 0s
+  1450K .......... .......... .......... .......... .......... 87%  107M 0s
+  1500K .......... .......... .......... .......... .......... 90%  101M 0s
+  1550K .......... .......... .......... .......... .......... 93% 99.5M 0s
+  1600K .......... .......... .......... .......... .......... 95%  152M 0s
+  1650K .......... .......... .......... .......... .......... 98%  102M 0s
+  1700K .......... .........                                  100% 85.6M=0.04s
 
-2021-04-23 06:00:05 (42.7 MB/s) - '/tmp/tmp.TBm3OVOPLB/dca12522a9f9e37f126ab925fd385c807ab4f84e.zip' saved [1760478/1760478]
+2021-04-23 12:00:05 (47.0 MB/s) - '/tmp/tmp.LpLSWKpUrd/dca12522a9f9e37f126ab925fd385c807ab4f84e.zip' saved [1760478/1760478]
 
 Cloning into 'tensorflow/lite/micro/tools/make/downloads/pigweed'...
 Note: switching to '47268dff45019863e20438ca3746c6c62df6ef09'.
@@ -77,12 +77,12 @@ tensorflow/lite/micro/tools/make/download_and_extract.sh "https://github.com/goo
 tensorflow/lite/micro/tools/make/download_and_extract.sh "https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_micro_person_data_grayscale_2020_05_27.zip" "55b85f76e2995153e660391d4a209ef1" tensorflow/lite/micro/tools/make/downloads/person_model_grayscale  
 tensorflow/lite/micro/tools/make/download_and_extract.sh "https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_micro_person_data_int8_grayscale_2020_12_1.zip" "e765cc76889db8640cfe876a37e4ec00" tensorflow/lite/micro/tools/make/downloads/person_model_int8  
 downloading https://github.com/google/gemmlowp/archive/719139ce755a0f31cbf1c37f7f98adcc7fc9f425.zip
+downloading https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_micro_person_data_int8_grayscale_2020_12_1.zip
 downloading https://github.com/google/ruy/archive/38a9266b832767a3f535a74a9e0cf39f7892e594.zip
 downloading https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_micro_person_data_grayscale_2020_05_27.zip
-downloading https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_micro_person_data_int8_grayscale_2020_12_1.zip
 + [[ 0 -eq 0 ]]
 + break
-++ openssl dgst -md5 /tmp/tmp.jRVqQ6fe6W/temp_file
+++ openssl dgst -md5 /tmp/tmp.BH9nuKYLv1/temp_file
 ++ sed 's/.* //g'
 + DOWNLOADED_MD5=e765cc76889db8640cfe876a37e4ec00
 + '[' e765cc76889db8640cfe876a37e4ec00 '!=' e765cc76889db8640cfe876a37e4ec00 ']'
@@ -93,10 +93,23 @@ downloading https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_
 + [[ https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_micro_person_data_int8_grayscale_2020_12_1.zip == *tar.xz ]]
 + [[ https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_micro_person_data_int8_grayscale_2020_12_1.zip == *bz2 ]]
 + [[ https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_micro_person_data_int8_grayscale_2020_12_1.zip == *zip ]]
-+ unzip /tmp/tmp.jRVqQ6fe6W/temp_file -d /tmp/tmp.eOWdUuUT4e
++ unzip /tmp/tmp.BH9nuKYLv1/temp_file -d /tmp/tmp.QM8YbGPPxf
+++ wc -l
+++ find /tmp/tmp.QM8YbGPPxf/person_model_int8 -maxdepth 0
++ '[' 1 = 1 ']'
++ '[' -d /tmp/tmp.QM8YbGPPxf/person_model_int8 ']'
++ cp -R /tmp/tmp.QM8YbGPPxf/person_model_int8/no_person_image_data.cc /tmp/tmp.QM8YbGPPxf/person_model_int8/no_person_image_data.h /tmp/tmp.QM8YbGPPxf/person_model_int8/person_detect_model_data.cc /tmp/tmp.QM8YbGPPxf/person_model_int8/person_detect_model_data.h /tmp/tmp.QM8YbGPPxf/person_model_int8/person_image_data.cc /tmp/tmp.QM8YbGPPxf/person_model_int8/person_image_data.h tensorflow/lite/micro/tools/make/downloads/person_model_int8/
++ rm -rf /tmp/tmp.QM8YbGPPxf /tmp/tmp.BH9nuKYLv1
++ find tensorflow/lite/micro/tools/make/downloads/person_model_int8 -type f -name '*BUILD' -delete
++ [[ '' == \p\a\t\c\h\_\a\m\_\s\d\k ]]
++ [[ '' == \p\a\t\c\h\_\k\i\s\s\f\f\t ]]
++ [[ '' == \p\a\t\c\h\_\c\i\f\a\r\1\0\_\d\a\t\a\s\e\t ]]
++ [[ '' == \b\u\i\l\d\_\e\m\b\a\r\c\_\m\l\i ]]
++ [[ '' == \s\e\t\u\p\_\z\e\p\h\y\r ]]
++ [[ -n '' ]]
 + [[ 0 -eq 0 ]]
 + break
-++ openssl dgst -md5 /tmp/tmp.v6nmxNvAC4/temp_file
+++ openssl dgst -md5 /tmp/tmp.dS90qzBGw1/temp_file
 ++ sed 's/.* //g'
 + DOWNLOADED_MD5=55b85f76e2995153e660391d4a209ef1
 + '[' 55b85f76e2995153e660391d4a209ef1 '!=' 55b85f76e2995153e660391d4a209ef1 ']'
@@ -107,26 +120,13 @@ downloading https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_
 + [[ https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_micro_person_data_grayscale_2020_05_27.zip == *tar.xz ]]
 + [[ https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_micro_person_data_grayscale_2020_05_27.zip == *bz2 ]]
 + [[ https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_micro_person_data_grayscale_2020_05_27.zip == *zip ]]
-+ unzip /tmp/tmp.v6nmxNvAC4/temp_file -d /tmp/tmp.lCdzDa3x1q
-++ find /tmp/tmp.eOWdUuUT4e/person_model_int8 -maxdepth 0
++ unzip /tmp/tmp.dS90qzBGw1/temp_file -d /tmp/tmp.ccUooaP75O
+++ find /tmp/tmp.ccUooaP75O/person_model_grayscale -maxdepth 0
 ++ wc -l
 + '[' 1 = 1 ']'
-+ '[' -d /tmp/tmp.eOWdUuUT4e/person_model_int8 ']'
-+ cp -R /tmp/tmp.eOWdUuUT4e/person_model_int8/no_person_image_data.cc /tmp/tmp.eOWdUuUT4e/person_model_int8/no_person_image_data.h /tmp/tmp.eOWdUuUT4e/person_model_int8/person_detect_model_data.cc /tmp/tmp.eOWdUuUT4e/person_model_int8/person_detect_model_data.h /tmp/tmp.eOWdUuUT4e/person_model_int8/person_image_data.cc /tmp/tmp.eOWdUuUT4e/person_model_int8/person_image_data.h tensorflow/lite/micro/tools/make/downloads/person_model_int8/
-+ rm -rf /tmp/tmp.eOWdUuUT4e /tmp/tmp.jRVqQ6fe6W
-+ find tensorflow/lite/micro/tools/make/downloads/person_model_int8 -type f -name '*BUILD' -delete
-+ [[ '' == \p\a\t\c\h\_\a\m\_\s\d\k ]]
-+ [[ '' == \p\a\t\c\h\_\k\i\s\s\f\f\t ]]
-+ [[ '' == \p\a\t\c\h\_\c\i\f\a\r\1\0\_\d\a\t\a\s\e\t ]]
-+ [[ '' == \b\u\i\l\d\_\e\m\b\a\r\c\_\m\l\i ]]
-+ [[ '' == \s\e\t\u\p\_\z\e\p\h\y\r ]]
-+ [[ -n '' ]]
-++ find /tmp/tmp.lCdzDa3x1q/person_model_grayscale -maxdepth 0
-++ wc -l
-+ '[' 1 = 1 ']'
-+ '[' -d /tmp/tmp.lCdzDa3x1q/person_model_grayscale ']'
-+ cp -R /tmp/tmp.lCdzDa3x1q/person_model_grayscale/no_person_image_data.cc /tmp/tmp.lCdzDa3x1q/person_model_grayscale/no_person_image_data.h /tmp/tmp.lCdzDa3x1q/person_model_grayscale/person_detect_model_data.cc /tmp/tmp.lCdzDa3x1q/person_model_grayscale/person_detect_model_data.h /tmp/tmp.lCdzDa3x1q/person_model_grayscale/person_image_data.cc /tmp/tmp.lCdzDa3x1q/person_model_grayscale/person_image_data.h tensorflow/lite/micro/tools/make/downloads/person_model_grayscale/
-+ rm -rf /tmp/tmp.lCdzDa3x1q /tmp/tmp.v6nmxNvAC4
++ '[' -d /tmp/tmp.ccUooaP75O/person_model_grayscale ']'
++ cp -R /tmp/tmp.ccUooaP75O/person_model_grayscale/no_person_image_data.cc /tmp/tmp.ccUooaP75O/person_model_grayscale/no_person_image_data.h /tmp/tmp.ccUooaP75O/person_model_grayscale/person_detect_model_data.cc /tmp/tmp.ccUooaP75O/person_model_grayscale/person_detect_model_data.h /tmp/tmp.ccUooaP75O/person_model_grayscale/person_image_data.cc /tmp/tmp.ccUooaP75O/person_model_grayscale/person_image_data.h tensorflow/lite/micro/tools/make/downloads/person_model_grayscale/
++ rm -rf /tmp/tmp.ccUooaP75O /tmp/tmp.dS90qzBGw1
 + find tensorflow/lite/micro/tools/make/downloads/person_model_grayscale -type f -name '*BUILD' -delete
 + [[ '' == \p\a\t\c\h\_\a\m\_\s\d\k ]]
 + [[ '' == \p\a\t\c\h\_\k\i\s\s\f\f\t ]]
@@ -136,7 +136,7 @@ downloading https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_
 + [[ -n '' ]]
 + [[ 0 -eq 0 ]]
 + break
-++ openssl dgst -md5 /tmp/tmp.aqVok2Q5dy/temp_file
+++ openssl dgst -md5 /tmp/tmp.RfU4lSzQEx/temp_file
 ++ sed 's/.* //g'
 + DOWNLOADED_MD5=4cbc3104b27b718c819b2082beb732c5
 + '[' 4cbc3104b27b718c819b2082beb732c5 '!=' 4cbc3104b27b718c819b2082beb732c5 ']'
@@ -147,13 +147,13 @@ downloading https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_
 + [[ https://github.com/google/ruy/archive/38a9266b832767a3f535a74a9e0cf39f7892e594.zip == *tar.xz ]]
 + [[ https://github.com/google/ruy/archive/38a9266b832767a3f535a74a9e0cf39f7892e594.zip == *bz2 ]]
 + [[ https://github.com/google/ruy/archive/38a9266b832767a3f535a74a9e0cf39f7892e594.zip == *zip ]]
-+ unzip /tmp/tmp.aqVok2Q5dy/temp_file -d /tmp/tmp.ox2f16wtUV
-++ find /tmp/tmp.ox2f16wtUV/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594 -maxdepth 0
++ unzip /tmp/tmp.RfU4lSzQEx/temp_file -d /tmp/tmp.I74U14lYLW
 ++ wc -l
+++ find /tmp/tmp.I74U14lYLW/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594 -maxdepth 0
 + '[' 1 = 1 ']'
-+ '[' -d /tmp/tmp.ox2f16wtUV/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594 ']'
-+ cp -R /tmp/tmp.ox2f16wtUV/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594/BUILD /tmp/tmp.ox2f16wtUV/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594/CMakeLists.txt /tmp/tmp.ox2f16wtUV/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594/CONTRIBUTING.md /tmp/tmp.ox2f16wtUV/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594/LICENSE /tmp/tmp.ox2f16wtUV/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594/README.md /tmp/tmp.ox2f16wtUV/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594/WORKSPACE /tmp/tmp.ox2f16wtUV/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594/cmake /tmp/tmp.ox2f16wtUV/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594/doc /tmp/tmp.ox2f16wtUV/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594/example /tmp/tmp.ox2f16wtUV/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594/ruy /tmp/tmp.ox2f16wtUV/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594/third_party tensorflow/lite/micro/tools/make/downloads/ruy/
-+ rm -rf /tmp/tmp.ox2f16wtUV /tmp/tmp.aqVok2Q5dy
++ '[' -d /tmp/tmp.I74U14lYLW/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594 ']'
++ cp -R /tmp/tmp.I74U14lYLW/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594/BUILD /tmp/tmp.I74U14lYLW/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594/CMakeLists.txt /tmp/tmp.I74U14lYLW/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594/CONTRIBUTING.md /tmp/tmp.I74U14lYLW/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594/LICENSE /tmp/tmp.I74U14lYLW/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594/README.md /tmp/tmp.I74U14lYLW/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594/WORKSPACE /tmp/tmp.I74U14lYLW/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594/cmake /tmp/tmp.I74U14lYLW/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594/doc /tmp/tmp.I74U14lYLW/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594/example /tmp/tmp.I74U14lYLW/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594/ruy /tmp/tmp.I74U14lYLW/ruy-38a9266b832767a3f535a74a9e0cf39f7892e594/third_party tensorflow/lite/micro/tools/make/downloads/ruy/
++ rm -rf /tmp/tmp.I74U14lYLW /tmp/tmp.RfU4lSzQEx
 + find tensorflow/lite/micro/tools/make/downloads/ruy -type f -name '*BUILD' -delete
 + [[ '' == \p\a\t\c\h\_\a\m\_\s\d\k ]]
 + [[ '' == \p\a\t\c\h\_\k\i\s\s\f\f\t ]]
@@ -163,24 +163,24 @@ downloading https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_
 + [[ -n '' ]]
 + [[ 0 -eq 0 ]]
 + break
-++ openssl dgst -md5 /tmp/tmp.WPIfNMuifr/temp_file
+++ openssl dgst -md5 /tmp/tmp.AVOzRX9rJE/temp_file
 ++ sed 's/.* //g'
 + DOWNLOADED_MD5=7e8191b24853d75de2af87622ad293ba
 + '[' 7e8191b24853d75de2af87622ad293ba '!=' 7e8191b24853d75de2af87622ad293ba ']'
-++ echo https://github.com/google/gemmlowp/archive/719139ce755a0f31cbf1c37f7f98adcc7fc9f425.zip
 ++ sed 's/\?.*//'
+++ echo https://github.com/google/gemmlowp/archive/719139ce755a0f31cbf1c37f7f98adcc7fc9f425.zip
 + url=https://github.com/google/gemmlowp/archive/719139ce755a0f31cbf1c37f7f98adcc7fc9f425.zip
 + [[ https://github.com/google/gemmlowp/archive/719139ce755a0f31cbf1c37f7f98adcc7fc9f425.zip == *gz ]]
 + [[ https://github.com/google/gemmlowp/archive/719139ce755a0f31cbf1c37f7f98adcc7fc9f425.zip == *tar.xz ]]
 + [[ https://github.com/google/gemmlowp/archive/719139ce755a0f31cbf1c37f7f98adcc7fc9f425.zip == *bz2 ]]
 + [[ https://github.com/google/gemmlowp/archive/719139ce755a0f31cbf1c37f7f98adcc7fc9f425.zip == *zip ]]
-+ unzip /tmp/tmp.WPIfNMuifr/temp_file -d /tmp/tmp.zv4aR2b4Jm
-++ find /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425 -maxdepth 0
++ unzip /tmp/tmp.AVOzRX9rJE/temp_file -d /tmp/tmp.3G1YUu6NKs
 ++ wc -l
+++ find /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425 -maxdepth 0
 + '[' 1 = 1 ']'
-+ '[' -d /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425 ']'
-+ cp -R /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/AUTHORS /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/BUILD /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/CONTRIBUTING /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/CONTRIBUTORS /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/LICENSE /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/Makefile.travis /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/README.md /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/WORKSPACE /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/contrib /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/doc /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/eight_bit_int_gemm /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/fixedpoint /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/flags.bzl /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/internal /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/jni /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/meta /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/profiling /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/public /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/scripts /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/standalone /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/test /tmp/tmp.zv4aR2b4Jm/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/todo tensorflow/lite/micro/tools/make/downloads/gemmlowp/
-+ rm -rf /tmp/tmp.zv4aR2b4Jm /tmp/tmp.WPIfNMuifr
++ '[' -d /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425 ']'
++ cp -R /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/AUTHORS /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/BUILD /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/CONTRIBUTING /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/CONTRIBUTORS /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/LICENSE /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/Makefile.travis /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/README.md /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/WORKSPACE /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/contrib /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/doc /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/eight_bit_int_gemm /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/fixedpoint /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/flags.bzl /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/internal /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/jni /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/meta /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/profiling /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/public /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/scripts /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/standalone /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/test /tmp/tmp.3G1YUu6NKs/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/todo tensorflow/lite/micro/tools/make/downloads/gemmlowp/
++ rm -rf /tmp/tmp.3G1YUu6NKs /tmp/tmp.AVOzRX9rJE
 + find tensorflow/lite/micro/tools/make/downloads/gemmlowp -type f -name '*BUILD' -delete
 + [[ '' == \p\a\t\c\h\_\a\m\_\s\d\k ]]
 + [[ '' == \p\a\t\c\h\_\k\i\s\s\f\f\t ]]
