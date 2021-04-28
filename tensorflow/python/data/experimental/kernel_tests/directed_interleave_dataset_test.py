@@ -82,8 +82,7 @@ class DirectedInterleaveDatasetTest(test_base.DatasetTestBase,
       # Create a dataset that samples each integer in `[0, num_datasets)`
       # with probability given by `weights[i]`.
       dataset = interleave_ops.sample_from_datasets([
-          dataset_ops.Dataset.from_tensors(i).repeat()
-          for i in range(classes)
+          dataset_ops.Dataset.from_tensors(i).repeat() for i in range(classes)
       ], weights)
       dataset = dataset.take(num_samples)
 
@@ -167,11 +166,35 @@ class DirectedInterleaveDatasetTest(test_base.DatasetTestBase,
       weights = dataset_ops.Dataset.from_tensors(weights).repeat()
 
     datasets = [
-        dataset_ops.Dataset.from_tensors(-1).skip(5),
-        dataset_ops.Dataset.from_tensors(1).repeat()
+        dataset_ops.Dataset.range(0),
+        dataset_ops.Dataset.range(1).repeat()
     ]
     sample_dataset = interleave_ops.sample_from_datasets(
         datasets, weights=weights, stop_on_empty_dataset=True)
+    self.assertDatasetProduces(sample_dataset, [])
+
+  @combinations.generate(test_base.default_test_combinations())
+  def testSampleFromDatasetsSkippingDatasetsWithZeroWeight(self):
+    # Sampling skips the first dataset.
+    weights = np.asarray([0., 1.])
+    datasets = [
+        dataset_ops.Dataset.from_tensors(-1).repeat(),
+        dataset_ops.Dataset.from_tensors(1)
+    ]
+    sample_dataset = interleave_ops.sample_from_datasets(
+        datasets, weights=weights, stop_on_empty_dataset=False)
+    self.assertDatasetProduces(sample_dataset, [1])
+
+  @combinations.generate(test_base.default_test_combinations())
+  def testSampleFromDatasetsAllWeightsAreZero(self):
+    # Sampling skips both datasets.
+    weights = np.asarray([0., 0.])
+    datasets = [
+        dataset_ops.Dataset.from_tensors(-1).repeat(),
+        dataset_ops.Dataset.from_tensors(1).repeat()
+    ]
+    sample_dataset = interleave_ops.sample_from_datasets(
+        datasets, weights=weights, stop_on_empty_dataset=False)
     self.assertDatasetProduces(sample_dataset, [])
 
   @combinations.generate(test_base.default_test_combinations())
@@ -224,6 +247,18 @@ class DirectedInterleaveDatasetTest(test_base.DatasetTestBase,
         [b"foo", b"foo", b"bar", b"bar", b"bar", b"baz", b"baz", b"baz"])
 
   @combinations.generate(test_base.default_test_combinations())
+  def testChooseFromDatasetsChoiceDatasetIsEmpty(self):
+    datasets = [
+        dataset_ops.Dataset.from_tensors(b"foo").repeat(),
+        dataset_ops.Dataset.from_tensors(b"bar").repeat(),
+        dataset_ops.Dataset.from_tensors(b"baz").repeat(),
+    ]
+    dataset = interleave_ops.choose_from_datasets(
+        datasets, choice_dataset=dataset_ops.Dataset.range(0),
+        stop_on_empty_dataset=False)
+    self.assertDatasetProduces(dataset, [])
+
+  @combinations.generate(test_base.default_test_combinations())
   def testErrors(self):
     with self.assertRaisesRegex(ValueError,
                                 r"vector of length `len\(datasets\)`"):
@@ -244,6 +279,10 @@ class DirectedInterleaveDatasetTest(test_base.DatasetTestBase,
           dataset_ops.Dataset.from_tensors(0.0)
       ])
 
+    with self.assertRaisesRegex(
+        ValueError, r"`datasets` must be a non-empty list of datasets."):
+      interleave_ops.sample_from_datasets(datasets=[], weights=[])
+
     with self.assertRaisesRegex(TypeError, "tf.int64"):
       interleave_ops.choose_from_datasets([
           dataset_ops.Dataset.from_tensors(0),
@@ -263,6 +302,18 @@ class DirectedInterleaveDatasetTest(test_base.DatasetTestBase,
               constant_op.constant(1, dtype=dtypes.int64)))
       next_element = self.getNext(dataset)
       self.evaluate(next_element())
+
+    with self.assertRaisesRegex(
+        ValueError, r"`datasets` must be a non-empty list of datasets."):
+      interleave_ops.choose_from_datasets(
+          datasets=[], choice_dataset=dataset_ops.Dataset.from_tensors(1.0))
+
+    with self.assertRaisesRegex(
+        TypeError, r"`choice_dataset` must be a dataset of scalar"):
+      interleave_ops.choose_from_datasets([
+          dataset_ops.Dataset.from_tensors(0),
+          dataset_ops.Dataset.from_tensors(1)
+      ], choice_dataset=None)
 
 
 class SampleFromDatasetsCheckpointTest(checkpoint_test_base.CheckpointTestBase,
