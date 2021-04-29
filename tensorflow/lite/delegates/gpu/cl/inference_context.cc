@@ -101,7 +101,8 @@ bool IsBufferBased(const GpuInfo& gpu_info, const TensorStorageType& type) {
   const bool image2d_based_buffer =
       (type == TensorStorageType::TEXTURE_2D ||
        type == TensorStorageType::SINGLE_TEXTURE_2D) &&
-      gpu_info.opencl_info.IsImage2dFromBufferSupported();
+      gpu_info.opencl_info.IsImage2dFromBufferSupported() &&
+      gpu_info.IsAdreno();
   return type == TensorStorageType::BUFFER ||
          type == TensorStorageType::IMAGE_BUFFER || image2d_based_buffer;
 }
