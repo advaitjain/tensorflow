@@ -21,7 +21,8 @@ limitations under the License.
 // definition to `tf_ops.td` and perform the modification there.
 //
 // This file contains TensorFlow ops whose definitions are programmatically
-// generated from the api-def-files in the following folder:
+// generated from the TF op registration and the api-def-files in the following
+// folder:
 // tensorflow/core/api_def/base_api
 // The generated fields for an op include name, summary, description, traits,
 // arguments, results, derived attributes. Therefore, modifications to these
@@ -4754,6 +4755,24 @@ Equivalent to np.full
   ];
 }
 
+def TF_FinalizeDatasetOp : TF_Op<"FinalizeDataset", [NoSideEffect]> {
+  let summary = [{
+Creates a dataset by applying `tf.data.Options` to `input_dataset`.
+  }];
+
+  let arguments = (ins
+    Arg<TF_VariantTensor, [{A variant tensor representing the input dataset.}]>:$input_dataset,
+
+    DefaultValuedAttr<BoolAttr, "false">:$has_captured_ref,
+    Confined<TypeArrayAttr, [ArrayMinCount<1>]>:$output_types,
+    Confined<TF_ShapeAttrArray, [ArrayMinCount<1>]>:$output_shapes
+  );
+
+  let results = (outs
+    TF_VariantTensor:$handle
+  );
+}
+
 def TF_FloorOp : TF_Op<"Floor", [Idempotent, NoSideEffect, SameOperandsAndResultType]> {
   let summary = "Returns element-wise largest integer not greater than x.";
 
@@ -5322,7 +5341,7 @@ shape `params.shape[:axis] + indices.shape + params.shape[axis + 1:]`.}]>:$outpu
   }];
 }
 
-def TF_GeneratorDatasetOp : TF_Op<"GeneratorDataset", [AttrSizedOperandSegments, NoSideEffect, TF_NoConstantFold]> {
+def TF_GeneratorDatasetOp : TF_Op<"GeneratorDataset", [AttrSizedOperandSegments, TF_GeneratorOpSideEffect]> {
   let summary = [{
 Creates a dataset that invokes a function to generate elements.
   }];
