@@ -157,3 +157,8 @@ Sat May  1 06:05:20 PDT 2021
 tensorflow version: 67261b0bc24a7164a8f25bf6f5b0bf1f2d6b8d09
    text	   data	    bss	    dec	    hex	filename
   68928	  40388	  24856	 134172	  20c1c	tensorflow/lite/micro/tools/make/gen/xtensa_fusion_f1_release/bin/keyword_benchmark
+
+Sat May  1 12:05:22 PDT 2021
+tensorflow version: cd11ef4bfb8c0769f7ec7c2900e05837bac84bbb
+   text	   data	    bss	    dec	    hex	filename
+  68928	  40388	  24856	 134172	  20c1c	tensorflow/lite/micro/tools/make/gen/xtensa_fusion_f1_release/bin/keyword_benchmark
