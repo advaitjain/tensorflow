@@ -177,3 +177,8 @@ Sun May  2 12:00:20 PDT 2021
 tensorflow version: 72d2c31b674a0817e1a755fb3adf7367a2e96644
    text	   data	    bss	    dec	    hex	filename
   47048	  40460	  24936	 112444	  1b73c	tensorflow/lite/micro/tools/make/gen/xtensa_hifimini_release/bin/keyword_benchmark
+
+Sun May  2 19:00:21 PDT 2021
+tensorflow version: 73fb3af47ead97562cd1a60df53981a801d6133b
+   text	   data	    bss	    dec	    hex	filename
+  47048	  40460	  24936	 112444	  1b73c	tensorflow/lite/micro/tools/make/gen/xtensa_hifimini_release/bin/keyword_benchmark
