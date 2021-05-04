@@ -379,8 +379,7 @@ class DatasetV2(collections_abc.Iterable, tracking_base.Trackable,
                   "actual value of the options.")
     return self._options_attr
 
-  def _apply_options(self):
-    """Apply options, such as optimization configuration, to the dataset."""
+  def _apply_debug_options(self):
     if DEBUG_MODE:
       # Disable autotuning and static optimizations that could introduce
       # parallelism or asynchrony.
@@ -392,7 +391,11 @@ class DatasetV2(collections_abc.Iterable, tracking_base.Trackable,
     else:
       dataset = self
 
-    return _FinalizeDataset(dataset)  # pylint: disable=protected-access
+    return dataset
+
+  def _apply_options(self):
+    """Apply options, such as optimization configuration, to the dataset."""
+    return _FinalizeDataset(self._apply_debug_options())  # pylint: disable=protected-access
 
   def __iter__(self):
     """Creates an iterator for elements of this dataset.
@@ -2236,7 +2239,7 @@ name=None))
     reduce_func = wrapped_func.function
     reduce_func.add_to_graph(ops.get_default_graph())
 
-    dataset = self._apply_options()
+    dataset = self._apply_debug_options()
 
     # pylint: disable=protected-access
     return structure.from_compatible_tensor_list(
@@ -2755,7 +2758,7 @@ class DatasetV1(DatasetV2):
         core_random_seed.set_random_seed(
             (graph_level_seed + 87654321 * op_level_seed) % (2 ** 63 - 1))
 
-      dataset = self._apply_options()
+      dataset = self._apply_debug_options()
       return dataset._variant_tensor  # pylint: disable=protected-access
 
     try:
@@ -2834,7 +2837,7 @@ class DatasetV1(DatasetV2):
           "dataset.make_initializable_iterator is not supported when eager "
           "execution is enabled. Use `for element in dataset` instead.")
     _ensure_same_dataset_graph(self)
-    dataset = self._apply_options()
+    dataset = self._apply_debug_options()
     if shared_name is None:
       shared_name = ""
 
