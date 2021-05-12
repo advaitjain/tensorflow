@@ -313,3 +313,8 @@ Wed May 12 06:17:35 PDT 2021
 tensorflow version: dafaea0785d572cbf6177fde2ecedf7926408be3
    text	   data	    bss	    dec	    hex	filename
   88164	  41888	  24840	 154892	  25d0c	tensorflow/lite/micro/tools/make/gen/xtensa_hifi5_release/bin/keyword_benchmark
+
+Wed May 12 12:17:52 PDT 2021
+tensorflow version: a93e8b3996f39ef0a72cdad9373ddedb44b10e8b
+   text	   data	    bss	    dec	    hex	filename
+  88164	  41888	  24840	 154892	  25d0c	tensorflow/lite/micro/tools/make/gen/xtensa_hifi5_release/bin/keyword_benchmark
