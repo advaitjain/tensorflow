@@ -1400,20 +1400,11 @@ class Stream {
       return *this;
     }
 
-    // Non-extended BLAS interface requires alpha/beta to be floats when input
-    // type is Eigen::half. However, for consistency purposes it is convenient
-    // for the interface to accept Eigen::half.
     void *alpha_ptr = &alpha;
     void *beta_ptr = &beta;
     float alpha_storage, beta_storage;
-    if (std::is_same<ConstantType, Eigen::half>::value) {
-      alpha_storage =
-          static_cast<float>(*reinterpret_cast<Eigen::half *>(&alpha));
-      beta_storage =
-          static_cast<float>(*reinterpret_cast<Eigen::half *>(&beta));
-      alpha_ptr = &alpha_storage;
-      beta_ptr = &beta_storage;
-    }
+    UpcastHalfToFloat<ConstantType>(&alpha_ptr, &beta_ptr, &alpha_storage,
+                                    &beta_storage);
 
     CheckStatus(blas->DoBlasGemm(this, transa, transb, m, n, k,
                                  blas::ToDataType<InputType>::value, alpha_ptr,
@@ -1610,38 +1601,46 @@ class Stream {
       std::complex<double> beta,
       const port::ArraySlice<DeviceMemory<std::complex<double>> *> &c, int ldc,
       int batch_count, ScratchAllocator *scratch_allocator);
+
+  template <typename InputType, typename ConstantType>
   Stream &ThenBlasGemmStridedBatched(
       blas::Transpose transa, blas::Transpose transb, uint64 m, uint64 n,
-      uint64 k, float alpha, const DeviceMemory<Eigen::half> &a, int lda,
-      int64 stride_a, const DeviceMemory<Eigen::half> &b, int ldb,
-      int64 stride_b, float beta, DeviceMemory<Eigen::half> *c, int ldc,
-      int64 stride_c, int batch_count);
-  Stream &ThenBlasGemmStridedBatched(
-      blas::Transpose transa, blas::Transpose transb, uint64 m, uint64 n,
-      uint64 k, float alpha, const DeviceMemory<float> &a, int lda,
-      int64 stride_a, const DeviceMemory<float> &b, int ldb, int64 stride_b,
-      float beta, DeviceMemory<float> *c, int ldc, int64 stride_c,
-      int batch_count);
-  Stream &ThenBlasGemmStridedBatched(
-      blas::Transpose transa, blas::Transpose transb, uint64 m, uint64 n,
-      uint64 k, double alpha, const DeviceMemory<double> &a, int lda,
-      int64 stride_a, const DeviceMemory<double> &b, int ldb, int64 stride_b,
-      double beta, DeviceMemory<double> *c, int ldc, int64 stride_c,
-      int batch_count);
-  Stream &ThenBlasGemmStridedBatched(
-      blas::Transpose transa, blas::Transpose transb, uint64 m, uint64 n,
-      uint64 k, std::complex<float> alpha,
-      const DeviceMemory<std::complex<float>> &a, int lda, int64 stride_a,
-      const DeviceMemory<std::complex<float>> &b, int ldb, int64 stride_b,
-      std::complex<float> beta, DeviceMemory<std::complex<float>> *c, int ldc,
-      int64 stride_c, int batch_count);
-  Stream &ThenBlasGemmStridedBatched(
-      blas::Transpose transa, blas::Transpose transb, uint64 m, uint64 n,
-      uint64 k, std::complex<double> alpha,
-      const DeviceMemory<std::complex<double>> &a, int lda, int64 stride_a,
-      const DeviceMemory<std::complex<double>> &b, int ldb, int64 stride_b,
-      std::complex<double> beta, DeviceMemory<std::complex<double>> *c, int ldc,
-      int64 stride_c, int batch_count);
+      uint64 k, ConstantType alpha, const DeviceMemory<InputType> &a, int lda,
+      int64 stride_a, const DeviceMemory<InputType> &b, int ldb, int64 stride_b,
+      ConstantType beta, DeviceMemory<InputType> *c, int ldc, int64 stride_c,
+      int batch_count) {
+    static_assert((std::is_same<InputType, Eigen::half>::value &&
+                   std::is_same<ConstantType, float>::value) ||
+                      ((std::is_same<InputType, float>::value ||
+                        std::is_same<InputType, Eigen::half>::value ||
+                        std::is_same<InputType, double>::value ||
+                        std::is_same<InputType, std::complex<float>>::value ||
+                        std::is_same<InputType, std::complex<double>>::value) &&
+                       std::is_same<ConstantType, InputType>::value),
+                  "Input or constant type mismatch");
+    if (!ok()) {
+      return *this;
+    }
+    blas::BlasSupport *blas = parent()->AsBlas();
+    if (!blas) {
+      CheckStatus(
+          port::InternalError("Attempting to perform BLAS operation using "
+                              "StreamExecutor without BLAS support"));
+      return *this;
+    }
+
+    void *alpha_ptr = &alpha;
+    void *beta_ptr = &beta;
+    float alpha_storage, beta_storage;
+    UpcastHalfToFloat<ConstantType>(&alpha_ptr, &beta_ptr, &alpha_storage,
+                                    &beta_storage);
+
+    CheckStatus(blas->DoBlasGemmStridedBatched(
+        this, transa, transb, m, n, k, blas::ToDataType<InputType>::value,
+        alpha_ptr, a, lda, stride_a, b, ldb, stride_b, beta_ptr, c, ldc,
+        stride_c, batch_count));
+    return *this;
+  }
 
   // See BlasSupport::DoBlasHemm.
   Stream &ThenBlasHemm(blas::Side side, blas::UpperLower uplo, uint64 m,
@@ -2254,6 +2253,22 @@ class Stream {
                                const blas::IBlasLtMatmulAlgorithm *algorithm,
                                const DeviceMemory<CType> &bias,
                                blas::ProfileResult *output_profile_result);
+
+  // Non-extended BLAS interface requires alpha/beta to be floats when input
+  // type is Eigen::half. However, for consistency purposes it is convenient
+  // for the interface to accept Eigen::half.
+  template <typename T>
+  void UpcastHalfToFloat(void **alpha_ptr, void **beta_ptr,
+                         float *alpha_storage, float *beta_storage) {
+    if (std::is_same<T, Eigen::half>::value) {
+      *alpha_storage =
+          static_cast<float>(*reinterpret_cast<Eigen::half *>(*alpha_ptr));
+      *beta_storage =
+          static_cast<float>(*reinterpret_cast<Eigen::half *>(*beta_ptr));
+      *alpha_ptr = alpha_storage;
+      *beta_ptr = beta_storage;
+    }
+  }
 
   SE_DISALLOW_COPY_AND_ASSIGN(Stream);
 };
