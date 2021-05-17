@@ -26,6 +26,14 @@
 *<ADDING/BUMPING DEPENDENCIES SHOULD GO HERE>
 *<KNOWN LACK OF SUPPORT ON SOME PLATFORM, SHOULD GO HERE>
 
+* TF Core:
+    * A longstanding bug in `tf.while_loop`, which caused it to execute
+      sequentially, even when `parallel_iterations>1`, has now been fixed.
+      However, the increased parallelism may result in increased memory use.
+      Users who experience unwanted regressions should reset their
+      `while_loop`'s `parallel_iterations` value to 1, which is consistent with
+      prior behavior.
+
 ## Major Features and Improvements
 
 *<INSERT MAJOR FEATURE HERE, USING MARKDOWN SYNTAX>
@@ -48,6 +56,10 @@
     *   SavedModels can now save custom gradients. Use the option
         `tf.saved_model.SaveOption(experimental_custom_gradients=True)` to
         enable this feature.
+
+*   TF Core:
+    *   Added `tf.config.experimental.reset_memory_stats` to reset the tracked
+        peak memory returned by `tf.config.experimental.get_memory_info`.
 
 ## Bug Fixes and Other Changes
 
