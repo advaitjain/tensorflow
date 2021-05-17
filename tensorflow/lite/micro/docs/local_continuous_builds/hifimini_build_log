@@ -1,51 +1,51 @@
-Building at 242a05ca7d336fab23321d4bc7e46e9a202fab37
+Building at 704610e1d21288482bf77923b387f9bb6c119318
 
 make -f tensorflow/lite/micro/tools/make/Makefile clean
 
---2021-05-16 12:00:04--  http://mirror.tensorflow.org/github.com/google/flatbuffers/archive/dca12522a9f9e37f126ab925fd385c807ab4f84e.zip
-Resolving mirror.tensorflow.org (mirror.tensorflow.org)... 2607:f8b0:4005:804::2010, 216.58.194.176
-Connecting to mirror.tensorflow.org (mirror.tensorflow.org)|2607:f8b0:4005:804::2010|:80... connected.
+--2021-05-16 19:00:05--  http://mirror.tensorflow.org/github.com/google/flatbuffers/archive/dca12522a9f9e37f126ab925fd385c807ab4f84e.zip
+Resolving mirror.tensorflow.org (mirror.tensorflow.org)... 2607:f8b0:4005:807::2010, 216.58.195.80
+Connecting to mirror.tensorflow.org (mirror.tensorflow.org)|2607:f8b0:4005:807::2010|:80... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 1760478 (1.7M) [application/zip]
-Saving to: '/tmp/tmp.MOFZY42Pi2/dca12522a9f9e37f126ab925fd385c807ab4f84e.zip'
+Saving to: '/tmp/tmp.EmiDfGwR6Y/dca12522a9f9e37f126ab925fd385c807ab4f84e.zip'
 
-     0K .......... .......... .......... .......... ..........  2% 6.35M 0s
-    50K .......... .......... .......... .......... ..........  5% 5.77M 0s
-   100K .......... .......... .......... .......... ..........  8% 82.5M 0s
-   150K .......... .......... .......... .......... .......... 11% 71.3M 0s
-   200K .......... .......... .......... .......... .......... 14%  119M 0s
-   250K .......... .......... .......... .......... .......... 17%  126M 0s
-   300K .......... .......... .......... .......... .......... 20% 99.5M 0s
-   350K .......... .......... .......... .......... .......... 23% 73.9M 0s
-   400K .......... .......... .......... .......... .......... 26% 38.8M 0s
-   450K .......... .......... .......... .......... .......... 29% 55.8M 0s
-   500K .......... .......... .......... .......... .......... 31%  101M 0s
-   550K .......... .......... .......... .......... .......... 34%  102M 0s
-   600K .......... .......... .......... .......... .......... 37%  156M 0s
-   650K .......... .......... .......... .......... .......... 40% 84.9M 0s
-   700K .......... .......... .......... .......... .......... 43%  125M 0s
-   750K .......... .......... .......... .......... .......... 46%  102M 0s
-   800K .......... .......... .......... .......... .......... 49% 64.3M 0s
-   850K .......... .......... .......... .......... .......... 52%  111M 0s
-   900K .......... .......... .......... .......... .......... 55%  116M 0s
+     0K .......... .......... .......... .......... ..........  2% 5.58M 0s
+    50K .......... .......... .......... .......... ..........  5% 4.51M 0s
+   100K .......... .......... .......... .......... ..........  8% 11.3M 0s
+   150K .......... .......... .......... .......... .......... 11% 69.4M 0s
+   200K .......... .......... .......... .......... .......... 14% 61.2M 0s
+   250K .......... .......... .......... .......... .......... 17% 47.8M 0s
+   300K .......... .......... .......... .......... .......... 20% 46.3M 0s
+   350K .......... .......... .......... .......... .......... 23%  104M 0s
+   400K .......... .......... .......... .......... .......... 26% 73.8M 0s
+   450K .......... .......... .......... .......... .......... 29% 94.1M 0s
+   500K .......... .......... .......... .......... .......... 31%  128M 0s
+   550K .......... .......... .......... .......... .......... 34%  106M 0s
+   600K .......... .......... .......... .......... .......... 37%  105M 0s
+   650K .......... .......... .......... .......... .......... 40%  100M 0s
+   700K .......... .......... .......... .......... .......... 43%  135M 0s
+   750K .......... .......... .......... .......... .......... 46% 99.8M 0s
+   800K .......... .......... .......... .......... .......... 49%  111M 0s
+   850K .......... .......... .......... .......... .......... 52%  106M 0s
+   900K .......... .......... .......... .......... .......... 55% 92.9M 0s
    950K .......... .......... .......... .......... .......... 58%  105M 0s
-  1000K .......... .......... .......... .......... .......... 61%  112M 0s
-  1050K .......... .......... .......... .......... .......... 63%  115M 0s
-  1100K .......... .......... .......... .......... .......... 66%  105M 0s
-  1150K .......... .......... .......... .......... .......... 69% 97.8M 0s
-  1200K .......... .......... .......... .......... .......... 72%  119M 0s
-  1250K .......... .......... .......... .......... .......... 75% 91.1M 0s
-  1300K .......... .......... .......... .......... .......... 78%  121M 0s
-  1350K .......... .......... .......... .......... .......... 81%  118M 0s
-  1400K .......... .......... .......... .......... .......... 84%  106M 0s
-  1450K .......... .......... .......... .......... .......... 87%  106M 0s
-  1500K .......... .......... .......... .......... .......... 90%  119M 0s
-  1550K .......... .......... .......... .......... .......... 93%  110M 0s
-  1600K .......... .......... .......... .......... .......... 95%  106M 0s
-  1650K .......... .......... .......... .......... .......... 98% 90.1M 0s
-  1700K .......... .........                                  100% 85.1M=0.03s
+  1000K .......... .......... .......... .......... .......... 61%  156M 0s
+  1050K .......... .......... .......... .......... .......... 63% 97.7M 0s
+  1100K .......... .......... .......... .......... .......... 66%  107M 0s
+  1150K .......... .......... .......... .......... .......... 69%  147M 0s
+  1200K .......... .......... .......... .......... .......... 72% 99.1M 0s
+  1250K .......... .......... .......... .......... .......... 75%  104M 0s
+  1300K .......... .......... .......... .......... .......... 78% 96.1M 0s
+  1350K .......... .......... .......... .......... .......... 81% 96.6M 0s
+  1400K .......... .......... .......... .......... .......... 84%  101M 0s
+  1450K .......... .......... .......... .......... .......... 87% 96.3M 0s
+  1500K .......... .......... .......... .......... .......... 90%  162M 0s
+  1550K .......... .......... .......... .......... .......... 93% 75.2M 0s
+  1600K .......... .......... .......... .......... .......... 95%  144M 0s
+  1650K .......... .......... .......... .......... .......... 98% 99.6M 0s
+  1700K .......... .........                                  100%  311M=0.04s
 
-2021-05-16 12:00:05 (51.0 MB/s) - '/tmp/tmp.MOFZY42Pi2/dca12522a9f9e37f126ab925fd385c807ab4f84e.zip' saved [1760478/1760478]
+2021-05-16 19:00:06 (41.9 MB/s) - '/tmp/tmp.EmiDfGwR6Y/dca12522a9f9e37f126ab925fd385c807ab4f84e.zip' saved [1760478/1760478]
 
 Cloning into 'tensorflow/lite/micro/tools/make/downloads/pigweed'...
 Note: switching to '47268dff45019863e20438ca3746c6c62df6ef09'.
@@ -66,26 +66,26 @@ Or undo this operation with:
 Turn off this advice by setting config variable advice.detachedHead to false
 
 HEAD is now at 47268dff pw_hdlc_lite: Client I/O improvements
---2021-05-16 12:00:07--  https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_micro_person_data_int8_grayscale_2020_12_1.zip
-Resolving storage.googleapis.com (storage.googleapis.com)... 2607:f8b0:4005:804::2010, 2607:f8b0:4005:807::2010, 2607:f8b0:4005:805::2010, ...
-Connecting to storage.googleapis.com (storage.googleapis.com)|2607:f8b0:4005:804::2010|:443... connected.
+--2021-05-16 19:00:07--  https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_micro_person_data_int8_grayscale_2020_12_1.zip
+Resolving storage.googleapis.com (storage.googleapis.com)... 2607:f8b0:4005:80b::2010, 2607:f8b0:4005:801::2010, 2607:f8b0:4005:807::2010, ...
+Connecting to storage.googleapis.com (storage.googleapis.com)|2607:f8b0:4005:80b::2010|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 419221 (409K) [application/zip]
-Saving to: '/tmp/tmp.gh7jqnVNM3/temp_file'
+Saving to: '/tmp/tmp.CXJSv09440/temp_file'
 
-     0K .......... .......... .......... .......... .......... 12% 6.20M 0s
-    50K .......... .......... .......... .......... .......... 24% 5.95M 0s
-   100K .......... .......... .......... .......... .......... 36% 48.6M 0s
-   150K .......... .......... .......... .......... .......... 48% 51.4M 0s
-   200K .......... .......... .......... .......... .......... 61% 52.9M 0s
-   250K .......... .......... .......... .......... .......... 73% 49.6M 0s
-   300K .......... .......... .......... .......... .......... 85% 56.4M 0s
-   350K .......... .......... .......... .......... .......... 97% 64.5M 0s
-   400K .........                                             100% 53.3M=0.02s
+     0K .......... .......... .......... .......... .......... 12% 4.88M 0s
+    50K .......... .......... .......... .......... .......... 24% 5.04M 0s
+   100K .......... .......... .......... .......... .......... 36% 45.7M 0s
+   150K .......... .......... .......... .......... .......... 48% 48.4M 0s
+   200K .......... .......... .......... .......... .......... 61% 52.6M 0s
+   250K .......... .......... .......... .......... .......... 73% 50.6M 0s
+   300K .......... .......... .......... .......... .......... 85% 85.3M 0s
+   350K .......... .......... .......... .......... .......... 97% 94.3M 0s
+   400K .........                                             100% 86.4M=0.02s
 
-2021-05-16 12:00:07 (18.4 MB/s) - '/tmp/tmp.gh7jqnVNM3/temp_file' saved [419221/419221]
+2021-05-16 19:00:08 (16.1 MB/s) - '/tmp/tmp.CXJSv09440/temp_file' saved [419221/419221]
 
-Archive:  /tmp/tmp.gh7jqnVNM3/temp_file
+Archive:  /tmp/tmp.CXJSv09440/temp_file
    creating: tensorflow/lite/micro/tools/make/downloads/person_model_int8/
   inflating: tensorflow/lite/micro/tools/make/downloads/person_model_int8/person_image_data.cc  
   inflating: tensorflow/lite/micro/tools/make/downloads/person_model_int8/person_detect_model_data.h  
@@ -108,7 +108,7 @@ downloading https://github.com/google/gemmlowp/archive/719139ce755a0f31cbf1c37f7
 downloading https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_micro_person_data_grayscale_2020_05_27.zip
 + [[ 0 -eq 0 ]]
 + break
-++ openssl dgst -md5 /tmp/tmp.hRhrzBeZdK/temp_file
+++ openssl dgst -md5 /tmp/tmp.SvkNDpB0DE/temp_file
 ++ sed 's/.* //g'
 + DOWNLOADED_MD5=55b85f76e2995153e660391d4a209ef1
 + '[' 55b85f76e2995153e660391d4a209ef1 '!=' 55b85f76e2995153e660391d4a209ef1 ']'
@@ -119,13 +119,13 @@ downloading https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_
 + [[ https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_micro_person_data_grayscale_2020_05_27.zip == *tar.xz ]]
 + [[ https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_micro_person_data_grayscale_2020_05_27.zip == *bz2 ]]
 + [[ https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_micro_person_data_grayscale_2020_05_27.zip == *zip ]]
-+ unzip /tmp/tmp.hRhrzBeZdK/temp_file -d /tmp/tmp.134UCw2rDh
++ unzip /tmp/tmp.SvkNDpB0DE/temp_file -d /tmp/tmp.Db3OW76nf8
+++ find /tmp/tmp.Db3OW76nf8/person_model_grayscale -maxdepth 0
 ++ wc -l
-++ find /tmp/tmp.134UCw2rDh/person_model_grayscale -maxdepth 0
 + '[' 1 = 1 ']'
-+ '[' -d /tmp/tmp.134UCw2rDh/person_model_grayscale ']'
-+ cp -R /tmp/tmp.134UCw2rDh/person_model_grayscale/no_person_image_data.cc /tmp/tmp.134UCw2rDh/person_model_grayscale/no_person_image_data.h /tmp/tmp.134UCw2rDh/person_model_grayscale/person_detect_model_data.cc /tmp/tmp.134UCw2rDh/person_model_grayscale/person_detect_model_data.h /tmp/tmp.134UCw2rDh/person_model_grayscale/person_image_data.cc /tmp/tmp.134UCw2rDh/person_model_grayscale/person_image_data.h tensorflow/lite/micro/tools/make/downloads/person_model_grayscale/
-+ rm -rf /tmp/tmp.134UCw2rDh /tmp/tmp.hRhrzBeZdK
++ '[' -d /tmp/tmp.Db3OW76nf8/person_model_grayscale ']'
++ cp -R /tmp/tmp.Db3OW76nf8/person_model_grayscale/no_person_image_data.cc /tmp/tmp.Db3OW76nf8/person_model_grayscale/no_person_image_data.h /tmp/tmp.Db3OW76nf8/person_model_grayscale/person_detect_model_data.cc /tmp/tmp.Db3OW76nf8/person_model_grayscale/person_detect_model_data.h /tmp/tmp.Db3OW76nf8/person_model_grayscale/person_image_data.cc /tmp/tmp.Db3OW76nf8/person_model_grayscale/person_image_data.h tensorflow/lite/micro/tools/make/downloads/person_model_grayscale/
++ rm -rf /tmp/tmp.Db3OW76nf8 /tmp/tmp.SvkNDpB0DE
 + find tensorflow/lite/micro/tools/make/downloads/person_model_grayscale -type f -name '*BUILD' -delete
 + [[ '' == \p\a\t\c\h\_\a\m\_\s\d\k ]]
 + [[ '' == \p\a\t\c\h\_\k\i\s\s\f\f\t ]]
@@ -135,7 +135,7 @@ downloading https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_
 + [[ -n '' ]]
 + [[ 0 -eq 0 ]]
 + break
-++ openssl dgst -md5 /tmp/tmp.SaHQt8juSx/temp_file
+++ openssl dgst -md5 /tmp/tmp.92NA1r65Xo/temp_file
 ++ sed 's/.* //g'
 + DOWNLOADED_MD5=abf7a91eb90d195f016ebe0be885bb6e
 + '[' abf7a91eb90d195f016ebe0be885bb6e '!=' abf7a91eb90d195f016ebe0be885bb6e ']'
@@ -146,27 +146,13 @@ downloading https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_
 + [[ https://github.com/google/ruy/archive/d37128311b445e758136b8602d1bbd2a755e115d.zip == *tar.xz ]]
 + [[ https://github.com/google/ruy/archive/d37128311b445e758136b8602d1bbd2a755e115d.zip == *bz2 ]]
 + [[ https://github.com/google/ruy/archive/d37128311b445e758136b8602d1bbd2a755e115d.zip == *zip ]]
-+ unzip /tmp/tmp.SaHQt8juSx/temp_file -d /tmp/tmp.kNMIJ2FU4q
-+ [[ 0 -eq 0 ]]
-+ break
-++ openssl dgst -md5 /tmp/tmp.maU5A2VtiU/temp_file
-++ sed 's/.* //g'
++ unzip /tmp/tmp.92NA1r65Xo/temp_file -d /tmp/tmp.AnY8wV0O2B
+++ find /tmp/tmp.AnY8wV0O2B/ruy-d37128311b445e758136b8602d1bbd2a755e115d -maxdepth 0
 ++ wc -l
-++ find /tmp/tmp.kNMIJ2FU4q/ruy-d37128311b445e758136b8602d1bbd2a755e115d -maxdepth 0
 + '[' 1 = 1 ']'
-+ '[' -d /tmp/tmp.kNMIJ2FU4q/ruy-d37128311b445e758136b8602d1bbd2a755e115d ']'
-+ cp -R /tmp/tmp.kNMIJ2FU4q/ruy-d37128311b445e758136b8602d1bbd2a755e115d/BUILD /tmp/tmp.kNMIJ2FU4q/ruy-d37128311b445e758136b8602d1bbd2a755e115d/CMakeLists.txt /tmp/tmp.kNMIJ2FU4q/ruy-d37128311b445e758136b8602d1bbd2a755e115d/CONTRIBUTING.md /tmp/tmp.kNMIJ2FU4q/ruy-d37128311b445e758136b8602d1bbd2a755e115d/LICENSE /tmp/tmp.kNMIJ2FU4q/ruy-d37128311b445e758136b8602d1bbd2a755e115d/README.md /tmp/tmp.kNMIJ2FU4q/ruy-d37128311b445e758136b8602d1bbd2a755e115d/WORKSPACE /tmp/tmp.kNMIJ2FU4q/ruy-d37128311b445e758136b8602d1bbd2a755e115d/cmake /tmp/tmp.kNMIJ2FU4q/ruy-d37128311b445e758136b8602d1bbd2a755e115d/doc /tmp/tmp.kNMIJ2FU4q/ruy-d37128311b445e758136b8602d1bbd2a755e115d/example /tmp/tmp.kNMIJ2FU4q/ruy-d37128311b445e758136b8602d1bbd2a755e115d/ruy /tmp/tmp.kNMIJ2FU4q/ruy-d37128311b445e758136b8602d1bbd2a755e115d/third_party tensorflow/lite/micro/tools/make/downloads/ruy/
-+ DOWNLOADED_MD5=7e8191b24853d75de2af87622ad293ba
-+ '[' 7e8191b24853d75de2af87622ad293ba '!=' 7e8191b24853d75de2af87622ad293ba ']'
-++ echo https://github.com/google/gemmlowp/archive/719139ce755a0f31cbf1c37f7f98adcc7fc9f425.zip
-++ sed 's/\?.*//'
-+ rm -rf /tmp/tmp.kNMIJ2FU4q /tmp/tmp.SaHQt8juSx
-+ url=https://github.com/google/gemmlowp/archive/719139ce755a0f31cbf1c37f7f98adcc7fc9f425.zip
-+ [[ https://github.com/google/gemmlowp/archive/719139ce755a0f31cbf1c37f7f98adcc7fc9f425.zip == *gz ]]
-+ [[ https://github.com/google/gemmlowp/archive/719139ce755a0f31cbf1c37f7f98adcc7fc9f425.zip == *tar.xz ]]
-+ [[ https://github.com/google/gemmlowp/archive/719139ce755a0f31cbf1c37f7f98adcc7fc9f425.zip == *bz2 ]]
-+ [[ https://github.com/google/gemmlowp/archive/719139ce755a0f31cbf1c37f7f98adcc7fc9f425.zip == *zip ]]
-+ unzip /tmp/tmp.maU5A2VtiU/temp_file -d /tmp/tmp.DBdnHyTJq9
++ '[' -d /tmp/tmp.AnY8wV0O2B/ruy-d37128311b445e758136b8602d1bbd2a755e115d ']'
++ cp -R /tmp/tmp.AnY8wV0O2B/ruy-d37128311b445e758136b8602d1bbd2a755e115d/BUILD /tmp/tmp.AnY8wV0O2B/ruy-d37128311b445e758136b8602d1bbd2a755e115d/CMakeLists.txt /tmp/tmp.AnY8wV0O2B/ruy-d37128311b445e758136b8602d1bbd2a755e115d/CONTRIBUTING.md /tmp/tmp.AnY8wV0O2B/ruy-d37128311b445e758136b8602d1bbd2a755e115d/LICENSE /tmp/tmp.AnY8wV0O2B/ruy-d37128311b445e758136b8602d1bbd2a755e115d/README.md /tmp/tmp.AnY8wV0O2B/ruy-d37128311b445e758136b8602d1bbd2a755e115d/WORKSPACE /tmp/tmp.AnY8wV0O2B/ruy-d37128311b445e758136b8602d1bbd2a755e115d/cmake /tmp/tmp.AnY8wV0O2B/ruy-d37128311b445e758136b8602d1bbd2a755e115d/doc /tmp/tmp.AnY8wV0O2B/ruy-d37128311b445e758136b8602d1bbd2a755e115d/example /tmp/tmp.AnY8wV0O2B/ruy-d37128311b445e758136b8602d1bbd2a755e115d/ruy /tmp/tmp.AnY8wV0O2B/ruy-d37128311b445e758136b8602d1bbd2a755e115d/third_party tensorflow/lite/micro/tools/make/downloads/ruy/
++ rm -rf /tmp/tmp.AnY8wV0O2B /tmp/tmp.92NA1r65Xo
 + find tensorflow/lite/micro/tools/make/downloads/ruy -type f -name '*BUILD' -delete
 + [[ '' == \p\a\t\c\h\_\a\m\_\s\d\k ]]
 + [[ '' == \p\a\t\c\h\_\k\i\s\s\f\f\t ]]
@@ -174,12 +160,26 @@ downloading https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_
 + [[ '' == \b\u\i\l\d\_\e\m\b\a\r\c\_\m\l\i ]]
 + [[ '' == \s\e\t\u\p\_\z\e\p\h\y\r ]]
 + [[ -n '' ]]
-++ find /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425 -maxdepth 0
++ [[ 0 -eq 0 ]]
++ break
+++ openssl dgst -md5 /tmp/tmp.vOcjul50w4/temp_file
+++ sed 's/.* //g'
++ DOWNLOADED_MD5=7e8191b24853d75de2af87622ad293ba
++ '[' 7e8191b24853d75de2af87622ad293ba '!=' 7e8191b24853d75de2af87622ad293ba ']'
+++ echo https://github.com/google/gemmlowp/archive/719139ce755a0f31cbf1c37f7f98adcc7fc9f425.zip
+++ sed 's/\?.*//'
++ url=https://github.com/google/gemmlowp/archive/719139ce755a0f31cbf1c37f7f98adcc7fc9f425.zip
++ [[ https://github.com/google/gemmlowp/archive/719139ce755a0f31cbf1c37f7f98adcc7fc9f425.zip == *gz ]]
++ [[ https://github.com/google/gemmlowp/archive/719139ce755a0f31cbf1c37f7f98adcc7fc9f425.zip == *tar.xz ]]
++ [[ https://github.com/google/gemmlowp/archive/719139ce755a0f31cbf1c37f7f98adcc7fc9f425.zip == *bz2 ]]
++ [[ https://github.com/google/gemmlowp/archive/719139ce755a0f31cbf1c37f7f98adcc7fc9f425.zip == *zip ]]
++ unzip /tmp/tmp.vOcjul50w4/temp_file -d /tmp/tmp.Y0y0dUpIsN
+++ find /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425 -maxdepth 0
 ++ wc -l
 + '[' 1 = 1 ']'
-+ '[' -d /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425 ']'
-+ cp -R /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/AUTHORS /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/BUILD /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/CONTRIBUTING /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/CONTRIBUTORS /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/LICENSE /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/Makefile.travis /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/README.md /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/WORKSPACE /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/contrib /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/doc /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/eight_bit_int_gemm /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/fixedpoint /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/flags.bzl /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/internal /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/jni /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/meta /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/profiling /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/public /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/scripts /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/standalone /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/test /tmp/tmp.DBdnHyTJq9/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/todo tensorflow/lite/micro/tools/make/downloads/gemmlowp/
-+ rm -rf /tmp/tmp.DBdnHyTJq9 /tmp/tmp.maU5A2VtiU
++ '[' -d /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425 ']'
++ cp -R /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/AUTHORS /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/BUILD /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/CONTRIBUTING /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/CONTRIBUTORS /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/LICENSE /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/Makefile.travis /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/README.md /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/WORKSPACE /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/contrib /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/doc /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/eight_bit_int_gemm /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/fixedpoint /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/flags.bzl /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/internal /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/jni /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/meta /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/profiling /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/public /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/scripts /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/standalone /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/test /tmp/tmp.Y0y0dUpIsN/gemmlowp-719139ce755a0f31cbf1c37f7f98adcc7fc9f425/todo tensorflow/lite/micro/tools/make/downloads/gemmlowp/
++ rm -rf /tmp/tmp.Y0y0dUpIsN /tmp/tmp.vOcjul50w4
 + find tensorflow/lite/micro/tools/make/downloads/gemmlowp -type f -name '*BUILD' -delete
 + [[ '' == \p\a\t\c\h\_\a\m\_\s\d\k ]]
 + [[ '' == \p\a\t\c\h\_\k\i\s\s\f\f\t ]]
@@ -187,11 +187,11 @@ downloading https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_
 + [[ '' == \b\u\i\l\d\_\e\m\b\a\r\c\_\m\l\i ]]
 + [[ '' == \s\e\t\u\p\_\z\e\p\h\y\r ]]
 + [[ -n '' ]]
-xt-clang++ -std=c++11 -fno-exceptions -fno-threadsafe-statics -fno-unwind-tables -ffunction-sections -fdata-sections -fmessage-length=0 -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -O3 -Werror -Wsign-compare -Wdouble-promotion -Wshadow -Wunused-variable -Wmissing-field-initializers -Wunused-function -Wswitch -Wvla -Wall -Wextra -Wstrict-aliasing -Wno-unused-parameter -DXTENSA -DXTENSA -DNDEBUG -DTF_LITE_STRIP_ERROR_STRINGS -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME --xtensa-core=mini1m1m_RG -mcoproc -DMAX_RFFT_PWR=9 -DMIN_RFFT_PWR=MAX_RFFT_PWR -DHIFIMINI -mlongcalls -Wno-unused-private-field -I. -Itensorflow/lite/micro/tools/make/downloads/gemmlowp -Itensorflow/lite/micro/tools/make/downloads/flatbuffers/include -Itensorflow/lite/micro/tools/make/downloads/ruy -c tensorflow/lite/micro/benchmarks/keyword_benchmark.cc -o tensorflow/lite/micro/tools/make/gen/xtensa_hifimini_release/obj/tensorflow/lite/micro/benchmarks/keyword_benchmark.o
 xt-clang++ -std=c++11 -fno-exceptions -fno-threadsafe-statics -fno-unwind-tables -ffunction-sections -fdata-sections -fmessage-length=0 -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -O3 -Werror -Wsign-compare -Wdouble-promotion -Wshadow -Wunused-variable -Wmissing-field-initializers -Wunused-function -Wswitch -Wvla -Wall -Wextra -Wstrict-aliasing -Wno-unused-parameter -DXTENSA -DXTENSA -DNDEBUG -DTF_LITE_STRIP_ERROR_STRINGS -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME --xtensa-core=mini1m1m_RG -mcoproc -DMAX_RFFT_PWR=9 -DMIN_RFFT_PWR=MAX_RFFT_PWR -DHIFIMINI -mlongcalls -Wno-unused-private-field -I. -Itensorflow/lite/micro/tools/make/downloads/gemmlowp -Itensorflow/lite/micro/tools/make/downloads/flatbuffers/include -Itensorflow/lite/micro/tools/make/downloads/ruy -c tensorflow/lite/micro/benchmarks/keyword_scrambled_model_data.cc -o tensorflow/lite/micro/tools/make/gen/xtensa_hifimini_release/obj/tensorflow/lite/micro/benchmarks/keyword_scrambled_model_data.o
+xt-clang++ -std=c++11 -fno-exceptions -fno-threadsafe-statics -fno-unwind-tables -ffunction-sections -fdata-sections -fmessage-length=0 -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -O3 -Werror -Wsign-compare -Wdouble-promotion -Wshadow -Wunused-variable -Wmissing-field-initializers -Wunused-function -Wswitch -Wvla -Wall -Wextra -Wstrict-aliasing -Wno-unused-parameter -DXTENSA -DXTENSA -DNDEBUG -DTF_LITE_STRIP_ERROR_STRINGS -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME --xtensa-core=mini1m1m_RG -mcoproc -DMAX_RFFT_PWR=9 -DMIN_RFFT_PWR=MAX_RFFT_PWR -DHIFIMINI -mlongcalls -Wno-unused-private-field -I. -Itensorflow/lite/micro/tools/make/downloads/gemmlowp -Itensorflow/lite/micro/tools/make/downloads/flatbuffers/include -Itensorflow/lite/micro/tools/make/downloads/ruy -c tensorflow/lite/micro/benchmarks/keyword_benchmark.cc -o tensorflow/lite/micro/tools/make/gen/xtensa_hifimini_release/obj/tensorflow/lite/micro/benchmarks/keyword_benchmark.o
 xt-clang++ -std=c++11 -fno-exceptions -fno-threadsafe-statics -fno-unwind-tables -ffunction-sections -fdata-sections -fmessage-length=0 -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -O3 -Werror -Wsign-compare -Wdouble-promotion -Wshadow -Wunused-variable -Wmissing-field-initializers -Wunused-function -Wswitch -Wvla -Wall -Wextra -Wstrict-aliasing -Wno-unused-parameter -DXTENSA -DXTENSA -DNDEBUG -DTF_LITE_STRIP_ERROR_STRINGS -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME --xtensa-core=mini1m1m_RG -mcoproc -DMAX_RFFT_PWR=9 -DMIN_RFFT_PWR=MAX_RFFT_PWR -DHIFIMINI -mlongcalls -Wno-unused-private-field -I. -Itensorflow/lite/micro/tools/make/downloads/gemmlowp -Itensorflow/lite/micro/tools/make/downloads/flatbuffers/include -Itensorflow/lite/micro/tools/make/downloads/ruy -c tensorflow/lite/micro/all_ops_resolver.cc -o tensorflow/lite/micro/tools/make/gen/xtensa_hifimini_release/obj/tensorflow/lite/micro/all_ops_resolver.o
-xt-clang++ -std=c++11 -fno-exceptions -fno-threadsafe-statics -fno-unwind-tables -ffunction-sections -fdata-sections -fmessage-length=0 -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -O3 -Werror -Wsign-compare -Wdouble-promotion -Wshadow -Wunused-variable -Wmissing-field-initializers -Wunused-function -Wswitch -Wvla -Wall -Wextra -Wstrict-aliasing -Wno-unused-parameter -DXTENSA -DXTENSA -DNDEBUG -DTF_LITE_STRIP_ERROR_STRINGS -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME --xtensa-core=mini1m1m_RG -mcoproc -DMAX_RFFT_PWR=9 -DMIN_RFFT_PWR=MAX_RFFT_PWR -DHIFIMINI -mlongcalls -Wno-unused-private-field -I. -Itensorflow/lite/micro/tools/make/downloads/gemmlowp -Itensorflow/lite/micro/tools/make/downloads/flatbuffers/include -Itensorflow/lite/micro/tools/make/downloads/ruy -c tensorflow/lite/micro/debug_log.cc -o tensorflow/lite/micro/tools/make/gen/xtensa_hifimini_release/obj/tensorflow/lite/micro/debug_log.o
 xt-clang++ -std=c++11 -fno-exceptions -fno-threadsafe-statics -fno-unwind-tables -ffunction-sections -fdata-sections -fmessage-length=0 -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -O3 -Werror -Wsign-compare -Wdouble-promotion -Wshadow -Wunused-variable -Wmissing-field-initializers -Wunused-function -Wswitch -Wvla -Wall -Wextra -Wstrict-aliasing -Wno-unused-parameter -DXTENSA -DXTENSA -DNDEBUG -DTF_LITE_STRIP_ERROR_STRINGS -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME --xtensa-core=mini1m1m_RG -mcoproc -DMAX_RFFT_PWR=9 -DMIN_RFFT_PWR=MAX_RFFT_PWR -DHIFIMINI -mlongcalls -Wno-unused-private-field -I. -Itensorflow/lite/micro/tools/make/downloads/gemmlowp -Itensorflow/lite/micro/tools/make/downloads/flatbuffers/include -Itensorflow/lite/micro/tools/make/downloads/ruy -c tensorflow/lite/micro/memory_helpers.cc -o tensorflow/lite/micro/tools/make/gen/xtensa_hifimini_release/obj/tensorflow/lite/micro/memory_helpers.o
+xt-clang++ -std=c++11 -fno-exceptions -fno-threadsafe-statics -fno-unwind-tables -ffunction-sections -fdata-sections -fmessage-length=0 -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -O3 -Werror -Wsign-compare -Wdouble-promotion -Wshadow -Wunused-variable -Wmissing-field-initializers -Wunused-function -Wswitch -Wvla -Wall -Wextra -Wstrict-aliasing -Wno-unused-parameter -DXTENSA -DXTENSA -DNDEBUG -DTF_LITE_STRIP_ERROR_STRINGS -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME --xtensa-core=mini1m1m_RG -mcoproc -DMAX_RFFT_PWR=9 -DMIN_RFFT_PWR=MAX_RFFT_PWR -DHIFIMINI -mlongcalls -Wno-unused-private-field -I. -Itensorflow/lite/micro/tools/make/downloads/gemmlowp -Itensorflow/lite/micro/tools/make/downloads/flatbuffers/include -Itensorflow/lite/micro/tools/make/downloads/ruy -c tensorflow/lite/micro/debug_log.cc -o tensorflow/lite/micro/tools/make/gen/xtensa_hifimini_release/obj/tensorflow/lite/micro/debug_log.o
 xt-clang++ -std=c++11 -fno-exceptions -fno-threadsafe-statics -fno-unwind-tables -ffunction-sections -fdata-sections -fmessage-length=0 -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -O3 -Werror -Wsign-compare -Wdouble-promotion -Wshadow -Wunused-variable -Wmissing-field-initializers -Wunused-function -Wswitch -Wvla -Wall -Wextra -Wstrict-aliasing -Wno-unused-parameter -DXTENSA -DXTENSA -DNDEBUG -DTF_LITE_STRIP_ERROR_STRINGS -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME --xtensa-core=mini1m1m_RG -mcoproc -DMAX_RFFT_PWR=9 -DMIN_RFFT_PWR=MAX_RFFT_PWR -DHIFIMINI -mlongcalls -Wno-unused-private-field -I. -Itensorflow/lite/micro/tools/make/downloads/gemmlowp -Itensorflow/lite/micro/tools/make/downloads/flatbuffers/include -Itensorflow/lite/micro/tools/make/downloads/ruy -c tensorflow/lite/micro/micro_allocator.cc -o tensorflow/lite/micro/tools/make/gen/xtensa_hifimini_release/obj/tensorflow/lite/micro/micro_allocator.o
 xt-clang++ -std=c++11 -fno-exceptions -fno-threadsafe-statics -fno-unwind-tables -ffunction-sections -fdata-sections -fmessage-length=0 -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -O3 -Werror -Wsign-compare -Wdouble-promotion -Wshadow -Wunused-variable -Wmissing-field-initializers -Wunused-function -Wswitch -Wvla -Wall -Wextra -Wstrict-aliasing -Wno-unused-parameter -DXTENSA -DXTENSA -DNDEBUG -DTF_LITE_STRIP_ERROR_STRINGS -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME --xtensa-core=mini1m1m_RG -mcoproc -DMAX_RFFT_PWR=9 -DMIN_RFFT_PWR=MAX_RFFT_PWR -DHIFIMINI -mlongcalls -Wno-unused-private-field -I. -Itensorflow/lite/micro/tools/make/downloads/gemmlowp -Itensorflow/lite/micro/tools/make/downloads/flatbuffers/include -Itensorflow/lite/micro/tools/make/downloads/ruy -c tensorflow/lite/micro/micro_error_reporter.cc -o tensorflow/lite/micro/tools/make/gen/xtensa_hifimini_release/obj/tensorflow/lite/micro/micro_error_reporter.o
 xt-clang++ -std=c++11 -fno-exceptions -fno-threadsafe-statics -fno-unwind-tables -ffunction-sections -fdata-sections -fmessage-length=0 -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -O3 -Werror -Wsign-compare -Wdouble-promotion -Wshadow -Wunused-variable -Wmissing-field-initializers -Wunused-function -Wswitch -Wvla -Wall -Wextra -Wstrict-aliasing -Wno-unused-parameter -DXTENSA -DXTENSA -DNDEBUG -DTF_LITE_STRIP_ERROR_STRINGS -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME --xtensa-core=mini1m1m_RG -mcoproc -DMAX_RFFT_PWR=9 -DMIN_RFFT_PWR=MAX_RFFT_PWR -DHIFIMINI -mlongcalls -Wno-unused-private-field -I. -Itensorflow/lite/micro/tools/make/downloads/gemmlowp -Itensorflow/lite/micro/tools/make/downloads/flatbuffers/include -Itensorflow/lite/micro/tools/make/downloads/ruy -c tensorflow/lite/micro/micro_graph.cc -o tensorflow/lite/micro/tools/make/gen/xtensa_hifimini_release/obj/tensorflow/lite/micro/micro_graph.o
