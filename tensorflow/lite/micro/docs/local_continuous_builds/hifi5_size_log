@@ -107,3 +107,8 @@ Thu May 20 06:19:14 PDT 2021
 tensorflow version: 2eb5ed7cacd56a3e05fd9a660151e800cb2c68c6
    text	   data	    bss	    dec	    hex	filename
   90068	  41936	  24856	 156860	  264bc	tensorflow/lite/micro/tools/make/gen/xtensa_hifi5_release/bin/keyword_benchmark
+
+Thu May 20 12:19:26 PDT 2021
+tensorflow version: 3f4093bbe1bbd4d3842c55f352b694937db3b33c
+   text	   data	    bss	    dec	    hex	filename
+  90068	  41936	  24856	 156860	  264bc	tensorflow/lite/micro/tools/make/gen/xtensa_hifi5_release/bin/keyword_benchmark
