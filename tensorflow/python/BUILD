@@ -3224,6 +3224,7 @@ filegroup(
         "//tensorflow/core:framework_internal_impl",  # op_def_registry
         "//tensorflow/core:lib_internal_impl",  # device_lib
         "//tensorflow/core:op_gen_lib",  # tf_session
+        "//tensorflow/core:protos_all_cc",  # tf_text
         "//tensorflow/core/common_runtime/eager:context",  # tfe
         "//tensorflow/core/common_runtime/eager:tensor_handle",  # tfe
         "//tensorflow/core/common_runtime/eager:eager_executor",  # tfe
@@ -4287,7 +4288,7 @@ alias(
 alias(
     name = "is_mlir_bridge_test_true",
     actual = "//tensorflow/python/framework:is_mlir_bridge_test_true",
-    visibility = visibility,
+    visibility = visibility + ["//tensorflow/compiler/tests:friends"],
 )
 
 alias(
@@ -4348,7 +4349,7 @@ alias(
 alias(
     name = "is_mlir_bridge_test_false",
     actual = "//tensorflow/python/framework:is_mlir_bridge_test_false",
-    visibility = visibility,
+    visibility = visibility + ["//tensorflow/compiler/tests:friends"],
 )
 
 alias(
